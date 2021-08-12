@@ -1,6 +1,7 @@
 import React from 'react';
 import styles from "./Profile.module.css"
 import mountains from "../../img/mountain.jpg";
+import {MyPosts} from "./MyPosts/MyPosts";
 
 
 export const Profile =() => {
@@ -12,17 +13,7 @@ export const Profile =() => {
                 <div className={styles.description}>
                     avatar and text
                 </div>
-                <div>
-                    <textarea> </textarea>
-                </div>
-                <button >Add post</button>
-                <div className={styles.post}>
-                   <div>Post 1</div>
-                   <div>Post 2</div>
-                   <div>Post 3</div>
-                   <div>Post 4</div>
-                   <div>Post 5</div>
-                </div>
+               <MyPosts/>
             </div>
 
         </div>

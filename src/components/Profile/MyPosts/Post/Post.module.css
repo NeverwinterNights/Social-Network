@@ -1,0 +1,16 @@
+.post {
+    display: flex;
+    margin-bottom: 15px;
+}
+
+.wrap {
+
+}
+
+
+.img {
+    border-radius: 50%;
+    width: 75px;
+    height: 75px;
+    margin-right: 10px;
+}
