@@ -1,0 +1,15 @@
+.nav {
+    padding-top: 30px;
+    padding-left: 30px;
+    flex: 0 1 150px;
+    background-color: brown;
+}
+
+
+a {
+    display: inline-block;
+    color: white;
+    margin: 0px 0px 10px 0px;
+    text-decoration: none;
+    cursor: pointer;
+}

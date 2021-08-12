@@ -1,0 +1,14 @@
+.img{
+    width:75px;
+    height: 75px;
+
+}
+
+.header {
+    display: flex;
+    align-items: center;
+    width: 1200px;
+    height: 100px;
+    margin: 0 auto;
+
+}
