@@ -12,10 +12,10 @@ export const MyPosts = () => {
                     <button>Add post</button>
                 </div>
             </div>
-            <Post/>
-            <Post/>
-            <Post/>
-            <Post/>
+            <Post message={"Hello"}/>
+            <Post message={"How are you?"}/>
+            <Post message={"Where are you?"}/>
+            <Post message={"Fuck You"}/>
         </div>
 
 
