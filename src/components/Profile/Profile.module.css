@@ -1,12 +1,7 @@
-
-
-.content__body {
-    padding-left: 30px;
+.profile {
+    flex: 1 1 50%;
+    background-color: chartreuse;
 }
 
 
-.img {
-    width: 100%;
-    height: 350px;
 
-}

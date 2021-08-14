@@ -7,8 +7,10 @@ export const MyPosts = () => {
     return (
         <div className={styles.posts}>
             <div className={styles.main}>
+                <h2>My Posts</h2>
                 <div>
-                    <textarea> </textarea>
+                    <div><textarea> </textarea>
+                    </div>
                     <button>Add post</button>
                 </div>
             </div>

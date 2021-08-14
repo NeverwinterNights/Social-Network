@@ -1,3 +1,13 @@
+.posts {
+    padding-left: 30px;
+}
+
+
 .main {
     margin: 30px 0;
+
+}
+
+textarea {
+    resize: none;
 }
