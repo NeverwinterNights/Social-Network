@@ -1,18 +1,18 @@
 import React from 'react';
+import { postsType } from '../../..';
 import styles from "./MyPosts.module.css"
 import {Post} from "./Post/Post";
 
 
-export const MyPosts = () => {
+
+type  MyPostsPropsType = {
+    posts: Array<postsType>
+}
 
 
-    let posts = [
-        {id: 1, message: "Hello", likesCount:8},
-        {id: 2, message: "How are you?", likesCount:15},
-        {id: 3, message: "Where are you?", likesCount:50},
-        {id: 4, message: "Fuck You", likesCount:5},
+export const MyPosts = (props:MyPostsPropsType) => {
 
-    ]
+
 
 
     return (
@@ -25,7 +25,7 @@ export const MyPosts = () => {
                     <button>Add post</button>
                 </div>
             </div>
-            {posts.map ((t) => <Post message={t.message} likes={t.likesCount} />)}
+            {props.posts.map ((t) => <Post message={t.message} likes={t.likesCount} />)}
         </div>
 
 
