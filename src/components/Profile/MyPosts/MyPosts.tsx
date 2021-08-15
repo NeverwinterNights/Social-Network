@@ -4,6 +4,17 @@ import {Post} from "./Post/Post";
 
 
 export const MyPosts = () => {
+
+
+    let postData = [
+        {id: 1, message: "Hello", likesCount:8},
+        {id: 2, message: "How are you?", likesCount:15},
+        {id: 3, message: "Where are you?", likesCount:50},
+        {id: 4, message: "Fuck You", likesCount:5},
+
+    ]
+
+
     return (
         <div className={styles.posts}>
             <div className={styles.main}>
@@ -14,10 +25,7 @@ export const MyPosts = () => {
                     <button>Add post</button>
                 </div>
             </div>
-            <Post message={"Hello"}/>
-            <Post message={"How are you?"}/>
-            <Post message={"Where are you?"}/>
-            <Post message={"Fuck You"}/>
+            {postData.map ((t) => <Post message={t.message} likes={t.likesCount} />)}
         </div>
 
 

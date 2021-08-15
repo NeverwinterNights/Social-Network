@@ -5,6 +5,7 @@ import bird from "../../../../img/bird.jpg";
 
 type  PostPropsType = {
     message: string
+    likes: number
 }
 
 export const Post = (props:PostPropsType) => {
@@ -13,8 +14,8 @@ export const Post = (props:PostPropsType) => {
             <img className={styles.img} src={bird} alt=""/>
 
             <div className={styles.wrap}>
-                <div>{props.message}</div>
-                <span>Like</span>
+                <div>{props.message} </div>
+                <div>Likes {props.likes}</div>
             </div>
 
         </div>
