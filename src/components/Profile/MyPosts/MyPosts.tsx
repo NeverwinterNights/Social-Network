@@ -6,7 +6,7 @@ import {Post} from "./Post/Post";
 export const MyPosts = () => {
 
 
-    let postData = [
+    let posts = [
         {id: 1, message: "Hello", likesCount:8},
         {id: 2, message: "How are you?", likesCount:15},
         {id: 3, message: "Where are you?", likesCount:50},
@@ -25,7 +25,7 @@ export const MyPosts = () => {
                     <button>Add post</button>
                 </div>
             </div>
-            {postData.map ((t) => <Post message={t.message} likes={t.likesCount} />)}
+            {posts.map ((t) => <Post message={t.message} likes={t.likesCount} />)}
         </div>
 
 
