@@ -1,3 +1,5 @@
+import {RerenderEntireTree} from "../render";
+
 export type  DialogsType = {
     id: number
     name: string
@@ -11,6 +13,10 @@ export  type  MessagesType = {
     id: number
     message: string
 }
+export  type  FriendsType = {
+    name: string
+}
+
 
 export type  ProfilePageType = {
     posts: Array<PostsType>
@@ -19,7 +25,9 @@ export type  DialogsPageType = {
     dialogs: Array<DialogsType>
     messages: Array<MessagesType>
 }
-export type  SidebarType = {}
+export type  SidebarType = {
+    friends: Array<FriendsType>
+}
 
 
 export  type  RootStateType = {
@@ -54,7 +62,26 @@ export let state: RootStateType = {
             {id: 4, message: "No"},
         ]
     },
-    sidebar: {}
+    sidebar: {
+        friends: [
+            {name: "Ivan"},
+            {name: "Oleg"},
+            {name: "Petr"},
+            {name: "Vasa"},
+            {name: "Sergei"},
+            {name: "Margo"}
+        ]
+    }
+}
+
+export const addPost = (postMessage: string) => {
+    let newPost = {
+        id: 5,
+        message: postMessage,
+        likesCount: 0
+    }
+    state.profilePage.posts.unshift (newPost)
+    RerenderEntireTree(state)
 }
 
 export default state

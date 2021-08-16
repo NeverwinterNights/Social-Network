@@ -18,10 +18,10 @@ export const Dialogs = (props: DialogsPropsType) => {
     return (
         <div className={styles.main}>
             <div className={styles.dialogs}>
-                {props.state.dialogs.map ((t) => <DialogsItem name={t.name} id={t.id}/>)}
+                {props.state.dialogs.map ((t) => <DialogsItem name={t.name} id={t.id} key={t.id}/>)}
             </div>
             <div className={styles.messages}>
-                {props.state.messages.map ((t) => <Message message={t.message}/>)}
+                {props.state.messages.map ((t, index) => <Message message={t.message} key={index}/>)}
             </div>
         </div>
     );

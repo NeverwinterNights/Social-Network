@@ -4,30 +4,34 @@ import {Header} from "./components/Header/Header";
 import {Navbar} from "./components/Navbar/Navbar";
 import {Profile} from "./components/Profile/Profile";
 import {Dialogs} from "./components/Dialogs/Dialogs";
-import {BrowserRouter, Route} from 'react-router-dom';
+import {Redirect, Route} from 'react-router-dom';
 import {RootStateType} from "./redux/state";
 
 
 type  AppPropsType = {
-    state:  RootStateType
+    state: RootStateType
+    addPost: (postMessage: string) => void
 }
 
 function App (props: AppPropsType) {
     return (
-        <BrowserRouter>
-            <div className="App">
-                <Header/>
-                <Navbar/>
-                <div className={"profile"}>
 
-                    <Route path="/dialogs" render={() => <Dialogs state={props.state.dialogsPage}
-                                                                 />}/>
-                    <Route path="/profile" render={() => <Profile state={props.state.profilePage}/>}/>
-                    {/*<Dialogs/>*/}
-                    {/*<Profile/>*/}
-                </div>
+        <div className="App">  {/*комментарий*/}
+            <Header/>
+            <Navbar state={props.state.sidebar}/>
+            <div className={"profile"}>
+
+                <Route exact path="/" render={() => <Redirect to="/profile"/>}/>
+
+                <Route path="/dialogs" render={() => <Dialogs state={props.state.dialogsPage}
+                />}/>
+                <Route path="/profile"
+                       render={() => <Profile state={props.state.profilePage} addPost={props.addPost}/>}/>
+                {/*<Dialogs/>*/}
+                {/*<Profile/>*/}
             </div>
-        </BrowserRouter>
+        </div>
+
     );
 }
 

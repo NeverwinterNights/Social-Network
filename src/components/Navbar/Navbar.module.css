@@ -1,8 +1,11 @@
 .nav {
     padding-top: 30px;
-    padding-left: 30px;
-    flex: 0 1 150px;
+    flex: 0 1 200px;
     background-color: brown;
+}
+
+.menu{
+  padding-left: 30px;
 }
 
 
