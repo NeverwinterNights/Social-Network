@@ -1,4 +1,6 @@
-import {RerenderEntireTree} from "../render";
+let RerenderEntireTree = () => {
+    console.log ("State is changed");
+}
 
 export type  DialogsType = {
     id: number
@@ -77,20 +79,25 @@ export let state: RootStateType = {
 }
 
 export const addPost = () => { /* по нажатию кнопки добавляем пост*/
-    let newPost = {
+    let newPost: PostsType = {
         id: 5,
         message: state.profilePage.newPostText,
         likesCount: 0
     }
     state.profilePage.posts.unshift (newPost)
     state.profilePage.newPostText = ""
-    RerenderEntireTree (state)
+    RerenderEntireTree ()
 }
 
 
 export const updateNewPostText = (newText: string) => { /*Функция, которая сетает значение из тектареа*/
     state.profilePage.newPostText = newText
-    RerenderEntireTree (state)
+    RerenderEntireTree ()
+}
+
+
+export const subscribe = (observer: () => void) => { /* патерн observer*/
+    RerenderEntireTree = observer /*приравниванием полученный ререндер к созданный выше ререндер*/
 }
 
 
