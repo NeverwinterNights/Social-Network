@@ -20,6 +20,7 @@ export  type  FriendsType = {
 
 export type  ProfilePageType = {
     posts: Array<PostsType>
+    newPostText: string
 }
 export type  DialogsPageType = {
     dialogs: Array<DialogsType>
@@ -45,7 +46,8 @@ export let state: RootStateType = {
             {id: 3, message: "Where are you?", likesCount: 50},
             {id: 4, message: "Fuck You", likesCount: 5},
 
-        ]
+        ],
+        newPostText: "Type new post",  /*_Значение тектареа*/
     },
     dialogsPage: {
         dialogs: [
@@ -74,14 +76,22 @@ export let state: RootStateType = {
     }
 }
 
-export const addPost = (postMessage: string) => {
+export const addPost = () => { /* по нажатию кнопки добавляем пост*/
     let newPost = {
         id: 5,
-        message: postMessage,
+        message: state.profilePage.newPostText,
         likesCount: 0
     }
     state.profilePage.posts.unshift (newPost)
-    RerenderEntireTree(state)
+    state.profilePage.newPostText = ""
+    RerenderEntireTree (state)
 }
+
+
+export const updateNewPostText = (newText: string) => { /*Функция, которая сетает значение из тектареа*/
+    state.profilePage.newPostText = newText
+    RerenderEntireTree (state)
+}
+
 
 export default state
