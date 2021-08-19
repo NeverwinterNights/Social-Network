@@ -13,9 +13,12 @@ let RerenderEntireTree = () => {  /*Функция для перерисовки
     ReactDOM.render (
         <React.StrictMode>
             <BrowserRouter>
-                <App state={store.getState ()} addPost={store.addPost.bind (store)}/*бинд позволяет связать прокидываемый
-                колбек с владельцем сторем*/
-                     updateNewPostText={store.updateNewPostText.bind (store)}/>
+                <App state={store.getState ()} dispatch={store.dispatch.bind (store)}/*бинд позволяет связать прокидываемый
+                колбек с владельцем сторем*/ /*прокидываем диспатч вместо функций*/
+
+
+
+            />
             </BrowserRouter>
         </React.StrictMode>,
         document.getElementById ('root')

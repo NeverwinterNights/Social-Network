@@ -1,15 +1,28 @@
 import React from 'react';
 import styles from "./MyPosts.module.css"
 import {Post} from "./Post/Post";
-import {PostsType} from "../../../redux/state";
+import {ActionsType, addPostActionCreator, PostsType, updateNewPostActionCreator} from "../../../redux/state";
+
 
 
 type  MyPostsPropsType = {
     posts: Array<PostsType>
-    addPost: () => void
+    // addPost: () => void
     newPostText: string
-    updateNewPostText: (newText: string) => void
+    // updateNewPostText: (newText: string) => void
+    dispatch: (action: ActionsType) => void
 }
+
+
+
+
+
+
+
+
+
+
+
 
 
 export const MyPosts = (props: MyPostsPropsType) => {
@@ -18,14 +31,14 @@ export const MyPosts = (props: MyPostsPropsType) => {
 
     const addPost = () => {
         if (newPostElement.current) {
-            props.addPost ()
+            props.dispatch (addPostActionCreator(props.newPostText))/*указываем тип какой и в стейте этому дейсвтию указали*/
 
         }
     }
     const onPostChange = () => {
         if (newPostElement.current) {
             let text = newPostElement.current.value
-            props.updateNewPostText(text)
+            props.dispatch (updateNewPostActionCreator(text)) /*тут тип экшена и  свойство экшена для ф.*/
         }
     }
 

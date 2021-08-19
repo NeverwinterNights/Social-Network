@@ -35,12 +35,52 @@ export  type  RootStateType = {
     sidebar: SidebarType
 }
 
+export  type  StoreType = {
+    _callSubscriber: () => void
+    _state: RootStateType
+    getState: () => RootStateType
+    // addPost: () => void
+    // updateNewPostText: (newText: string) => void
+    subscribe: (observer: () => void) => void
+    dispatch: (action: ActionsType) => void
+}
 
-let store = {
+
+export type  AddPostActionType = { /*необходимо для типизации диспатчка*/
+    type: "ADD-POST"
+    newPostText: string
+}
+
+export type  UpdateNewPostActionType = { /*необходимо для типизации диспатчка*/
+    type: "UPDATE-NEW-POST-TEXT"
+    newText: string
+}
+
+
+export type  ActionsType = AddPostActionType | UpdateNewPostActionType /*необходимо для типизации диспатчка*/
+
+
+export const addPostActionCreator = (newPostText: string): AddPostActionType => {/*ф. возвращающая экшен, ее вызывают в компоненте в диспатче
+и прокидывают в параметрах данные сюда. АК экспорт. его не надо прокидывать пропсами props.dispatch (updateNewPostActionCreator(text)) */
+    return {
+        type: "ADD-POST",
+        newPostText: newPostText
+    }
+}
+
+
+export const updateNewPostActionCreator = (newText: string): UpdateNewPostActionType => {
+    return {
+        type: "UPDATE-NEW-POST-TEXT",
+        newText: newText
+    }
+}
+
+
+let store: StoreType = {
     _callSubscriber () {
-        console.log ("State is changed");
+        console.log ("State is changed")
     },
-
     _state: {
         profilePage: {
             posts: [
@@ -81,22 +121,47 @@ let store = {
     getState () {
         return this._state
     },
-    addPost () { /* по нажатию кнопки добавляем пост*/
-        let newPost: PostsType = {
-            id: 5,
-            message: this._state.profilePage.newPostText,
-            likesCount: 0
-        }
-        this._state.profilePage.posts.unshift (newPost)
-        this._state.profilePage.newPostText = ""
-        this._callSubscriber ()
-    },
-    updateNewPostText (newText: string) { /*Функция, которая сетает значение из тектареа*/
-        this._state.profilePage.newPostText = newText
-        this._callSubscriber ()
-    },
     subscribe (observer: () => void) { /* патерн observer*/
         this._callSubscriber = observer /*приравниванием полученный ререндер к созданный выше ререндер*/
+    },
+
+
+    // addPost () { /* по нажатию кнопки добавляем пост*/
+    //     let newPost: PostsType = {
+    //         id: 5,
+    //         message: this._state.profilePage.newPostText,
+    //         likesCount: 0
+    //     }
+    //     this._state.profilePage.posts.unshift (newPost)
+    //     this._state.profilePage.newPostText = ""
+    //     this._callSubscriber ()
+    // },
+
+    // updateNewPostText (newText: string) { /*Функция, которая сетает значение из тектареа*/
+    //     this._state.profilePage.newPostText = newText
+    //     this._callSubscriber ()
+    // },
+
+
+    dispatch (action) { /*у экшена обязательно типа и действие*/
+        switch (action.type) {
+            case "ADD-POST":
+                let newPost: PostsType = {
+                    id: 5,
+                    message: action.newPostText,
+                    likesCount: 0
+                }
+                this._state.profilePage.posts.unshift (newPost)
+                this._state.profilePage.newPostText = ""
+                this._callSubscriber ()
+                break;
+        }
+        switch (action.type) {
+            case "UPDATE-NEW-POST-TEXT":
+                this._state.profilePage.newPostText = action.newText/* была параметр ф, а теперь мы берем его из экшена*/
+                this._callSubscriber ()
+                break;
+        }
     }
 
 }
