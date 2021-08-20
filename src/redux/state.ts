@@ -1,3 +1,7 @@
+import {dialogsReducer} from "./dialogs-reduсer";
+import {profileReducer} from "./profile-reducer";
+import {sidebarReducer} from "./sidebar-reducer";
+
 export type  DialogsType = {
     id: number
     name: string
@@ -76,34 +80,8 @@ export type  ActionsType =
     | SendMessageActionType /*необходимо для типизации диспатчка*/
 
 
-export const addPostActionCreator = (newPostText: string): AddPostActionType => {/*ф. возвращающая экшен, ее вызывают в компоненте в диспатче
-и прокидывают в параметрах данные сюда. АК экспорт. его не надо прокидывать пропсами props.dispatch (updateNewPostActionCreator(text)) */
-    return {
-        type: "ADD-POST",
-        newPostText: newPostText
-    }
-}
 
 
-export const updateNewPostActionCreator = (body: string): UpdateNewPostActionType => {
-    return {
-        type: "UPDATE-NEW-POST-TEXT",
-        newText: body
-    }
-}
-
-export const updateNewPostBodyActionCreator = (body: string): UpdateNewPostBodyActionType => {
-    return {
-        type: "UPDATE-NEW-POST-BODY",
-        body: body
-    }
-}
-
-export const SendMessageActionCreator = (): SendMessageActionType => {
-    return {
-        type: "SEND-MESSAGE",
-    }
-}
 
 
 let store: StoreType = {
@@ -155,7 +133,6 @@ let store: StoreType = {
         this._callSubscriber = observer /*приравниванием полученный ререндер к созданный выше ререндер*/
     },
 
-
     // addPost () { /* по нажатию кнопки добавляем пост*/
     //     let newPost: PostsType = {
     //         id: 5,
@@ -173,45 +150,47 @@ let store: StoreType = {
     // },
 
 
-    dispatch (action) {
-        debugger/*у экшена обязательно типа и действие*/
-        switch (action.type) {
-            case "ADD-POST": {
-                let newPost: PostsType = {
-                    id: 5,
-                    message: action.newPostText,
-                    likesCount: 0
-                }
-                this._state.profilePage.posts.unshift (newPost)
-                this._state.profilePage.newPostText = ""
-                this._callSubscriber ()
-                break;
-            }
-            case "UPDATE-NEW-POST-TEXT": {
-                this._state.profilePage.newPostText = action.newText/* была параметр ф, а теперь мы берем его из экшена*/
-                this._callSubscriber ()
-                break;
-            }
-            case "UPDATE-NEW-POST-BODY": {
-                this._state.dialogsPage.newMessageBody = action.body /* была параметр ф, а теперь мы берем его из экшена*/
-                this._callSubscriber ()
-                break;
-            }
-            case "SEND-MESSAGE": {
-                let body = this._state.dialogsPage.newMessageBody/* была параметр ф, а теперь мы берем его из экшена*/
-                this._state.dialogsPage.newMessageBody = ""
-                this._state.dialogsPage.messages.push ({id: 5, message: body})
-                this._callSubscriber ()
-                break;
-            }
+    dispatch (action) {     /*у экшена обязательно типа и действие*/
+        dialogsReducer (this._state.dialogsPage, action)
+        profileReducer (this._state.profilePage, action)
+        sidebarReducer (this._state.sidebar, action)
 
+        this._callSubscriber ()
 
-        }
+        // switch (action.type) {
+        //     case "ADD-POST": {
+        //         let newPost: PostsType = {
+        //             id: 5,
+        //             message: action.newPostText,
+        //             likesCount: 0
+        //         }
+        //         this._state.profilePage.posts.unshift (newPost)
+        //         this._state.profilePage.newPostText = ""
+        //         this._callSubscriber ()
+        //         break;
+        //     }
+        //     case "UPDATE-NEW-POST-TEXT": {
+        //         this._state.profilePage.newPostText = action.newText/* была параметр ф, а теперь мы берем его из экшена*/
+        //         this._callSubscriber ()
+        //         break;
+        //     }
+        //     case "UPDATE-NEW-POST-BODY": {
+        //         this._state.dialogsPage.newMessageBody = action.body /* была параметр ф, а теперь мы берем его из экшена*/
+        //         this._callSubscriber ()
+        //         break;
+        //     }
+        //     case "SEND-MESSAGE": {
+        //         let body = this._state.dialogsPage.newMessageBody/* была параметр ф, а теперь мы берем его из экшена*/
+        //         this._state.dialogsPage.newMessageBody = ""
+        //         this._state.dialogsPage.messages.push ({id: 5, message: body})
+        //         this._callSubscriber ()
+        //         break;
+        //     }
+        //
+        //
+        // }
     }
-
 }
-
-
 // export let state: RootStateType = {
 //     profilePage: {
 //         posts: [
@@ -249,7 +228,6 @@ let store: StoreType = {
 //         ]
 //     }
 // }
-
 // export const addPost = () => { /* по нажатию кнопки добавляем пост*/
 //     let newPost: PostsType = {
 //         id: 5,
@@ -260,14 +238,10 @@ let store: StoreType = {
 //     state.profilePage.newPostText = ""
 //     RerenderEntireTree ()
 // }
-
-
 // export const updateNewPostText = (newText: string) => { /*Функция, которая сетает значение из тектареа*/
 //     state.profilePage.newPostText = newText
 //     RerenderEntireTree ()
 // }
-
-
 // export const subscribe = (observer: () => void) => { /* патерн observer*/
 //     RerenderEntireTree = observer /*приравниванием полученный ререндер к созданный выше ререндер*/
 // }
