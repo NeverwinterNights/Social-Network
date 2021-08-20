@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from "./MyPosts.module.css"
 import {Post} from "./Post/Post";
-import {ActionsType, PostsType} from "../../../redux/state";
+import {ActionsType, PostsType} from "../../../redux/store";
 import {addPostActionCreator, updateNewPostActionCreator} from "../../../redux/profile-reducer";
 
 
@@ -19,7 +19,7 @@ export const MyPosts = (props: MyPostsPropsType) => {
     let newPostElement = React.createRef<HTMLTextAreaElement> ()
 
     const addPost = () => {
-        if (newPostElement.current) {
+        if (newPostElement.current && props.newPostText) {
             props.dispatch (addPostActionCreator(props.newPostText))/*указываем тип какой и в стейте этому дейсвтию указали*/
 
         }
@@ -37,12 +37,12 @@ export const MyPosts = (props: MyPostsPropsType) => {
                 <h2>My Posts</h2>
                 <div>
                     <div>
-                        <textarea ref={newPostElement} onChange={onPostChange} value={props.newPostText}/>
+                        <textarea placeholder={"Type new post"} ref={newPostElement} onChange={onPostChange} value={props.newPostText}/>
                     </div>
                     <button onClick={addPost}>Add post</button>
                 </div>
             </div>
-            {props.posts.map ((t, index) => <Post key={index} message={t.message} likes={t.likesCount}/>)}
+            {props.posts && props.posts.map ((t, index) => <Post key={index} message={t.message} likes={t.likesCount}/>)}
         </div>
 
 

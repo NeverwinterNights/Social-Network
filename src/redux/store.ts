@@ -97,7 +97,7 @@ let store: StoreType = {
                 {id: 4, message: "Fuck You", likesCount: 5},
 
             ],
-            newPostText: "Type new post",  /*_Значение тектареа*/
+            newPostText: "",  /*_Значение тектареа*/
         },
         dialogsPage: {
             dialogs: [

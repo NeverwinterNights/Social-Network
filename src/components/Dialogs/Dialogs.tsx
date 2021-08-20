@@ -5,7 +5,7 @@ import {DialogsItem} from "./DialogsItem/DialogsItem";
 import {
     ActionsType,
     DialogsPageType,
-} from "../../redux/state";
+} from "../../redux/store";
 import {SendMessageActionCreator, updateNewPostBodyActionCreator} from "../../redux/dialogs-reduсer";
 
 
@@ -30,12 +30,12 @@ export const Dialogs = (props: DialogsPropsType) => {
     return (
         <div className={styles.main}>
             <div className={styles.dialogs}>
-                {props.state.dialogs.map ((t) => <DialogsItem name={t.name} id={t.id} key={t.id}/>)}
+                {props.state && props.state.dialogs.map ((t) => <DialogsItem name={t.name} id={t.id} key={t.id}/>)}
             </div>
             <div className={styles.messages}>
-                <div> {props.state.messages.map ((t, index) => <Message message={t.message} key={index}/>)}</div>
+                <div> {props.state && props.state.messages.map ((t, index) => <Message message={t.message} key={index}/>)}</div>
                 <div>
-                    <div><textarea value={props.state.newMessageBody} onChange={onChangeValueHandler}
+                    <div><textarea value={props.state && props.state.newMessageBody} onChange={onChangeValueHandler}
                                    placeholder={"Enter message"}> </textarea></div>
                     {/*пропсы прищли из стейт диалог пейдж*/}
                     <div>
