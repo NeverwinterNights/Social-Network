@@ -11,6 +11,8 @@ export  type  MessagesType = {
     id: number
     message: string
 }
+
+
 export  type  FriendsType = {
     name: string
 }
@@ -23,6 +25,7 @@ export type  ProfilePageType = {
 export type  DialogsPageType = {
     dialogs: Array<DialogsType>
     messages: Array<MessagesType>
+    newMessageBody: string
 }
 export type  SidebarType = {
     friends: Array<FriendsType>
@@ -56,8 +59,21 @@ export type  UpdateNewPostActionType = { /*необходимо для типи�
     newText: string
 }
 
+export type  UpdateNewPostBodyActionType = { /*необходимо для типизации диспатчка*/
+    type: "UPDATE-NEW-POST-BODY"
+    body: string
+}
 
-export type  ActionsType = AddPostActionType | UpdateNewPostActionType /*необходимо для типизации диспатчка*/
+export type  SendMessageActionType = { /*необходимо для типизации диспатчка*/
+    type: "SEND-MESSAGE"
+}
+
+
+export type  ActionsType =
+    AddPostActionType
+    | UpdateNewPostActionType
+    | UpdateNewPostBodyActionType
+    | SendMessageActionType /*необходимо для типизации диспатчка*/
 
 
 export const addPostActionCreator = (newPostText: string): AddPostActionType => {/*ф. возвращающая экшен, ее вызывают в компоненте в диспатче
@@ -69,10 +85,23 @@ export const addPostActionCreator = (newPostText: string): AddPostActionType => 
 }
 
 
-export const updateNewPostActionCreator = (newText: string): UpdateNewPostActionType => {
+export const updateNewPostActionCreator = (body: string): UpdateNewPostActionType => {
     return {
         type: "UPDATE-NEW-POST-TEXT",
-        newText: newText
+        newText: body
+    }
+}
+
+export const updateNewPostBodyActionCreator = (body: string): UpdateNewPostBodyActionType => {
+    return {
+        type: "UPDATE-NEW-POST-BODY",
+        body: body
+    }
+}
+
+export const SendMessageActionCreator = (): SendMessageActionType => {
+    return {
+        type: "SEND-MESSAGE",
     }
 }
 
@@ -105,7 +134,8 @@ let store: StoreType = {
                 {id: 2, message: "How are you"},
                 {id: 3, message: "Lets we meet"},
                 {id: 4, message: "No"},
-            ]
+            ],
+            newMessageBody: ""
         },
         sidebar: {
             friends: [
@@ -143,9 +173,10 @@ let store: StoreType = {
     // },
 
 
-    dispatch (action) { /*у экшена обязательно типа и действие*/
+    dispatch (action) {
+        debugger/*у экшена обязательно типа и действие*/
         switch (action.type) {
-            case "ADD-POST":
+            case "ADD-POST": {
                 let newPost: PostsType = {
                     id: 5,
                     message: action.newPostText,
@@ -155,12 +186,26 @@ let store: StoreType = {
                 this._state.profilePage.newPostText = ""
                 this._callSubscriber ()
                 break;
-        }
-        switch (action.type) {
-            case "UPDATE-NEW-POST-TEXT":
+            }
+            case "UPDATE-NEW-POST-TEXT": {
                 this._state.profilePage.newPostText = action.newText/* была параметр ф, а теперь мы берем его из экшена*/
                 this._callSubscriber ()
                 break;
+            }
+            case "UPDATE-NEW-POST-BODY": {
+                this._state.dialogsPage.newMessageBody = action.body /* была параметр ф, а теперь мы берем его из экшена*/
+                this._callSubscriber ()
+                break;
+            }
+            case "SEND-MESSAGE": {
+                let body = this._state.dialogsPage.newMessageBody/* была параметр ф, а теперь мы берем его из экшена*/
+                this._state.dialogsPage.newMessageBody = ""
+                this._state.dialogsPage.messages.push ({id: 5, message: body})
+                this._callSubscriber ()
+                break;
+            }
+
+
         }
     }
 

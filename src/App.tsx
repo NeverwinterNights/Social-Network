@@ -29,7 +29,7 @@ function App (props: AppPropsType) {
 
                 <Route exact path="/" render={() => <Redirect to="/profile"/>}/>
 
-                <Route path="/dialogs" render={() => <Dialogs state={props.state.dialogsPage}
+                <Route path="/dialogs" render={() => <Dialogs  dispatch={props.dispatch} state={props.state.dialogsPage}
                 />}/>
                 <Route path="/profile"
                        render={() => <Profile profilePage={props.state.profilePage}
