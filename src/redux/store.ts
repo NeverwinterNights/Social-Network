@@ -120,7 +120,7 @@ let store: StoreType = {
                 {name: "Ivan"},
                 {name: "Oleg"},
                 {name: "Petr"},
-                {name: "Vasa"},
+                {name: "Vasil"},
                 {name: "Sergei"},
                 {name: "Margo"}
             ]
