@@ -1,4 +1,4 @@
-import {AddPostActionType, PostsType, ProfilePageType, StoreType, UpdateNewPostActionType} from "./store";
+import {AddPostActionType, PostsType, ProfilePageType, UpdateNewPostActionType} from "./store";
 
 
 export const addPostActionCreator = (newPostText: string): AddPostActionType => {

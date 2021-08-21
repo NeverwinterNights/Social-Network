@@ -3,6 +3,8 @@ import styles from "./Profile.module.css"
 import {MyPosts} from "./MyPosts/MyPosts";
 import {ProfileInfo} from "./ProfileInfo/ProfileInfo";
 import {ActionsType, ProfilePageType} from "../../redux/store";
+import {MyPostsContainer} from "./MyPosts/MyPostsContainer";
+import {store} from "../../redux/redux-store";
 
 
 type  ProfilePropsType = {
@@ -18,8 +20,7 @@ export const Profile = (props: ProfilePropsType) => {
     return (
         <div className={styles.profile}>
             <ProfileInfo/>
-            <MyPosts posts={props.profilePage.posts} dispatch={props.dispatch} /*пробрасываем диспатч вмеесто функцый*/
-                     newPostText={props.profilePage.newPostText}
+            <MyPostsContainer store={store}
             />
 
 

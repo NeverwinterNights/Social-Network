@@ -7,35 +7,47 @@ import {
     DialogsPageType,
 } from "../../redux/store";
 import {SendMessageActionCreator, updateNewPostBodyActionCreator} from "../../redux/dialogs-reduсer";
+import {storeReduxType} from "../../redux/redux-store";
 
 
 type  DialogsPropsType = {
-    state: DialogsPageType
-    dispatch: (action: ActionsType) => void
+    // state: DialogsPageType
+    // dispatch: (action: ActionsType) => void
+    // store: storeReduxType
+    updateNewPostBody: (body: string) => void
+    SendMessage: () => void
+    dialogsPage: DialogsPageType
 }
 
 
 export const Dialogs = (props: DialogsPropsType) => {
 
     const onClickSendHandler = () => {
-        props.dispatch (SendMessageActionCreator ())
+        props.SendMessage ()
 
     }
 
     const onChangeValueHandler = (e: ChangeEvent<HTMLTextAreaElement>) => {/*получили диспатч из пропсов, указ апдейт
     и в параметры забрасываем полученное велью*/
-        props.dispatch(updateNewPostBodyActionCreator (e.currentTarget.value))
+        // props.store.dispatch (updateNewPostBodyActionCreator (e.currentTarget.value))
+        props.updateNewPostBody (e.currentTarget.value)
+
+
     }
+
 
     return (
         <div className={styles.main}>
             <div className={styles.dialogs}>
-                {props.state && props.state.dialogs.map ((t) => <DialogsItem name={t.name} id={t.id} key={t.id}/>)}
+                {props.dialogsPage.dialogs.map ((t) => <DialogsItem name={t.name} id={t.id}
+                                                                    key={t.id}/>)}
             </div>
             <div className={styles.messages}>
-                <div> {props.state && props.state.messages.map ((t, index) => <Message message={t.message} key={index}/>)}</div>
+                <div> {props.dialogsPage.messages.map ((t, index) => <Message message={t.message}
+                                                                              key={index}/>)}</div>
                 <div>
-                    <div><textarea value={props.state && props.state.newMessageBody} onChange={onChangeValueHandler}
+                    <div><textarea value={props.dialogsPage.newMessageBody}
+                                   onChange={onChangeValueHandler}
                                    placeholder={"Enter message"}> </textarea></div>
                     {/*пропсы прищли из стейт диалог пейдж*/}
                     <div>

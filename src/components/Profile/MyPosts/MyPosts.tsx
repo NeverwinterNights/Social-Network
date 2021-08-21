@@ -5,29 +5,33 @@ import {ActionsType, PostsType} from "../../../redux/store";
 import {addPostActionCreator, updateNewPostActionCreator} from "../../../redux/profile-reducer";
 
 
-
 type  MyPostsPropsType = {
     posts: Array<PostsType>
-    // addPost: () => void
+    addPost: () => void
     newPostText: string
-    // updateNewPostText: (newText: string) => void
-    dispatch: (action: ActionsType) => void
+    // // updateNewPostText: (newText: string) => void
+    // dispatch: (action: ActionsType) => void
+    updateNewPostText: (text: string) => void
 }
 
 export const MyPosts = (props: MyPostsPropsType) => {
 
     let newPostElement = React.createRef<HTMLTextAreaElement> ()
 
-    const addPost = () => {
-        if (newPostElement.current && props.newPostText) {
-            props.dispatch (addPostActionCreator(props.newPostText))/*указываем тип какой и в стейте этому дейсвтию указали*/
+    const onAddPost = () => {
+        // if (props.newPostText) {
+        props.addPost ()
+        // props.dispatch (addPostActionCreator(props.newPostText))/*указываем тип какой и в стейте этому дейсвтию указали*/
 
-        }
+        // }
     }
     const onPostChange = () => {
         if (newPostElement.current) {
             let text = newPostElement.current.value
-            props.dispatch (updateNewPostActionCreator(text)) /*тут тип экшена и  свойство экшена для ф.*/
+            props.updateNewPostText (text)
+
+            console.log(newPostElement.current.value);
+            //  props.dispatch (updateNewPostActionCreator(text)) /*тут тип экшена и  свойство экшена для ф.*/
         }
     }
 
@@ -37,12 +41,14 @@ export const MyPosts = (props: MyPostsPropsType) => {
                 <h2>My Posts</h2>
                 <div>
                     <div>
-                        <textarea placeholder={"Type new post"} ref={newPostElement} onChange={onPostChange} value={props.newPostText}/>
+                        <textarea placeholder={"Type new post"} ref={newPostElement} onChange={onPostChange}
+                                  value={props.newPostText}  /*было value={props.newPostText}*/
+                        />
                     </div>
-                    <button onClick={addPost}>Add post</button>
+                    <button onClick={onAddPost}>Add post</button>
                 </div>
             </div>
-            {props.posts && props.posts.map ((t, index) => <Post key={index} message={t.message} likes={t.likesCount}/>)}
+            {props.posts.map ((t, index) => <Post key={index} message={t.message} likes={t.likesCount}/>)}
         </div>
 
 
