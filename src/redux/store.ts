@@ -55,7 +55,6 @@ export  type  StoreType = {
 
 export type  AddPostActionType = { /*необходимо для типизации диспатчка*/
     type: "ADD-POST"
-    newPostText: string
 }
 
 export type  UpdateNewPostActionType = { /*необходимо для типизации диспатчка*/
@@ -80,13 +79,9 @@ export type  ActionsType =
     | SendMessageActionType /*необходимо для типизации диспатчка*/
 
 
-
-
-
-
-let store: StoreType = {
-    _callSubscriber () {
-        console.log ("State is changed")
+let storee: StoreType = {
+    _callSubscriber() {
+        console.log("State is changed")
     },
     _state: {
         profilePage: {
@@ -97,7 +92,7 @@ let store: StoreType = {
                 {id: 4, message: "Fuck You", likesCount: 5},
 
             ],
-            newPostText: "",  /*_Значение тектареа*/
+            newPostText: "53452345",  /*_Значение тектареа*/
         },
         dialogsPage: {
             dialogs: [
@@ -126,10 +121,10 @@ let store: StoreType = {
             ]
         }
     },
-    getState () {
+    getState() {
         return this._state
     },
-    subscribe (observer: () => void) { /* патерн observer*/
+    subscribe(observer: () => void) { /* патерн observer*/
         this._callSubscriber = observer /*приравниванием полученный ререндер к созданный выше ререндер*/
     },
 
@@ -150,12 +145,12 @@ let store: StoreType = {
     // },
 
 
-    dispatch (action) {     /*у экшена обязательно типа и действие*/
-        dialogsReducer (this._state.dialogsPage, action)
-        profileReducer (this._state.profilePage, action)
-        sidebarReducer (this._state.sidebar, action)
+    dispatch(action) {     /*у экшена обязательно типа и действие*/
+        dialogsReducer(this._state.dialogsPage, action)
+        profileReducer(this._state.profilePage, action)
+        sidebarReducer(this._state.sidebar, action)
 
-        this._callSubscriber ()
+        this._callSubscriber()
 
         // switch (action.type) {
         //     case "ADD-POST": {
@@ -247,4 +242,4 @@ let store: StoreType = {
 // }
 
 
-export default store
+export default storee

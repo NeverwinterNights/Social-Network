@@ -1,8 +1,7 @@
-import React from 'react';
+import React, {ChangeEvent} from 'react';
 import styles from "./MyPosts.module.css"
 import {Post} from "./Post/Post";
-import {ActionsType, PostsType} from "../../../redux/store";
-import {addPostActionCreator, updateNewPostActionCreator} from "../../../redux/profile-reducer";
+import {PostsType} from "../../../redux/store";
 
 
 type  MyPostsPropsType = {
@@ -16,23 +15,23 @@ type  MyPostsPropsType = {
 
 export const MyPosts = (props: MyPostsPropsType) => {
 
-    let newPostElement = React.createRef<HTMLTextAreaElement> ()
+    // let newPostElement = React.createRef<HTMLTextAreaElement>()
+
+    console.log('newPostText', props.newPostText)
 
     const onAddPost = () => {
-        // if (props.newPostText) {
-        props.addPost ()
-        // props.dispatch (addPostActionCreator(props.newPostText))/*указываем тип какой и в стейте этому дейсвтию указали*/
-
-        // }
-    }
-    const onPostChange = () => {
-        if (newPostElement.current) {
-            let text = newPostElement.current.value
-            props.updateNewPostText (text)
-
-            console.log(newPostElement.current.value);
-            //  props.dispatch (updateNewPostActionCreator(text)) /*тут тип экшена и  свойство экшена для ф.*/
+        if (props.newPostText) {
+            props.addPost()
+            // props.dispatch (addPostActionCreator(props.newPostText))/*указываем тип какой и в стейте этому дейсвтию указали*/
         }
+    }
+    const onPostChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
+        // if (newPostElement.current) {
+        // let text = newPostElement.current.value
+        debugger
+        props.updateNewPostText(event.currentTarget.value)
+        //  props.dispatch (updateNewPostActionCreator(text)) /*тут тип экшена и  свойство экшена для ф.*/
+        // }
     }
 
     return (
@@ -41,14 +40,14 @@ export const MyPosts = (props: MyPostsPropsType) => {
                 <h2>My Posts</h2>
                 <div>
                     <div>
-                        <textarea placeholder={"Type new post"} ref={newPostElement} onChange={onPostChange}
+                        <textarea placeholder={"Type new post"} onChange={onPostChange}
                                   value={props.newPostText}  /*было value={props.newPostText}*/
                         />
                     </div>
                     <button onClick={onAddPost}>Add post</button>
                 </div>
             </div>
-            {props.posts.map ((t, index) => <Post key={index} message={t.message} likes={t.likesCount}/>)}
+            {props.posts.map((t, index) => <Post key={index} message={t.message} likes={t.likesCount}/>)}
         </div>
 
 

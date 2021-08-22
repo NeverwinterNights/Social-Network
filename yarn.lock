@@ -9093,6 +9093,13 @@ react-is@^17.0.1:
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-17.0.1.tgz#5b3531bd76a645a4c9fb6e693ed36419e3301339"
   integrity sha512-NAnt2iGDXohE5LI7uBnLnqvLQMtzhkiAOLXTmv+qnF9Ky7xAPcX8Up/xWIhxvLVGJvuLiNc4xQLtuqDRzb4fSA==
 
+react-redux-typescript@^3.0.0-rc.3:
+  version "3.0.0-rc.3"
+  resolved "https://registry.yarnpkg.com/react-redux-typescript/-/react-redux-typescript-3.0.0-rc.3.tgz#8f562c15fcd13afde476f28b6484e4f0359f8b79"
+  integrity sha512-p6OjEYWin8nwyoODuYqVXKLEQ1b4jMStDu0sBKPwLr9TFIGL6mulU+fI3KZTbqLczkJSLh0QTR9vS6kw8l8XmA==
+  dependencies:
+    typesafe-actions "1.0.0"
+
 react-redux@^7.2.4:
   version "7.2.4"
   resolved "https://registry.yarnpkg.com/react-redux/-/react-redux-7.2.4.tgz#1ebb474032b72d806de2e0519cd07761e222e225"
@@ -10818,6 +10825,11 @@ typedarray@^0.0.6:
   version "0.0.6"
   resolved "https://registry.yarnpkg.com/typedarray/-/typedarray-0.0.6.tgz#867ac74e3864187b1d3d47d996a78ec5c8830777"
   integrity sha1-hnrHTjhkGHsdPUfZlqeOxciDB3c=
+
+typesafe-actions@1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/typesafe-actions/-/typesafe-actions-1.0.0.tgz#9bd4b9e250399e818fd3dbf0235fa21972cda509"
+  integrity sha512-L7wXh1nm07KjmE3nej0NJNHx5/Bc6Q7fIazfnqHkP97WLieEDBxXDCeMT98KSrtwbCneO14xQXokEPuW9sNG5w==
 
 typescript@^4.1.2:
   version "4.3.5"

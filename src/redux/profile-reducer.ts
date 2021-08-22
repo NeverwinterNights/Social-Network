@@ -1,10 +1,9 @@
 import {AddPostActionType, PostsType, ProfilePageType, UpdateNewPostActionType} from "./store";
 
 
-export const addPostActionCreator = (newPostText: string): AddPostActionType => {
+export const addPostActionCreator = (): AddPostActionType => {
     return {
-        type: "ADD-POST",
-        newPostText: newPostText
+        type: "ADD-POST"
     }
 }
 /*ф. возвращающая экшен, ее вызывают в компоненте в диспатче
@@ -27,20 +26,24 @@ let initialState = {
         {id: 4, message: "Fuck You", likesCount: 5},
 
     ],
-    newPostText: "",  /*_Значение тектареа*/
+    newPostText: "12",  /*_Значение тектареа*/
 }
 
 
-export const profileReducer = (state: ProfilePageType = initialState, action: any) => { /*указываем стейту инициализационное значение*/
+export const profileReducer = (state: ProfilePageType = initialState, action: any
+):
+    ProfilePageType => { /*указываем стейту инициализационное значение*/
     switch (action.type) {
         case "ADD-POST": {
             let newPost: PostsType = {
                 id: 5,
-                message: action.newPostText,
+                message: state.newPostText,
                 likesCount: 0
             }
-            state.posts.unshift (newPost) /*стейт тут приходит в пропсах это this._state.profilePage*/
+
+            state.posts.unshift(newPost) /*стейт тут приходит в пропсах это this._state.profilePage*/
             state.newPostText = ""
+
 
             return state
             // break; /*брейк можно заменить ретурн стейт в каждом кейсе*/
@@ -48,7 +51,7 @@ export const profileReducer = (state: ProfilePageType = initialState, action: an
         case "UPDATE-NEW-POST-TEXT": {
             debugger
             state.newPostText = action.newText/* была параметр ф, а теперь мы берем его из экшена*/
-            return state
+            return {...state}
             // break;
         }
         default:

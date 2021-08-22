@@ -10,7 +10,7 @@ type  DialogsPropsType = {
     // dispatch: (action: ActionsType) => void
     // store: storeReduxType
     updateNewPostBody: (body: string) => void
-    SendMessage: () => void
+    sendMessage: () => void
     dialogsPage: DialogsPageType
 }
 
@@ -18,14 +18,13 @@ type  DialogsPropsType = {
 export const Dialogs = (props: DialogsPropsType) => {
 
     const onClickSendHandler = () => {
-        props.SendMessage ()
-
+        props.sendMessage()
     }
 
     const onChangeValueHandler = (e: ChangeEvent<HTMLTextAreaElement>) => {/*получили диспатч из пропсов, указ апдейт
     и в параметры забрасываем полученное велью*/
         // props.store.dispatch (updateNewPostBodyActionCreator (e.currentTarget.value))
-        props.updateNewPostBody (e.currentTarget.value)
+        props.updateNewPostBody(e.currentTarget.value)
 
 
     }
@@ -34,12 +33,12 @@ export const Dialogs = (props: DialogsPropsType) => {
     return (
         <div className={styles.main}>
             <div className={styles.dialogs}>
-                {props.dialogsPage.dialogs.map ((t) => <DialogsItem name={t.name} id={t.id}
-                                                                    key={t.id}/>)}
+                {props.dialogsPage.dialogs.map((t) => <DialogsItem name={t.name} id={t.id}
+                                                                   key={t.id}/>)}
             </div>
             <div className={styles.messages}>
-                <div> {props.dialogsPage.messages.map ((t, index) => <Message message={t.message}
-                                                                              key={index}/>)}</div>
+                <div> {props.dialogsPage.messages.map((t, index) => <Message message={t.message}
+                                                                             key={index}/>)}</div>
                 <div>
                     <div><textarea value={props.dialogsPage.newMessageBody}
                                    onChange={onChangeValueHandler}

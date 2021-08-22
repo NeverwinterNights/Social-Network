@@ -32,19 +32,17 @@ let initialState = {
 }
 
 
-
-
 export const dialogsReducer = (state: DialogsPageType = initialState, action: any) => {
     switch (action.type) {
         case "UPDATE-NEW-POST-BODY": {
             state.newMessageBody = action.body /* была параметр ф, а теперь мы берем его из экшена*/
-           return state
+            return {...state}
         }
         case "SEND-MESSAGE": {
             let body = state.newMessageBody/* была параметр ф, а теперь мы берем его из экшена*/
             state.newMessageBody = ""
-            state.messages.push ({id: 5, message: body})
-            return state
+            state.messages.push({id: 5, message: body})
+            return {...state}
         }
         default:
             return state
