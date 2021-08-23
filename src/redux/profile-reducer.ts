@@ -1,4 +1,4 @@
-import {AddPostActionType, PostsType, ProfilePageType, UpdateNewPostActionType} from "./store";
+import {AddPostActionType, ProfilePageType, UpdateNewPostActionType} from "./store";
 
 
 export const addPostActionCreator = (): AddPostActionType => {
@@ -35,22 +35,26 @@ export const profileReducer = (state: ProfilePageType = initialState, action: an
     ProfilePageType => { /*указываем стейту инициализационное значение*/
     switch (action.type) {
         case "ADD-POST": {
-            let newPost: PostsType = {
-                id: 5,
-                message: state.newPostText,
-                likesCount: 0
-            }
-            let stateCopy = {...state} /*делается копия для правильного изменения стейта*/
-            stateCopy.posts = [...state.posts]
-            stateCopy.posts.unshift(newPost) /*стейт тут приходит в пропсах это this._state.profilePage*/
-            stateCopy.newPostText = ""
-            return stateCopy
+            // let newPost: PostsType = {
+            //     id: 5,
+            //     message: state.newPostText,
+            //     likesCount: 0
+            // }
+            return {
+                ...state,
+                posts: [{id: 5, message: state.newPostText, likesCount: 0}, ...state.posts],
+                newPostText: ""
+            } /*делается копия для правильного изменения стейта*/
+
+            // stateCopy.posts.unshift(newPost) /*стейт тут приходит в пропсах это this._state.profilePage*/
+            // stateCopy.newPostText = ""
+            // return stateCopy
             // break; /*брейк можно заменить ретурн стейт в каждом кейсе*/
         }
         case "UPDATE-NEW-POST-TEXT": {
-            let stateCopy = {...state} /*делается копия для правильного изменения стейта*/
-            stateCopy.newPostText = action.newText/* была параметр ф, а теперь мы берем его из экшена*/
-            return stateCopy
+            // let stateCopy = {...state, newPostText: action.newText} /*делается копия для правильного изменения стейта*/
+            // stateCopy.newPostText = action.newText/* была параметр ф, а теперь мы берем его из экшена*/
+            return {...state, newPostText: action.newText}
             // break;
         }
         default:

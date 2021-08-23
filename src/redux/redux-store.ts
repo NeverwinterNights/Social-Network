@@ -2,12 +2,14 @@ import {combineReducers, createStore, Store} from "redux";
 import {dialogsReducer} from "./dialogs-reduсer";
 import {profileReducer} from "./profile-reducer";
 import {sidebarReducer} from "./sidebar-reducer";
+import {usersReducer} from "./users-reduсer";
 
 
 let reducers = combineReducers({ /*создается общий редьюсер с помощью спец команды, внутрь котор вставляют редюсеры имеющиеся*/
     dialogsPage: dialogsReducer,  /*ключ это элем общий из стейта, значя относящийся к нему релдьюсер*/
     profilePage: profileReducer,
-    sidebar: sidebarReducer
+    sidebar: sidebarReducer,
+    usersPage: usersReducer
 })
 
 export type StateReduxType = ReturnType<typeof reducers>/*скопировал из впервой версии*/

@@ -40,10 +40,10 @@ export const dialogsReducer = (state: DialogsPageType = initialState, action: an
             return stateCopy
         }
         case "SEND-MESSAGE": {
-            let stateCopy = {...state}
+            let stateCopy = {...state, messages: [...state.messages]}/* делается глубокая копия стейта и мессаджес в стейте*/
             let body = stateCopy.newMessageBody/* была параметр ф, а теперь мы берем его из экшена*/
             stateCopy.newMessageBody = ""
-            stateCopy.messages = [...state.messages]
+
             stateCopy.messages.push({id: 5, message: body})
             return stateCopy
         }

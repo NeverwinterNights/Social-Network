@@ -6,6 +6,7 @@ import {Profile} from "./components/Profile/Profile";
 import {Redirect, Route} from 'react-router-dom';
 import {DialogsContainer} from "./components/Dialogs/DialogsContainer";
 import {Navbar} from './components/Navbar/Navbar';
+import {UsersContainer} from './components/Users/UsersContainer';
 // import {storeReduxType} from "./redux/redux-store";
 
 
@@ -37,6 +38,8 @@ function App(props: AppPropsType) {
                 {/*<Route path="/dialogs" render={() => <Dialogs  dispatch={props.dispatch} state={props.store.dialogsPage}*/}
                 <Route path="/profile"
                        render={() => <Profile/>} /*пробрасываем диспатч вмеесто функцый*//>
+                <Route path="/users"
+                       render={() => <UsersContainer/>} /*пробрасываем диспатч вмеесто функцый*//>
                 {/*<Dialogs/>*/}
                 {/*<Profile/>*/}
             </div>
