@@ -26,7 +26,7 @@ let initialState = {
         {id: 4, message: "Fuck You", likesCount: 5},
 
     ],
-    newPostText: "12",  /*_Значение тектареа*/
+    newPostText: "",  /*_Значение тектареа*/
 }
 
 
@@ -40,18 +40,17 @@ export const profileReducer = (state: ProfilePageType = initialState, action: an
                 message: state.newPostText,
                 likesCount: 0
             }
-
-            state.posts.unshift(newPost) /*стейт тут приходит в пропсах это this._state.profilePage*/
-            state.newPostText = ""
-
-
-            return state
+            let stateCopy = {...state} /*делается копия для правильного изменения стейта*/
+            stateCopy.posts = [...state.posts]
+            stateCopy.posts.unshift(newPost) /*стейт тут приходит в пропсах это this._state.profilePage*/
+            stateCopy.newPostText = ""
+            return stateCopy
             // break; /*брейк можно заменить ретурн стейт в каждом кейсе*/
         }
         case "UPDATE-NEW-POST-TEXT": {
-            debugger
-            state.newPostText = action.newText/* была параметр ф, а теперь мы берем его из экшена*/
-            return {...state}
+            let stateCopy = {...state} /*делается копия для правильного изменения стейта*/
+            stateCopy.newPostText = action.newText/* была параметр ф, а теперь мы берем его из экшена*/
+            return stateCopy
             // break;
         }
         default:

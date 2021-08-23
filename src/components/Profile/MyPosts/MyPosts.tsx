@@ -17,8 +17,6 @@ export const MyPosts = (props: MyPostsPropsType) => {
 
     // let newPostElement = React.createRef<HTMLTextAreaElement>()
 
-    console.log('newPostText', props.newPostText)
-
     const onAddPost = () => {
         if (props.newPostText) {
             props.addPost()
@@ -28,7 +26,6 @@ export const MyPosts = (props: MyPostsPropsType) => {
     const onPostChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
         // if (newPostElement.current) {
         // let text = newPostElement.current.value
-        debugger
         props.updateNewPostText(event.currentTarget.value)
         //  props.dispatch (updateNewPostActionCreator(text)) /*тут тип экшена и  свойство экшена для ф.*/
         // }

@@ -9,25 +9,25 @@ import {Provider} from 'react-redux';
 import reportWebVitals from "./reportWebVitals";
 
 
-let RerenderEntireTree = () => {  /*Функция для перерисовки*/
-    ReactDOM.render(
-        <React.StrictMode>
-            <BrowserRouter>
-                <Provider store={store}>{/*позволяет стор  засунуть в контектс*/}
-                    <App/>
-                </Provider>
-            </BrowserRouter>
-        </React.StrictMode>,
-        document.getElementById('root')
-    );
-}
-RerenderEntireTree()/*Функция для перерисовки, вызывается для первой отрисовки*/
+// let RerenderEntireTree = () => {  /*Функция для перерисовки*/
+ReactDOM.render(
+    <React.StrictMode>
+        <BrowserRouter>
+            <Provider store={store}>{/*позволяет стор  засунуть в контектс*/}
+                <App/>
+            </Provider>
+        </BrowserRouter>
+    </React.StrictMode>,
+    document.getElementById('root')
+);
 
-store.subscribe(() => {
-        // let state = store.getState()
-        RerenderEntireTree()
-    }
-)/* функция которая закидывает ререндер в стейт файл*/
+// RerenderEntireTree()/*Функция для перерисовки, вызывается для первой отрисовки*/
+
+// store.subscribe(() => {
+//         // let state = store.getState()
+//         RerenderEntireTree()
+//     }
+// )/* функция которая закидывает ререндер в стейт файл*/
 
 
 // If you want to start measuring performance in your app, pass a function

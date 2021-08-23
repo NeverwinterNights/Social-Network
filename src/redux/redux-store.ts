@@ -16,3 +16,6 @@ export type StateReduxType = ReturnType<typeof reducers>/*скопировал �
 // export let store: Store<StateReduxType> = createStore(reducers) /*это шаблон создания стора*/
 export let store: Store<StateReduxType> = createStore(reducers)
 // export let store: any = createStore(reducers) /*это шаблон создания стора help*/
+
+//@ts-ignore
+window.store = store

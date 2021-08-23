@@ -61,4 +61,4 @@ export const mapDispatchToProps = (dispatch: Dispatch) => {
     }
 
 }
-export const MyPostsContainer = connect(mapStateToProps, mapDispatchToProps)(MyPosts)
+export const MyPostsContainer = connect(mapStateToProps, mapDispatchToProps)(MyPosts)/*коннект имеет локальный субскрайб*/
