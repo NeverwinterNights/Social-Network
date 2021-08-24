@@ -23,11 +23,17 @@ export type  UsersMainType = {
 
 export type  UsersType = {
     id: number
-    imageURL: string
+    photos: PhotosType
     followed: boolean
-    fullName: string
+    name: string
     status: string
     location: LocationType
+}
+
+export type  PhotosType = {
+    small: null | string
+    large: null | string
+
 }
 
 type  LocationType = {

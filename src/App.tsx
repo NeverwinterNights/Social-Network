@@ -2,25 +2,23 @@ import React from 'react';
 import './App.css';
 import {Header} from "./components/Header/Header";
 import {Profile} from "./components/Profile/Profile";
-// import {Dialogs} from "./components/Dialogs/Dialogs";
 import {Redirect, Route} from 'react-router-dom';
 import {DialogsContainer} from "./components/Dialogs/DialogsContainer";
 import {Navbar} from './components/Navbar/Navbar';
 import {UsersContainer} from './components/Users/UsersContainer';
-// import {storeReduxType} from "./redux/redux-store";
 
 
-type  AppPropsType = {
-    //state: RootStateType
-    // addPost: () => void
-    // updateNewPostText: (newText: string) => void
-    // dispatch: (action: ActionsType) => void
-    // //  store: StoreType
-    // store: StateReduxType
+// type  AppPropsType = {
+//     //state: RootStateType
+//     // addPost: () => void
+//     // updateNewPostText: (newText: string) => void
+//     // dispatch: (action: ActionsType) => void
+//     // //  store: StoreType
+//     // store: StateReduxType
+//
+// }
 
-}
-
-function App(props: AppPropsType) {
+function App() {
 
 
     return (
