@@ -23,6 +23,8 @@ export const Navbar = (props: NavbarPropsType) => {
             <div className={styles.friends}>
                 <Friends names={store.getState().sidebar.friends}/>
             </div>
+            <div><NavLink className={styles.users} activeClassName={styles.active} to="/users">Users</NavLink></div>
+
         </nav>
     );
 }
