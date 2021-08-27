@@ -65,7 +65,7 @@ export type  ActionType =
 
 let initialState: UsersMainType = {
     users: [],
-    pageSize: 100,
+    pageSize: 75,
     totalUsersCount: 0,
     currentPage: 1
 }
