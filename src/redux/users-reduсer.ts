@@ -13,12 +13,25 @@ export type  SetUsersActionType = { /*необходимо для типизац
     users: Array<UsersType>
 }
 
+export type  SetCurrentPageActionType = { /*необходимо для типизации диспатчка*/
+    type: "SET-CURRENT-PAGE"
+    currentPage: number
+}
+
+export type  SetUsersTotalCountActionType = { /*необходимо для типизации диспатчка*/
+    type: "SET-CURRENT-TOTAL-COUNT"
+    totalCount: number
+}
+
 
 ////
 
 
 export type  UsersMainType = {
     users: Array<UsersType>
+    pageSize: number,
+    totalUsersCount: number
+    currentPage: number
 }
 
 export type  UsersType = {
@@ -42,13 +55,23 @@ type  LocationType = {
 }
 
 
-let initialState: UsersMainType = {
-    users: []
+export type  ActionType =
+    FollowActionType
+    | UnFollowActionType
+    | SetUsersActionType
+    | SetCurrentPageActionType
+    | SetUsersTotalCountActionType
 
+
+let initialState: UsersMainType = {
+    users: [],
+    pageSize: 100,
+    totalUsersCount: 0,
+    currentPage: 1
 }
 
 
-export const usersReducer = (state: UsersMainType = initialState, action: any) => {
+export const usersReducer = (state: UsersMainType = initialState, action: ActionType) => {
     switch (action.type) {
         case "FOLLOW": {
             return {
@@ -74,7 +97,13 @@ export const usersReducer = (state: UsersMainType = initialState, action: any) =
             }
         }
         case "SET-USERS": {
-            return {...state, users: [...state.users, ...action.users]}
+            return {...state, users: action.users}
+        }
+        case "SET-CURRENT-PAGE": {
+            return {...state, currentPage: action.currentPage}
+        }
+        case "SET-CURRENT-TOTAL-COUNT": {
+            return {...state, totalUsersCount: action.totalCount}
         }
         default:
             return state
@@ -101,4 +130,19 @@ export const setUsersAC = (users: Array<UsersType>): SetUsersActionType => {
         users: users
     }
 }
+
+export const setCurrentPageAC = (currentPage: number): SetCurrentPageActionType => {
+    return {
+        type: "SET-CURRENT-PAGE",
+        currentPage: currentPage
+    }
+}
+
+export const setUsersTotalCountAC = (totalCount: number): SetUsersTotalCountActionType => {
+    return {
+        type: "SET-CURRENT-TOTAL-COUNT",
+        totalCount: totalCount
+    }
+}
+
 

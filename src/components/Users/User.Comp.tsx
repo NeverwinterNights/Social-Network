@@ -11,23 +11,47 @@ type UsersPropsType = {
     follow: (userID: number) => void
     unfollow: (userID: number) => void
     setUsers: (users: Array<UsersType>) => void
+    pageSize: number
+    totalUsersCount: number
+    currentPage: number
+    setCurrentPage: (currentPage: number) => void
+    setTotalUsersCount: (totalCount: number) => void
 }
 
 
 class UsersComp extends React.Component <UsersPropsType, RootStateType> {
-    constructor(props:UsersPropsType) {
-        super(props);
-        if (this.props.users.length === 0) {
-            axios.get("https://social-network.samuraijs.com/api/1.0/users").then(response => {/*запрос на сервак, зен респонс это ответ*/
-                debugger
-                this.props.setUsers(response.data.items)
-            })
-        }
+    componentDidMount() {
+        axios.get(`https://social-network.samuraijs.com/api/1.0/users?page=${this.props.currentPage}&count=${this.props.pageSize}`).then(response => {/*запрос на сервак, зен респонс это ответ*/
+            this.props.setUsers(response.data.items)
+            this.props.setTotalUsersCount(response.data.totalCount)
+
+        })
     }
 
+    OnClickPageHandler = (pageNumber: number) => {
+        this.props.setCurrentPage(pageNumber)
+        console.log(pageNumber);
+        axios.get(`https://social-network.samuraijs.com/api/1.0/users?page=${pageNumber}&count=${this.props.pageSize}`).then(response => {/*запрос на сервак, зен респонс это ответ*/
+            this.props.setUsers(response.data.items)
+        })
+    }
+
+
     render() {
+        let pagesCount = Math.ceil(this.props.totalUsersCount / this.props.pageSize)/* Math.ceil округляет число в большую сторону*/
+        let pages: Array<number> = []
+        for (let i = 1; i <= pagesCount; i++) {
+            pages.push(i)
+        }
         return (
-            <div>
+            <div className={styles.main}>
+                <div className={styles.pagination_wrapper}>
+                    {pages.map((t) => <span key={t}
+                                            className={this.props.currentPage === t ? styles.selectedPage : ""}
+                                            onClick={() => {
+                                                this.OnClickPageHandler(t)
+                                            }}>{t}</span>)}
+                </div>
                 {/*<button onClick={this.getUsers}>Get users from server</button>*/}
                 {this.props.users.map((u) => <div key={u.id}>
                 <span>
