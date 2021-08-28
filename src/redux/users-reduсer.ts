@@ -23,15 +23,21 @@ export type  SetUsersTotalCountActionType = { /*необходимо для ти
     totalCount: number
 }
 
+export type  SetPreloaderActionType = { /*необходимо для типизации диспатчка*/
+    type: "SET-PRELOADER"
+    isFetching: boolean
+}
+
 
 ////
 
 
-export type  UsersMainType = {
+export type  UsersMainType = {  /*типизация стейта локального*/
     users: Array<UsersType>
     pageSize: number,
     totalUsersCount: number
     currentPage: number
+    isFetching: boolean
 }
 
 export type  UsersType = {
@@ -61,13 +67,15 @@ export type  ActionType =
     | SetUsersActionType
     | SetCurrentPageActionType
     | SetUsersTotalCountActionType
+    | SetPreloaderActionType
 
 
 let initialState: UsersMainType = {
     users: [],
-    pageSize: 75,
-    totalUsersCount: 0,
-    currentPage: 1
+    pageSize: 10,
+    totalUsersCount: 100,
+    currentPage: 1,
+    isFetching: false
 }
 
 
@@ -104,6 +112,9 @@ export const usersReducer = (state: UsersMainType = initialState, action: Action
         }
         case "SET-CURRENT-TOTAL-COUNT": {
             return {...state, totalUsersCount: action.totalCount}
+        }
+        case "SET-PRELOADER": {
+            return {...state, isFetching: action.isFetching}
         }
         default:
             return state
@@ -144,5 +155,15 @@ export const setUsersTotalCountAC = (totalCount: number): SetUsersTotalCountActi
         totalCount: totalCount
     }
 }
+
+export const setPreloaderAC = (isFetching: boolean): SetPreloaderActionType => {
+    return {
+        type: "SET-PRELOADER",
+        isFetching: isFetching
+    }
+}
+
+
+
 
 

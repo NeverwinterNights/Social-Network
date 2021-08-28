@@ -1,0 +1,13 @@
+.main {
+    top:50%;
+    left:50%;
+    transform:translate(0%, -50%);
+    position: absolute;
+}
+
+.img {
+    width: 100px;
+    height: 100px;
+
+
+}

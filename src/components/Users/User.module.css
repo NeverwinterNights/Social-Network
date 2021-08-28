@@ -3,6 +3,7 @@
     padding-left: 30px;
     max-width: 1000px;
     padding-right: 10px;
+    position: relative;
 }
 
 .image {
@@ -16,6 +17,7 @@
     flex-wrap: wrap;
     justify-content: center;
     align-items: center;
+
 }
 
 
@@ -23,9 +25,13 @@
     display: inline-block;
     margin-right: 7px;
     cursor: pointer;
+    text-align: center;
+
+
 }
 
 .selectedPage {
-    font-weight: bold;
-    font-size: 22px;
+    /*font-weight: bold;*/
+    text-shadow: 1px 0px 0px black;
+    transition: all 0.4s ease 0s;
 }

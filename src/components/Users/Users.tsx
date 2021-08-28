@@ -14,6 +14,7 @@ type  UsersNewPropsType = {
     users: Array<UsersType>
     follow: (userID: number) => void
     unfollow: (userID: number) => void
+    OnClickPageHandler: (pageNumber: number) => void
 }
 
 
@@ -26,13 +27,7 @@ export const Users =(props: UsersNewPropsType) => {
     }
 
 
-    const OnClickPageHandler = (pageNumber: number) => {
-        props.setCurrentPage(pageNumber)
-        console.log(pageNumber);
-        axios.get(`https://social-network.samuraijs.com/api/1.0/users?page=${pageNumber}&count=${props.pageSize}`).then(response => {/*запрос на сервак, зен респонс это ответ*/
-            props.setUsers(response.data.items)
-        })
-    }
+
 
  return (
 
@@ -41,7 +36,7 @@ export const Users =(props: UsersNewPropsType) => {
                     {pages.map((t) => <span key={t}
                                             className={props.currentPage === t ? styles.selectedPage : ""}
                                             onClick={() => {
-                                                OnClickPageHandler(t)
+                                                props.OnClickPageHandler(t)
                                             }}>{t}</span>)}
                 </div>
                 {/*<button onClick={this.getUsers}>Get users from server</button>*/}
