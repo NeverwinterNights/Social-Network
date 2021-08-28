@@ -1,8 +1,8 @@
 import React from 'react';
 import styles from "./User.module.css";
 import image from "../../img/neand.png";
-import axios from "axios";
 import {UsersType} from "../../redux/users-reduсer";
+import { NavLink } from 'react-router-dom';
 
 
 type  UsersNewPropsType = {
@@ -18,7 +18,7 @@ type  UsersNewPropsType = {
 }
 
 
-export const Users =(props: UsersNewPropsType) => {
+export const Users = (props: UsersNewPropsType) => {
 
     let pagesCount = Math.ceil(props.totalUsersCount / props.pageSize)/* Math.ceil округляет число в большую сторону*/
     let pages: Array<number> = []
@@ -27,22 +27,23 @@ export const Users =(props: UsersNewPropsType) => {
     }
 
 
-
-
- return (
-
-            <div className={styles.main}>
-                <div className={styles.pagination_wrapper}>
-                    {pages.map((t) => <span key={t}
-                                            className={props.currentPage === t ? styles.selectedPage : ""}
-                                            onClick={() => {
-                                                props.OnClickPageHandler(t)
-                                            }}>{t}</span>)}
-                </div>
-                {/*<button onClick={this.getUsers}>Get users from server</button>*/}
-                {props.users.map((u) => <div key={u.id}>
+    return (
+        <div className={styles.main}>
+            <div className={styles.pagination_wrapper}>
+                {pages.map((t) => <span key={t}
+                                        className={props.currentPage === t ? styles.selectedPage : ""}
+                                        onClick={() => {
+                                            props.OnClickPageHandler(t)
+                                        }}>{t}</span>)}
+            </div>
+            {/*<button onClick={this.getUsers}>Get users from server</button>*/}
+            {props.users.map((u) => <div key={u.id}>
                 <span>
-                    <div> <img className={styles.image} src={u.photos.small !== null ? u.photos.small : image} alt=""/></div>
+                    <div>
+                        <NavLink to={"/profile/" + u.id}>
+                        <img className={styles.image} src={u.photos.small !== null ? u.photos.small : image} alt=""/>
+                        </NavLink>
+                    </div>
                     <div> {u.followed ? <button onClick={() => {
                         props.unfollow(u.id)
                     }}>Unfollow</button> : <button onClick={() => {
@@ -50,7 +51,7 @@ export const Users =(props: UsersNewPropsType) => {
                     }}>Follow</button>}
                     </div>
                 </span>
-                    <span>
+                <span>
                     <span>
                     <div>{u.name}</div>
                         <div>{u.status}</div>
@@ -60,9 +61,9 @@ export const Users =(props: UsersNewPropsType) => {
                         <div>{"u.location.city"}</div>
                     </span>
                 </span>
-                </div>)
-                }
-            </div>
+            </div>)
+            }
+        </div>
 
     );
 };

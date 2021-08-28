@@ -1,32 +1,33 @@
 import React from 'react';
 import {connect} from "react-redux";
 import {RootStateType} from "../../redux/store";
-import {Dispatch} from "redux";
 import {
-    followAC,
-    setCurrentPageAC, setPreloaderAC,
-    setUsersAC,
-    setUsersTotalCountAC,
-    unFollowAC,
+    follow,
+    setCurrentPage,
+    setPreloader,
+    setUsers,
+    setTotalUsersCount,
+    unFollow,
     UsersType
 } from "../../redux/users-reduсer";
 import axios from "axios";
 import {Users} from "./Users";
 import {Preloader} from "../preloader/Preloader";
-
+import {Dispatch} from "redux";
 
 
 type UsersPropsType = {
     users: Array<UsersType>
-    follow: (userID: number) => void
-    unfollow: (userID: number) => void
-    setUsers: (users: Array<UsersType>) => void
     pageSize: number
     totalUsersCount: number
     currentPage: number
-    setCurrentPage: (currentPage: number) => void
-    setTotalUsersCount: (totalCount: number) => void
     isFetching: boolean
+
+     setUsers: (users: Array<UsersType>) => void
+    follow: (userID: number) => void
+    unFollow: (userID: number) => void
+     setCurrentPage: (currentPage: number) => void
+   setTotalUsersCount: (totalCount: number) => void
     setPreloader: (isFetching: boolean) => void
 }
 
@@ -36,7 +37,7 @@ class UsersContainer extends React.Component <UsersPropsType, RootStateType> {
         axios.get(`https://social-network.samuraijs.com/api/1.0/users?page=${this.props.currentPage}&count=${this.props.pageSize}`).then(response => {/*запрос на сервак, зен респонс это ответ*/
             this.props.setPreloader(false)
             this.props.setUsers(response.data.items)
-            // this.props.setTotalUsersCount(response.data.totalCount)
+            this.props.setTotalUsersCount(response.data.totalCount)
 
         })
     }
@@ -50,10 +51,11 @@ class UsersContainer extends React.Component <UsersPropsType, RootStateType> {
             this.props.setUsers(response.data.items)
         })
     }
+
     render() {
         return (
             <>
-                {this.props.isFetching ? <Preloader/> :null}
+                {this.props.isFetching ? <Preloader/> : null}
                 <Users
                     totalUsersCount={this.props.totalUsersCount}
                     pageSize={this.props.pageSize}
@@ -62,7 +64,7 @@ class UsersContainer extends React.Component <UsersPropsType, RootStateType> {
                     currentPage={this.props.currentPage}
                     users={this.props.users}
                     follow={this.props.follow}
-                    unfollow={this.props.unfollow}
+                    unfollow={this.props.unFollow}
                     OnClickPageHandler={this.OnClickPageHandler}
                 />
             </>
@@ -81,30 +83,37 @@ export const mapStateToProps = (state: RootStateType) => {
     }
 }
 
-export const mapDispatchToProps = (dispatch: Dispatch) => {
-    return {
-        follow: (userID: number) => {
-            dispatch(followAC(userID))
-        },
-        unfollow: (userID: number) => {
-            dispatch(unFollowAC(userID))
-        },
-        setUsers: (users: Array<UsersType>) => {
-            dispatch(setUsersAC(users))
-        },
-        setCurrentPage: (currentPage: number) => {
-            dispatch(setCurrentPageAC(currentPage))
-        },
-        setTotalUsersCount: (totalCount: number) => {
-            dispatch(setUsersTotalCountAC(totalCount))
-        },
-        setPreloader: (isFetching: boolean) => {
-            dispatch(setPreloaderAC(isFetching))
-        },
+// export const mapDispatchToProps = (dispatch: Dispatch) => {
+//     return {
+//         follow: (userID: number) => {
+//             dispatch(follow(userID))
+//         },
+//         unfollow: (userID: number) => {
+//             dispatch(unFollow(userID))
+//         },
+//         setUsers: (users: Array<UsersType>) => {
+//             dispatch(setUsers(users))
+//         },
+//         setCurrentPage: (currentPage: number) => {
+//             dispatch(setCurrentPage(currentPage))
+//         },
+//         setTotalUsersCount: (totalCount: number) => {
+//             dispatch(setUsersTotalCount(totalCount))
+//         },
+//         setPreloader: (isFetching: boolean) => {
+//             dispatch(setPreloader(isFetching))
+//         },
+//
+//     }
+// } /*описана прямо внутри коннекта новым способом*/
 
-    }
-}
 
-
-export default connect(mapStateToProps, mapDispatchToProps)(UsersContainer) /*получаем новую контейнерную компоненту*/
+export default connect(mapStateToProps,{
+    follow,
+    unFollow,
+    setUsers,
+    setCurrentPage,
+    setTotalUsersCount,
+    setPreloader
+})(UsersContainer) /*получаем новую контейнерную компоненту*/
 

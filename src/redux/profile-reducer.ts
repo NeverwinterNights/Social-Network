@@ -1,4 +1,64 @@
-import {AddPostActionType, ProfilePageType, UpdateNewPostActionType} from "./store";
+export  type  PostsType = {
+    id: number
+    message: string
+    likesCount: number
+}
+
+
+
+
+export type ProfileType = {
+    photos: PhotosType
+    aboutMe: string
+    contacts: ContactsType
+    lookingForAJob:boolean
+    lookingForAJobDescription:string
+    fullName:string
+}
+type PhotosType = {
+    'small': string
+    'large': string
+}
+type  ContactsType = {
+    facebook:string
+    website:null
+    vk:string
+    twitter:string
+    instagram:string
+    youtube:null
+    github:string
+    mainLink:null
+}
+
+
+export type  ProfilePageType = {
+    posts: Array<PostsType>
+    newPostText: string
+    profile: null | ProfileType
+}
+
+export type  AddPostActionType = { /*необходимо для типизации диспатчка*/
+    type: "ADD-POST"
+}
+
+
+export type  UpdateNewPostActionType = { /*необходимо для типизации диспатчка*/
+    type: "UPDATE-NEW-POST-TEXT"
+    newText: string
+}
+
+
+export type  SetUserProfileActionType = { /*необходимо для типизации диспатчка*/
+    type: "SET-USER-PROFILE"
+    profile: any
+
+}
+
+
+export type  ActionsType =
+    AddPostActionType
+    | UpdateNewPostActionType
+    | SetUserProfileActionType
 
 
 export const addPostActionCreator = (): AddPostActionType => {
@@ -14,6 +74,12 @@ export const updateNewPostActionCreator = (body: string): UpdateNewPostActionTyp
         newText: body
     }
 }
+export const setUserProfile = (profile: null | ProfileType): SetUserProfileActionType => {
+    return {
+        type: "SET-USER-PROFILE",
+        profile
+    }
+}
 
 
 /*Создаем инициализационный стейт для profileReducer*/
@@ -27,10 +93,11 @@ let initialState = {
 
     ],
     newPostText: "",  /*_Значение тектареа*/
+    profile: null
 }
 
 
-export const profileReducer = (state: ProfilePageType = initialState, action: any
+export const profileReducer = (state: ProfilePageType = initialState, action: ActionsType
 ):
     ProfilePageType => { /*указываем стейту инициализационное значение*/
     switch (action.type) {
@@ -56,6 +123,9 @@ export const profileReducer = (state: ProfilePageType = initialState, action: an
             // stateCopy.newPostText = action.newText/* была параметр ф, а теперь мы берем его из экшена*/
             return {...state, newPostText: action.newText}
             // break;
+        }
+        case "SET-USER-PROFILE": {
+            return {...state, profile: action.profile}
         }
         default:
             return state

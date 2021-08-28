@@ -73,7 +73,7 @@ export type  ActionType =
 let initialState: UsersMainType = {
     users: [],
     pageSize: 10,
-    totalUsersCount: 100,
+    totalUsersCount: 0,
     currentPage: 1,
     isFetching: false
 }
@@ -122,41 +122,44 @@ export const usersReducer = (state: UsersMainType = initialState, action: Action
 }
 
 
-export const followAC = (userID: number): FollowActionType => {
+/*Это экшен криэйторы у которых в названии в конце убрали букву AC*/
+
+
+export const follow = (userID: number): FollowActionType => {
     return {
         type: "FOLLOW",
         userID: userID
     }
 }
-export const unFollowAC = (userID: number): UnFollowActionType => {
+export const unFollow = (userID: number): UnFollowActionType => {
     return {
         type: "UNFOLLOW",
         userID: userID
     }
 }
 
-export const setUsersAC = (users: Array<UsersType>): SetUsersActionType => {
+export const setUsers = (users: Array<UsersType>): SetUsersActionType => {
     return {
         type: "SET-USERS",
         users: users
     }
 }
 
-export const setCurrentPageAC = (currentPage: number): SetCurrentPageActionType => {
+export const setCurrentPage = (currentPage: number): SetCurrentPageActionType => {
     return {
         type: "SET-CURRENT-PAGE",
         currentPage: currentPage
     }
 }
 
-export const setUsersTotalCountAC = (totalCount: number): SetUsersTotalCountActionType => {
+export const setTotalUsersCount = (totalCount: number): SetUsersTotalCountActionType => {
     return {
         type: "SET-CURRENT-TOTAL-COUNT",
         totalCount: totalCount
     }
 }
 
-export const setPreloaderAC = (isFetching: boolean): SetPreloaderActionType => {
+export const setPreloader = (isFetching: boolean): SetPreloaderActionType => {
     return {
         type: "SET-PRELOADER",
         isFetching: isFetching

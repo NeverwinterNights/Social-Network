@@ -1,14 +1,11 @@
+import { ProfilePageType } from "./profile-reducer";
 import {UsersMainType} from "./users-reduсer";
 
 export type  DialogsType = {
     id: number
     name: string
 }
-export  type  PostsType = {
-    id: number
-    message: string
-    likesCount: number
-}
+
 export  type  MessagesType = {
     id: number
     message: string
@@ -20,10 +17,7 @@ export  type  FriendsType = {
 }
 
 
-export type  ProfilePageType = {
-    posts: Array<PostsType>
-    newPostText: string
-}
+
 export type  DialogsPageType = {
     dialogs: Array<DialogsType>
     messages: Array<MessagesType>
@@ -41,25 +35,31 @@ export  type  RootStateType = {
     usersPage: UsersMainType
 }
 
-export  type  StoreType = {
-    _callSubscriber: () => void
-    _state: RootStateType
-    getState: () => RootStateType
-    // addPost: () => void
-    // updateNewPostText: (newText: string) => void
-    subscribe: (observer: () => void) => void
-    dispatch: (action: ActionsType) => void
-}
+// export  type  StoreType = {
+//     _callSubscriber: () => void
+//     _state: RootStateType
+//     getState: () => RootStateType
+//     // addPost: () => void
+//     // updateNewPostText: (newText: string) => void
+//     subscribe: (observer: () => void) => void
+//     dispatch: (action: ActionsType) => void
+// }
 
 
-export type  AddPostActionType = { /*необходимо для типизации диспатчка*/
-    type: "ADD-POST"
-}
+// export type  AddPostActionType = { /*необходимо для типизации диспатчка*/
+//     type: "ADD-POST"
+// }
+//
+//
+//
+//
+// export type  UpdateNewPostActionType = { /*необходимо для типизации диспатчка*/
+//     type: "UPDATE-NEW-POST-TEXT"
+//     newText: string
+// }
 
-export type  UpdateNewPostActionType = { /*необходимо для типизации диспатчка*/
-    type: "UPDATE-NEW-POST-TEXT"
-    newText: string
-}
+
+
 
 export type  UpdateNewPostBodyActionType = { /*необходимо для типизации диспатчка*/
     type: "UPDATE-NEW-POST-BODY"
@@ -72,8 +72,6 @@ export type  SendMessageActionType = { /*необходимо для типиз�
 
 
 export type  ActionsType =
-    AddPostActionType
-    | UpdateNewPostActionType
     | UpdateNewPostBodyActionType
     | SendMessageActionType /*необходимо для типизации диспатчка*/
 
