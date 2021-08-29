@@ -35,7 +35,7 @@ function App() {
                 {/*<Route path="/dialogs" render={() => <Dialogs  dispatch={props.dispatch} state={props.store.getState().dialogsPage}/>}/>*/}
                 <Route path="/dialogs" render={() => <DialogsContainer/>}/>
                 {/*<Route path="/dialogs" render={() => <Dialogs  dispatch={props.dispatch} state={props.store.dialogsPage}*/}
-                <Route path="/profile"
+                <Route  path="/profile/:userId?"
                        render={() => <ProfileContainer/>} /*пробрасываем диспатч вмеесто функцый*//>
                 <Route path="/users"
                        render={() => <UsersContainer/>} /*пробрасываем диспатч вмеесто функцый*//>

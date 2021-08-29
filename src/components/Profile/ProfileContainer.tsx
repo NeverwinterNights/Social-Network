@@ -3,20 +3,35 @@ import styles from "./Profile.module.css"
 import {RootStateType} from "../../redux/store";
 import {Profile} from "./Profile";
 import axios from "axios";
-import { connect } from 'react-redux';
+import {connect} from 'react-redux';
 import {ProfileType, setUserProfile} from "../../redux/profile-reducer";
-import {UsersType} from "../../redux/users-reduсer";
+import {RouteComponentProps, withRouter} from "react-router-dom";
 
 
 type  ProfileContainerPropsType = {
     setUserProfile: (profile: any) => void
     profile: null | ProfileType
+
 }
 
-class ProfileContainer extends React.Component <ProfileContainerPropsType, RootStateType> {
+type  PropsType = RouteComponentProps<PathType> & ProfileContainerPropsType  /*типизация пришедшего пути браузера*/
+
+
+type  PathType = {
+    userId: string
+}
+
+
+class ProfileContainer extends React.Component <PropsType, RootStateType> {
+
 
     componentDidMount() {   /*метод жизненного цикла, тут все зхапосы на сервер*/
-        axios.get(`https://social-network.samuraijs.com/api/1.0/profile/2`).then(response => {/*запрос на сервак, зен респонс это ответ*/
+        let userID = this.props.match.params.userId
+        if (!userID) {
+            userID = "3"
+        }
+
+        axios.get(`https://social-network.samuraijs.com/api/1.0/profile/` + userID).then(response => {/*запрос на сервак, зен респонс это ответ*/
             this.props.setUserProfile(response.data) /*отправляем полученные данные в стейт*/
 
 
@@ -39,5 +54,8 @@ let mapStateToProps = (state: RootStateType) => {
 
 }
 
-export default connect(mapStateToProps, {setUserProfile}) (ProfileContainer)
+
+let ProfileWithUrl = withRouter(ProfileContainer)
+
+export default connect(mapStateToProps, {setUserProfile})(ProfileWithUrl)
 
