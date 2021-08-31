@@ -1,5 +1,6 @@
 import { ProfilePageType } from "./profile-reducer";
 import {UsersMainType} from "./users-reduсer";
+import {AuthMainType} from "./auth-reduсer";
 
 export type  DialogsType = {
     id: number
@@ -12,9 +13,6 @@ export  type  MessagesType = {
 }
 
 
-export  type  FriendsType = {
-    name: string
-}
 
 
 
@@ -26,6 +24,9 @@ export type  DialogsPageType = {
 export type  SidebarType = {
     friends: Array<FriendsType>
 }
+export  type  FriendsType = {
+    name: string
+}
 
 
 export  type  RootStateType = {
@@ -33,6 +34,7 @@ export  type  RootStateType = {
     dialogsPage: DialogsPageType
     sidebar: SidebarType
     usersPage: UsersMainType
+    auth: AuthMainType
 }
 
 // export  type  StoreType = {

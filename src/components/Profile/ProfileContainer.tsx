@@ -9,7 +9,7 @@ import {RouteComponentProps, withRouter} from "react-router-dom";
 
 
 type  ProfileContainerPropsType = {
-    setUserProfile: (profile: any) => void
+    setUserProfile: (profile: ProfileType) => void
     profile: null | ProfileType
 
 }
@@ -23,6 +23,7 @@ type  PathType = {
 
 
 class ProfileContainer extends React.Component <PropsType, RootStateType> {
+
 
 
     componentDidMount() {   /*метод жизненного цикла, тут все зхапосы на сервер*/
@@ -51,7 +52,6 @@ let mapStateToProps = (state: RootStateType) => {
     return {
         profile: state.profilePage.profile
     }
-
 }
 
 

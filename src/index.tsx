@@ -21,6 +21,7 @@ ReactDOM.render(
     document.getElementById('root')
 );
 
+
 // RerenderEntireTree()/*Функция для перерисовки, вызывается для первой отрисовки*/
 
 // store.subscribe(() => {

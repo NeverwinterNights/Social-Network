@@ -5,15 +5,14 @@ import {
     follow,
     setCurrentPage,
     setPreloader,
-    setUsers,
     setTotalUsersCount,
+    setUsers,
     unFollow,
     UsersType
 } from "../../redux/users-reduсer";
 import axios from "axios";
 import {Users} from "./Users";
 import {Preloader} from "../preloader/Preloader";
-import {Dispatch} from "redux";
 
 
 type UsersPropsType = {
@@ -23,11 +22,11 @@ type UsersPropsType = {
     currentPage: number
     isFetching: boolean
 
-     setUsers: (users: Array<UsersType>) => void
+    setUsers: (users: Array<UsersType>) => void
     follow: (userID: number) => void
     unFollow: (userID: number) => void
-     setCurrentPage: (currentPage: number) => void
-   setTotalUsersCount: (totalCount: number) => void
+    setCurrentPage: (currentPage: number) => void
+    setTotalUsersCount: (totalCount: number) => void
     setPreloader: (isFetching: boolean) => void
 }
 
@@ -108,7 +107,7 @@ export const mapStateToProps = (state: RootStateType) => {
 // } /*описана прямо внутри коннекта новым способом*/
 
 
-export default connect(mapStateToProps,{
+export default connect(mapStateToProps, {
     follow,
     unFollow,
     setUsers,
