@@ -50,7 +50,7 @@ export type  UpdateNewPostActionType = { /*необходимо для типи�
 
 export type  SetUserProfileActionType = { /*необходимо для типизации диспатчка*/
     type: "SET-USER-PROFILE"
-    profile: any
+    profile: null | ProfileType
 
 }
 

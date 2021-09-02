@@ -30,7 +30,6 @@ class HeaderContainer extends React.Component <HeaderContainerPropsType, RootSta
     }
 
     render() {
-        debugger
         return (
             <Header {...this.props}/>
         );

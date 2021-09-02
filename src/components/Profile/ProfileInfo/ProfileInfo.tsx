@@ -18,7 +18,7 @@ export const ProfileInfo = (props:ProfileInfoPropsType) => {
 
             <img className={styles.img} src={mountains} alt=""/>
             <h2>Name and Description</h2>
-            <img alt={"photo"} src={props.profile.photos.large}/>
+            <img alt={"some pic"} src={props.profile.photos.large}/>
             <div>About me: {props.profile.aboutMe}</div>
             <div>If I search work: {props.profile.lookingForAJobDescription}</div>
             <div>My real name is  {props.profile.fullName}</div>
