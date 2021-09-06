@@ -3,6 +3,7 @@ import {connect} from "react-redux";
 import {RootStateType} from "../../redux/store";
 import {
     follow,
+    setFollowingInProgress,
     setCurrentPage,
     setPreloader,
     setTotalUsersCount,
@@ -10,11 +11,9 @@ import {
     unFollow,
     UsersType
 } from "../../redux/users-reduсer";
-import axios from "axios";
 import {Users} from "./Users";
 import {Preloader} from "../preloader/Preloader";
 import {userAPI} from "../../Api/Api";
-
 
 
 type UsersPropsType = {
@@ -23,6 +22,7 @@ type UsersPropsType = {
     totalUsersCount: number
     currentPage: number
     isFetching: boolean
+    followingInProgress: []
 
     setUsers: (users: Array<UsersType>) => void
     follow: (userID: number) => void
@@ -30,6 +30,7 @@ type UsersPropsType = {
     setCurrentPage: (currentPage: number) => void
     setTotalUsersCount: (totalCount: number) => void
     setPreloader: (isFetching: boolean) => void
+    setFollowingInProgress: (userID: number, isFetching: boolean) => void
 }
 
 class UsersContainer extends React.Component <UsersPropsType, RootStateType> {
@@ -67,6 +68,8 @@ class UsersContainer extends React.Component <UsersPropsType, RootStateType> {
                     follow={this.props.follow}
                     unfollow={this.props.unFollow}
                     OnClickPageHandler={this.OnClickPageHandler}
+                    setFollowingInProgress={this.props.setFollowingInProgress}
+                    followingInProgress={this.props.followingInProgress}
                 />
             </>
         )
@@ -80,7 +83,8 @@ export const mapStateToProps = (state: RootStateType) => {
         pageSize: state.usersPage.pageSize,
         totalUsersCount: state.usersPage.totalUsersCount,
         currentPage: state.usersPage.currentPage,
-        isFetching: state.usersPage.isFetching
+        isFetching: state.usersPage.isFetching,
+        followingInProgress: state.usersPage.followingProgress
     }
 }
 
@@ -115,6 +119,7 @@ export default connect(mapStateToProps, {
     setUsers,
     setCurrentPage,
     setTotalUsersCount,
+    setFollowingInProgress,
     setPreloader
 })(UsersContainer) /*получаем новую контейнерную компоненту*/
 

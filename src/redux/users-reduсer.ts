@@ -27,6 +27,11 @@ export type  SetPreloaderActionType = { /*необходимо для типиз
     type: "SET-PRELOADER"
     isFetching: boolean
 }
+export type  FollowingInProgressActionType = { /*необходимо для типизации диспатчка*/
+    type: "FOLLOWING-IN-PROGRESS"
+    userID: number
+    isFetching: boolean
+}
 
 
 ////
@@ -38,6 +43,7 @@ export type  UsersMainType = {  /*типизация стейта локальн
     totalUsersCount: number
     currentPage: number
     isFetching: boolean
+    followingProgress: []
 }
 
 export type  UsersType = {
@@ -68,6 +74,7 @@ export type  ActionType =
     | SetCurrentPageActionType
     | SetUsersTotalCountActionType
     | SetPreloaderActionType
+    | FollowingInProgressActionType
 
 
 let initialState: UsersMainType = {
@@ -75,7 +82,8 @@ let initialState: UsersMainType = {
     pageSize: 10,
     totalUsersCount: 0,
     currentPage: 1,
-    isFetching: false
+    isFetching: false,
+    followingProgress: []
 }
 
 
@@ -115,6 +123,15 @@ export const usersReducer = (state: UsersMainType = initialState, action: Action
         }
         case "SET-PRELOADER": {
             return {...state, isFetching: action.isFetching}
+        }
+        case "FOLLOWING-IN-PROGRESS": {
+            return {
+                ...state,
+                followingProgress: action.isFetching
+                    ? [...state.followingProgress, action.userID]
+                    : state.followingProgress.filter((t) => t !== action.userID)
+
+            }
         }
         default:
             return state
@@ -165,6 +182,15 @@ export const setPreloader = (isFetching: boolean): SetPreloaderActionType => {
         isFetching: isFetching
     }
 }
+
+export const setFollowingInProgress = (userID: number, isFetching: boolean): FollowingInProgressActionType => {
+    return {
+        type: "FOLLOWING-IN-PROGRESS",
+        userID: userID,
+        isFetching: isFetching
+    }
+}
+
 
 
 
