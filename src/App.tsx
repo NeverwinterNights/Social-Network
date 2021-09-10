@@ -7,6 +7,7 @@ import {Navbar} from './components/Navbar/Navbar';
 import UsersContainer from './components/Users/UsersContainer';
 import ProfileContainer from "./components/Profile/ProfileContainer";
 import HeaderContainer from "./components/Header/HeaderContainer";
+import {Login} from "./Login/Login";
 
 function App() {
     return (
@@ -21,10 +22,10 @@ function App() {
                 {/*<Route path="/dialogs" render={() => <Dialogs  dispatch={props.dispatch} state={props.store.getState().dialogsPage}/>}/>*/}
                 <Route path="/dialogs" render={() => <DialogsContainer/>}/>
                 {/*<Route path="/dialogs" render={() => <Dialogs  dispatch={props.dispatch} state={props.store.dialogsPage}*/}
-                <Route  path="/profile/:userId?"
+                <Route path="/profile/:userId?"
                        render={() => <ProfileContainer/>} /*пробрасываем диспатч вмеесто функцый*//>
-                <Route path="/users"
-                       render={() => <UsersContainer/>} /*пробрасываем диспатч вмеесто функцый*//>
+                <Route path="/users" render={() => <UsersContainer/>} /*пробрасываем диспатч вмеесто функцый*//>
+                <Route path="/login" render={() => <Login/>} /*пробрасываем диспатч вмеесто функцый*//>
                 {/*<Dialogs/>*/}
                 {/*<Profile/>*/}
             </div>
