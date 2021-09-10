@@ -1,3 +1,6 @@
+import {authAPI} from "../Api/Api";
+import {Dispatch} from "redux";
+
 export type  AuthMainActionType = { /*необходимо для типизации диспатчка*/
     type: "SET-USER-DATA"
     payload: {
@@ -67,6 +70,18 @@ export const setUserData = (id: number, email: null | string, login: null | stri
             login
         }
     }
+}
+
+export const getAuthUserData = () =>  (dispatch: Dispatch) => {
+    authAPI.me().then(response => {/*запрос на сервак, зен респонс это ответ*/
+        if (response.data.resultCode === 0) {
+            let {id, email, login} = response.data.data
+            dispatch(setUserData(id, email, login))
+        } /*отправляем полученные данные в стейт*/
+
+
+    })
+
 }
 
 

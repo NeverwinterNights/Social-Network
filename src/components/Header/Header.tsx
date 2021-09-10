@@ -4,7 +4,7 @@ import dragon from "../../img/dragon.png";
 import styles from "./Header.module.css"
 
 type  HeaderPropsType = {
-    setUserData: (id: number, email: null | string, login: null | string) => void
+    // setUserData: (id: number, email: null | string, login: null | string) => void
     isAuth: boolean
     login: null | string
 }

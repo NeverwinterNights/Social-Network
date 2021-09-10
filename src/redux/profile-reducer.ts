@@ -1,3 +1,6 @@
+import {Dispatch} from "redux";
+import {userAPI} from "../Api/Api";
+
 export  type  PostsType = {
     id: number
     message: string
@@ -61,25 +64,6 @@ export type  ActionsType =
     | SetUserProfileActionType
 
 
-export const addPostActionCreator = (): AddPostActionType => {
-    return {
-        type: "ADD-POST"
-    }
-}
-/*ф. возвращающая экшен, ее вызывают в компоненте в диспатче
-и прокидывают в параметрах данные сюда. АК экспорт. его не надо прокидывать пропсами props.dispatch (updateNewPostActionCreator(text)) */
-export const updateNewPostActionCreator = (body: string): UpdateNewPostActionType => {
-    return {
-        type: "UPDATE-NEW-POST-TEXT",
-        newText: body
-    }
-}
-export const setUserProfile = (profile: null | ProfileType): SetUserProfileActionType => {
-    return {
-        type: "SET-USER-PROFILE",
-        profile
-    }
-}
 
 
 /*Создаем инициализационный стейт для profileReducer*/
@@ -130,4 +114,32 @@ export const profileReducer = (state: ProfilePageType = initialState, action: Ac
         default:
             return state
     }
+}
+
+
+export const addPostActionCreator = (): AddPostActionType => {
+    return {
+        type: "ADD-POST"
+    }
+}
+/*ф. возвращающая экшен, ее вызывают в компоненте в диспатче
+и прокидывают в параметрах данные сюда. АК экспорт. его не надо прокидывать пропсами props.dispatch (updateNewPostActionCreator(text)) */
+export const updateNewPostActionCreator = (body: string): UpdateNewPostActionType => {
+    return {
+        type: "UPDATE-NEW-POST-TEXT",
+        newText: body
+    }
+}
+export const setUserProfile = (profile: null | ProfileType): SetUserProfileActionType => {
+    return {
+        type: "SET-USER-PROFILE",
+        profile
+    }
+}
+
+export const getUserProfile = (userID: string) => (dispatch: Dispatch) => {
+    userAPI.getProfile(userID).then(response => {/*запрос на сервак, зен респонс это ответ*/
+        dispatch(setUserProfile(response.data))/*отправляем полученные данные в стейт*/
+
+})
 }

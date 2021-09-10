@@ -8,22 +8,8 @@ import UsersContainer from './components/Users/UsersContainer';
 import ProfileContainer from "./components/Profile/ProfileContainer";
 import HeaderContainer from "./components/Header/HeaderContainer";
 
-
-// type  AppPropsType = {
-//     //state: RootStateType
-//     // addPost: () => void
-//     // updateNewPostText: (newText: string) => void
-//     // dispatch: (action: ActionsType) => void
-//     // //  store: StoreType
-//     // store: StateReduxType
-//
-// }
-
 function App() {
-
-
     return (
-
         <div className="App">
             <HeaderContainer/>
             {/*<Navbar state={props.store.sidebar}/>*/}
@@ -43,7 +29,6 @@ function App() {
                 {/*<Profile/>*/}
             </div>
         </div>
-
     );
 }
 

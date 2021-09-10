@@ -1,3 +1,6 @@
+import {Dispatch} from "redux";
+import {userAPI} from "../Api/Api";
+
 export type  FollowActionType = { /*необходимо для типизации диспатчка*/
     type: "FOLLOW"
     userID: number
@@ -142,47 +145,42 @@ export const usersReducer = (state: UsersMainType = initialState, action: Action
 /*Это экшен криэйторы у которых в названии в конце убрали букву AC*/
 
 
-export const follow = (userID: number): FollowActionType => {
+export const followSuccess = (userID: number): FollowActionType => {
     return {
         type: "FOLLOW",
         userID: userID
     }
 }
-export const unFollow = (userID: number): UnFollowActionType => {
+export const unFollowSuccess = (userID: number): UnFollowActionType => {
     return {
         type: "UNFOLLOW",
         userID: userID
     }
 }
-
 export const setUsers = (users: Array<UsersType>): SetUsersActionType => {
     return {
         type: "SET-USERS",
         users: users
     }
 }
-
 export const setCurrentPage = (currentPage: number): SetCurrentPageActionType => {
     return {
         type: "SET-CURRENT-PAGE",
         currentPage: currentPage
     }
 }
-
 export const setTotalUsersCount = (totalCount: number): SetUsersTotalCountActionType => {
     return {
         type: "SET-CURRENT-TOTAL-COUNT",
         totalCount: totalCount
     }
 }
-
 export const setPreloader = (isFetching: boolean): SetPreloaderActionType => {
     return {
         type: "SET-PRELOADER",
         isFetching: isFetching
     }
 }
-
 export const setFollowingInProgress = (userID: number, isFetching: boolean): FollowingInProgressActionType => {
     return {
         type: "FOLLOWING-IN-PROGRESS",
@@ -192,7 +190,48 @@ export const setFollowingInProgress = (userID: number, isFetching: boolean): Fol
 }
 
 
+/*санки*/
 
+export const getUsersThunkCreator = (currentPage: number, pageSize: number) => { /*это криэйтор санки*/
+    return (dispatch: Dispatch) => {   /*это санка*/
 
+        dispatch(setPreloader(true))
+
+        userAPI.getUsers(currentPage, pageSize).then(data => {/*запрос на сервак, зен респонс это ответ*/
+            dispatch(setPreloader(false))
+            dispatch(setUsers(data.items))
+            dispatch(setTotalUsersCount(data.totalCount))
+        })
+    }
+}
+
+export const follow = (userID: number) => { /*это криэйтор санки*/
+    return (dispatch: Dispatch) => {   /*это санка*/
+        dispatch(setFollowingInProgress(userID,true))
+        userAPI.follow(userID)
+
+            .then(response => {/*запрос на сервак, зен респонс это ответ*/
+                if (response.data.resultCode === 0) {
+                    dispatch(followSuccess(userID))
+                }
+                dispatch(setFollowingInProgress(userID,false))
+            })
+
+    }
+}
+
+export const unfollow = (userID: number) => { /*это криэйтор санки*/
+    return (dispatch: Dispatch) => {   /*это санка*/
+        dispatch(setFollowingInProgress(userID,true))
+        userAPI.unfollow(userID)
+            .then(response => {/*запрос на сервак, зен респонс это ответ*/
+                if (response.data.resultCode === 0) {
+                    dispatch(unFollowSuccess(userID))
+                }
+                dispatch(setFollowingInProgress(userID,false))
+            })
+
+    }
+}
 
 

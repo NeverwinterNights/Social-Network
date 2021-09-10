@@ -2,18 +2,16 @@ import React from 'react';
 import {connect} from "react-redux";
 import {RootStateType} from "../../redux/store";
 import {
-    follow,
+    followSuccess,
     setFollowingInProgress,
     setCurrentPage,
     setPreloader,
-    setTotalUsersCount,
     setUsers,
-    unFollow,
-    UsersType
+    unFollowSuccess,
+    UsersType, getUsersThunkCreator
 } from "../../redux/users-reduсer";
 import {Users} from "./Users";
 import {Preloader} from "../preloader/Preloader";
-import {userAPI} from "../../Api/Api";
 
 
 type UsersPropsType = {
@@ -28,32 +26,19 @@ type UsersPropsType = {
     follow: (userID: number) => void
     unFollow: (userID: number) => void
     setCurrentPage: (currentPage: number) => void
-    setTotalUsersCount: (totalCount: number) => void
-    setPreloader: (isFetching: boolean) => void
+    // setPreloader: (isFetching: boolean) => void
     setFollowingInProgress: (userID: number, isFetching: boolean) => void
+    getUsers: (currentPage: number, pageSize: number) => void
 }
 
 class UsersContainer extends React.Component <UsersPropsType, RootStateType> {
     componentDidMount() {
-        this.props.setPreloader(true)
-        userAPI.getUsers(this.props.currentPage, this.props.pageSize).then(data => {/*запрос на сервак, зен респонс это ответ*/
-            this.props.setPreloader(false)
-            this.props.setUsers(data.items)
-            this.props.setTotalUsersCount(data.totalCount)
-
-        })
+    this.props.getUsers(this.props.currentPage, this.props.pageSize)
     }
 
     OnClickPageHandler = (pageNumber: number) => {
-        this.props.setCurrentPage(pageNumber)
-        this.props.setPreloader(true)
-
-        userAPI.getUsers(pageNumber, this.props.pageSize).then(data => {/*запрос на сервак, зен респонс это ответ*/
-            this.props.setPreloader(false)
-            this.props.setUsers(data.items)
-        })
+        this.props.getUsers(pageNumber, this.props.pageSize)
     }
-
     render() {
         return (
             <>
@@ -114,12 +99,11 @@ export const mapStateToProps = (state: RootStateType) => {
 
 
 export default connect(mapStateToProps, {
-    follow,
-    unFollow,
-    setUsers,
+    follow: followSuccess,
+    unFollow: unFollowSuccess,
     setCurrentPage,
-    setTotalUsersCount,
+    setUsers,
     setFollowingInProgress,
-    setPreloader
+    getUsers: getUsersThunkCreator
 })(UsersContainer) /*получаем новую контейнерную компоненту*/
 
