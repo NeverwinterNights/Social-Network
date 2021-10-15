@@ -3,13 +3,16 @@ import {Dialogs} from "./Dialogs";
 import {RootStateType} from "../../redux/store";
 import {SendMessageActionCreator, updateNewPostBodyActionCreator} from "../../redux/dialogs-reduсer";
 import {Dispatch} from "redux";
+import {Redirect} from "react-router-dom";
+import React from "react";
+import {WithAuthRedirect} from "../../HOC/withAuthRedirect";
 
 
 
 export const mapStateToProps = (state: RootStateType) => {
     return {
         dialogsPage: state.dialogsPage,
-        isAuth: state.auth.isAuth
+        // isAuth: state.auth.isAuth
     }
 }
 export const mapDispatchToProps = (dispatch: Dispatch) => {
@@ -23,4 +26,8 @@ export const mapDispatchToProps = (dispatch: Dispatch) => {
     }
 }
 
-export const DialogsContainer = connect(mapStateToProps, mapDispatchToProps)(Dialogs) /*получаем новую контейнерную компоненту*/
+const AuthRedirectComponent = WithAuthRedirect(Dialogs)
+
+
+
+export const DialogsContainer = connect(mapStateToProps, mapDispatchToProps)(AuthRedirectComponent) /*получаем новую контейнерную компоненту*/

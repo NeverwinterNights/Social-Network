@@ -3,15 +3,16 @@ import {connect} from "react-redux";
 import {RootStateType} from "../../redux/store";
 import {
     followSuccess,
-    setFollowingInProgress,
+    getUsersThunkCreator,
     setCurrentPage,
-    setPreloader,
+    setFollowingInProgress,
     setUsers,
     unFollowSuccess,
-    UsersType, getUsersThunkCreator
+    UsersType
 } from "../../redux/users-reduсer";
 import {Users} from "./Users";
 import {Preloader} from "../preloader/Preloader";
+import {WithAuthRedirect} from "../../HOC/withAuthRedirect";
 
 
 type UsersPropsType = {
@@ -33,12 +34,13 @@ type UsersPropsType = {
 
 class UsersContainer extends React.Component <UsersPropsType, RootStateType> {
     componentDidMount() {
-    this.props.getUsers(this.props.currentPage, this.props.pageSize)
+        this.props.getUsers(this.props.currentPage, this.props.pageSize)
     }
 
     OnClickPageHandler = (pageNumber: number) => {
         this.props.getUsers(pageNumber, this.props.pageSize)
     }
+
     render() {
         return (
             <>
@@ -98,6 +100,10 @@ export const mapStateToProps = (state: RootStateType) => {
 // } /*описана прямо внутри коннекта новым способом*/
 
 
+let withRedirect = WithAuthRedirect(UsersContainer)
+
+
+
 export default connect(mapStateToProps, {
     follow: followSuccess,
     unFollow: unFollowSuccess,
@@ -105,5 +111,5 @@ export default connect(mapStateToProps, {
     setUsers,
     setFollowingInProgress,
     getUsers: getUsersThunkCreator
-})(UsersContainer) /*получаем новую контейнерную компоненту*/
+})(withRedirect) /*получаем новую контейнерную компоненту*/
 
