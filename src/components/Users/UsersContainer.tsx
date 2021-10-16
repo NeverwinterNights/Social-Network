@@ -13,6 +13,7 @@ import {
 import {Users} from "./Users";
 import {Preloader} from "../preloader/Preloader";
 import {WithAuthRedirect} from "../../HOC/withAuthRedirect";
+import {compose} from "redux";
 
 
 type UsersPropsType = {
@@ -100,16 +101,28 @@ export const mapStateToProps = (state: RootStateType) => {
 // } /*описана прямо внутри коннекта новым способом*/
 
 
-let withRedirect = WithAuthRedirect(UsersContainer)
+// let withRedirect = WithAuthRedirect(UsersContainer)
 
 
+export default compose<React.ComponentType>(
+    connect(mapStateToProps, {
+        follow: followSuccess,
+        unFollow: unFollowSuccess,
+        setCurrentPage,
+        setUsers,
+        setFollowingInProgress,
+        getUsers: getUsersThunkCreator
+    }),
+    WithAuthRedirect
+)(UsersContainer)
 
-export default connect(mapStateToProps, {
-    follow: followSuccess,
-    unFollow: unFollowSuccess,
-    setCurrentPage,
-    setUsers,
-    setFollowingInProgress,
-    getUsers: getUsersThunkCreator
-})(withRedirect) /*получаем новую контейнерную компоненту*/
+
+// export default connect(mapStateToProps, {
+//     follow: followSuccess,
+//     unFollow: unFollowSuccess,
+//     setCurrentPage,
+//     setUsers,
+//     setFollowingInProgress,
+//     getUsers: getUsersThunkCreator
+// })(withRedirect) /*получаем новую контейнерную компоненту*/
 

@@ -2,11 +2,9 @@ import {connect} from "react-redux";
 import {Dialogs} from "./Dialogs";
 import {RootStateType} from "../../redux/store";
 import {SendMessageActionCreator, updateNewPostBodyActionCreator} from "../../redux/dialogs-reduсer";
-import {Dispatch} from "redux";
-import {Redirect} from "react-router-dom";
+import {compose, Dispatch} from "redux";
 import React from "react";
 import {WithAuthRedirect} from "../../HOC/withAuthRedirect";
-
 
 
 export const mapStateToProps = (state: RootStateType) => {
@@ -26,8 +24,9 @@ export const mapDispatchToProps = (dispatch: Dispatch) => {
     }
 }
 
-const AuthRedirectComponent = WithAuthRedirect(Dialogs)
 
 
 
-export const DialogsContainer = connect(mapStateToProps, mapDispatchToProps)(AuthRedirectComponent) /*получаем новую контейнерную компоненту*/
+export default compose<React.ComponentType>(connect(mapStateToProps, mapDispatchToProps), WithAuthRedirect)(Dialogs)
+
+// export const DialogsContainer = connect(mapStateToProps, mapDispatchToProps)(AuthRedirectComponent) /*получаем новую контейнерную компоненту*/
