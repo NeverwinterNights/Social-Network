@@ -3,7 +3,7 @@ import mountains from "../../../img/mountain.jpg";
 import React from "react";
 import {Preloader} from "../../preloader/Preloader";
 import {ProfileType} from "../../../redux/profile-reducer";
-
+import Status from "./Status";
 type  ProfileInfoPropsType = {
     profile:  null | ProfileType
 }
@@ -18,6 +18,7 @@ export const ProfileInfo = (props:ProfileInfoPropsType) => {
 
             <img className={styles.img} src={mountains} alt=""/>
             <h2>Name and Description</h2>
+            <Status status={"test status"}/>
             <img alt={"some pic"} src={props.profile.photos.large}/>
             <div>About me: {props.profile.aboutMe}</div>
             <div>If I search work: {props.profile.lookingForAJobDescription}</div>
