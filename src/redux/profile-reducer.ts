@@ -1,5 +1,5 @@
 import {Dispatch} from "redux";
-import {userAPI} from "../Api/Api";
+import {profileAPI, userAPI} from "../Api/Api";
 
 export  type  PostsType = {
     id: number
@@ -8,33 +8,32 @@ export  type  PostsType = {
 }
 
 
-
-
 export type ProfileType = {
     photos: PhotosType
     aboutMe: string
     contacts: ContactsType
-    lookingForAJob:boolean
-    lookingForAJobDescription:string
-    fullName:string
+    lookingForAJob: boolean
+    lookingForAJobDescription: string
+    fullName: string
 }
 type PhotosType = {
     'small': string
     'large': string
 }
 type  ContactsType = {
-    facebook:string
-    website:null
-    vk:string
-    twitter:string
-    instagram:string
-    youtube:null
-    github:string
-    mainLink:null
+    facebook: string
+    website: null
+    vk: string
+    twitter: string
+    instagram: string
+    youtube: null
+    github: string
+    mainLink: null
 }
 
 
 export type  ProfilePageType = {
+    status: string;
     posts: Array<PostsType>
     newPostText: string
     profile: null | ProfileType
@@ -57,13 +56,18 @@ export type  SetUserProfileActionType = { /*необходимо для типи
 
 }
 
+export type  setStatusActionType = { /*необходимо для типизации диспатчка*/
+    type: "SET-STATUS"
+    status: string
+
+}
+
 
 export type  ActionsType =
     AddPostActionType
     | UpdateNewPostActionType
     | SetUserProfileActionType
-
-
+    | setStatusActionType
 
 
 /*Создаем инициализационный стейт для profileReducer*/
@@ -77,14 +81,19 @@ let initialState = {
 
     ],
     newPostText: "",  /*_Значение тектареа*/
-    profile: null
+    profile: null,
+    status: ""
 }
 
 
-export const profileReducer = (state: ProfilePageType = initialState, action: ActionsType
-):
-    ProfilePageType => { /*указываем стейту инициализационное значение*/
+export const profileReducer = (state: ProfilePageType = initialState, action: ActionsType): ProfilePageType => { /*указываем стейту инициализационное значение*/
     switch (action.type) {
+        case "SET-STATUS": {
+            return {
+                ...state,
+                status: action.status
+            }
+        }
         case "ADD-POST": {
             // let newPost: PostsType = {
             //     id: 5,
@@ -137,9 +146,34 @@ export const setUserProfile = (profile: null | ProfileType): SetUserProfileActio
     }
 }
 
+export const setStatus = (status: string): setStatusActionType => {
+    return {
+        type: "SET-STATUS",
+        status
+    }
+}
+
 export const getUserProfile = (userID: string) => (dispatch: Dispatch) => {
     userAPI.getProfile(userID).then(response => {/*запрос на сервак, зен респонс это ответ*/
         dispatch(setUserProfile(response.data))/*отправляем полученные данные в стейт*/
 
-})
+    })
+}
+
+
+export const getStatus = (userID: string) => (dispatch: Dispatch) => {
+    profileAPI.getStatus(userID).then(response => {/*запрос на сервак, зен респонс это ответ*/
+        dispatch(setStatus(response.data))/*отправляем полученные данные в стейт*/
+
+    })
+}
+
+export const updateStatus = (status: string) => (dispatch: Dispatch) => {
+    profileAPI.updateStatus(status).then(response => {/*запрос на сервак, зен респонс это ответ*/
+        if (response.data.resultCode===0) {
+            dispatch(setStatus(status))/*отправляем полученные данные в стейт*/
+
+        }
+
+    })
 }

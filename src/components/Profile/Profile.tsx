@@ -11,6 +11,8 @@ type  ProfilePropsType = {
     // updateNewPostText: (newText: string) => void
     //dispatch: (action: ActionsType) => void
     profile: null | ProfileType
+    status: string
+    updateStatus: (status: string) => void
 }
 
 
@@ -21,7 +23,7 @@ export const Profile = (props: ProfilePropsType) => {
 
     return ( /*как оказался стор*/
         <div className={styles.profile}>
-            <ProfileInfo profile={props.profile}/>
+            <ProfileInfo profile={props.profile} status={props.status} updateStatus={props.updateStatus}/>
             <MyPostsContainer/>
         </div>
     );
