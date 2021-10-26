@@ -6,10 +6,16 @@ type  StatusPropsType = {
 }
 
 
-class Status extends React.Component <StatusPropsType> {
+type  StatusStateType = {
+    status: string
+    editMode: boolean
+}
 
 
-    state = {
+class Status extends React.Component <StatusPropsType, StatusStateType> {
+
+
+    state  = {
         editMode: false,
         status: this.props.status
     }
@@ -29,6 +35,15 @@ class Status extends React.Component <StatusPropsType> {
         this.setState({
             status: e.currentTarget.value
         })
+    }
+
+    componentDidUpdate = (prevProps: StatusPropsType, prevState: StatusStateType) => {
+        if (prevProps.status !== this.props.status) {
+            this.setState({
+                status: this.props.status
+            })
+        }
+
     }
 
     render() {
