@@ -5,6 +5,7 @@ import {sidebarReducer} from "./sidebar-reducer";
 import {usersReducer} from "./users-reduсer";
 import {authReducer} from "./auth-reduсer";
 import thunkMiddleware from "redux-thunk";
+import {reducer as formReducer} from 'redux-form'
 
 
 let reducers = combineReducers({ /*создается общий редьюсер с помощью спец команды, внутрь котор вставляют редюсеры имеющиеся*/
@@ -12,7 +13,8 @@ let reducers = combineReducers({ /*создается общий редьюсе�
     profilePage: profileReducer,
     sidebar: sidebarReducer,
     usersPage: usersReducer,
-    auth: authReducer
+    auth: authReducer,
+    form: formReducer
 })
 
 export type StateReduxType = ReturnType<typeof reducers>/*скопировал из впервой версии*/
