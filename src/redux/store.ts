@@ -1,6 +1,7 @@
 import { ProfilePageType } from "./profile-reducer";
 import {UsersMainType} from "./users-reduсer";
 import {AuthMainType} from "./auth-reduсer";
+import {DialogsPageType} from "./dialogs-reduсer";
 
 export type  DialogsType = {
     id: number
@@ -16,11 +17,7 @@ export  type  MessagesType = {
 
 
 
-export type  DialogsPageType = {
-    dialogs: Array<DialogsType>
-    messages: Array<MessagesType>
-    newMessageBody: string
-}
+
 export type  SidebarType = {
     friends: Array<FriendsType>
 }
@@ -68,14 +65,11 @@ export type  UpdateNewPostBodyActionType = { /*необходимо для ти�
     body: string
 }
 
-export type  SendMessageActionType = { /*необходимо для типизации диспатчка*/
-    type: "SEND-MESSAGE"
-}
 
 
 export type  ActionsType =
     | UpdateNewPostBodyActionType
-    | SendMessageActionType /*необходимо для типизации диспатчка*/
+
 
 
 // let storee:  = {

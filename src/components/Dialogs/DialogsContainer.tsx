@@ -1,7 +1,7 @@
 import {connect} from "react-redux";
 import {Dialogs} from "./Dialogs";
 import {RootStateType} from "../../redux/store";
-import {SendMessageActionCreator, updateNewPostBodyActionCreator} from "../../redux/dialogs-reduсer";
+import {SendMessageActionCreator} from "../../redux/dialogs-reduсer";
 import {compose, Dispatch} from "redux";
 import React from "react";
 import {WithAuthRedirect} from "../../HOC/withAuthRedirect";
@@ -15,11 +15,11 @@ export const mapStateToProps = (state: RootStateType) => {
 }
 export const mapDispatchToProps = (dispatch: Dispatch) => {
     return {
-        updateNewPostBody: (body: string) => {
-            dispatch(updateNewPostBodyActionCreator(body))
-        },
-        sendMessage: () => {
-            dispatch(SendMessageActionCreator())
+        // updateNewPostBody: (body: string) => {
+        //     dispatch(updateNewPostBodyActionCreator(body))
+        // },
+        sendMessage: (newMessageBody:string) => {
+            dispatch(SendMessageActionCreator(newMessageBody))
         }
     }
 }

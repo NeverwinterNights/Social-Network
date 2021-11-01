@@ -1,16 +1,30 @@
-import {DialogsPageType, SendMessageActionType, UpdateNewPostBodyActionType} from "./store";
+import {DialogsType, MessagesType} from "./store";
 
 
-export const updateNewPostBodyActionCreator = (body: string): UpdateNewPostBodyActionType => {
-    return {
-        type: "UPDATE-NEW-POST-BODY",
-        body: body
-    }
+export type  DialogsPageType = {
+    dialogs: Array<DialogsType>
+    messages: Array<MessagesType>
+
 }
 
-export const SendMessageActionCreator = (): SendMessageActionType => {
+
+export type  SendMessageActionType = { /*необходимо для типизации диспатчка*/
+    type: "SEND-MESSAGE"
+    newMessageBody:string
+}
+
+
+// export const updateNewPostBodyActionCreator = (body: string): UpdateNewPostBodyActionType => {
+//     return {
+//         type: "UPDATE-NEW-POST-BODY",
+//         body: body
+//     }
+// }
+
+export const SendMessageActionCreator = (newMessageBody:string): SendMessageActionType => {
     return {
         type: "SEND-MESSAGE",
+        newMessageBody
     }
 }
 
@@ -28,21 +42,20 @@ let initialState = {
         {id: 3, message: "Lets we meet"},
         {id: 4, message: "No"},
     ],
-    newMessageBody: ""
-}
+   }
 
 
-export const dialogsReducer = (state: DialogsPageType = initialState, action: any) => {
+export const dialogsReducer = (state: DialogsPageType = initialState, action: SendMessageActionType) => {
     switch (action.type) {
-        case "UPDATE-NEW-POST-BODY": {
-            let stateCopy = {...state} /*делается копия для правильного изменения стейта*/
-            stateCopy.newMessageBody = action.body /* была параметр ф, а теперь мы берем его из экшена*/
-            return stateCopy
-        }
+        // case "UPDATE-NEW-POST-BODY": {
+        //     let stateCopy = {...state} /*делается копия для правильного изменения стейта*/
+        //     action.newMessageBody = action.body /* была параметр ф, а теперь мы берем его из экшена*/
+        //     return stateCopy
+        // }
         case "SEND-MESSAGE": {
             let stateCopy = {...state, messages: [...state.messages]}/* делается глубокая копия стейта и мессаджес в стейте*/
-            let body = stateCopy.newMessageBody/* была параметр ф, а теперь мы берем его из экшена*/
-            stateCopy.newMessageBody = ""
+            let body = action.newMessageBody/* была параметр ф, а теперь мы берем его из экшена*/
+
 
             stateCopy.messages.push({id: 5, message: body})
             return stateCopy

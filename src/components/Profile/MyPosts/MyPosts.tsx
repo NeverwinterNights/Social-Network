@@ -1,54 +1,49 @@
-import React, {ChangeEvent} from 'react';
+import React from 'react';
 import styles from "./MyPosts.module.css"
 import {Post} from "./Post/Post";
 import {PostsType} from "../../../redux/profile-reducer";
-
-
+import {Field, InjectedFormProps, reduxForm} from "redux-form";
 
 type  MyPostsPropsType = {
     posts: Array<PostsType>
-    addPost: () => void
-    newPostText: string
-    // // updateNewPostText: (newText: string) => void
-    // dispatch: (action: ActionsType) => void
-    updateNewPostText: (text: string) => void
+    addPost: (newPostText: string) => void
+    // newPostText: string
+    // updateNewPostText: (text: string) => void
 }
 
+type  FormType = {
+    newPostText: string
+}
+
+
+
+
 export const MyPosts = (props: MyPostsPropsType) => {
-
-    // let newPostElement = React.createRef<HTMLTextAreaElement>()
-
-    const onAddPost = () => {
-        if (props.newPostText) {
-            props.addPost()
-            // props.dispatch (addPostActionCreator(props.newPostText))/*указываем тип какой и в стейте этому дейсвтию указали*/
+    const onAddPost = (values: FormType) => {
+        if (values) {
+            props.addPost(values.newPostText)
         }
     }
-    const onPostChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
-        // if (newPostElement.current) {
-        // let text = newPostElement.current.value
-        props.updateNewPostText(event.currentTarget.value)
-        //  props.dispatch (updateNewPostActionCreator(text)) /*тут тип экшена и  свойство экшена для ф.*/
-        // }
-    }
-
     return (
         <div className={styles.posts}>
             <div className={styles.main}>
                 <h2>My Posts</h2>
-                <div>
-                    <div>
-                        <textarea placeholder={"Type new post"} onChange={onPostChange}
-                                  value={props.newPostText}  /*было value={props.newPostText}*/
-                        />
-                    </div>
-                    <button onClick={onAddPost}>Add post</button>
-                </div>
+                <AddNewPostForm onSubmit={onAddPost}/>
             </div>
             {props.posts.map((t, index) => <Post key={index} message={t.message} likes={t.likesCount}/>)}
         </div>
-
-
     );
 };
 
+const AddNewPost = (props:InjectedFormProps<FormType> ) => {
+    return (
+        <form onSubmit={props.handleSubmit}>
+            <div>
+                <Field name={"newPostText"} component={"textarea"}/>
+            </div>
+            <button>Add post</button>
+        </form>
+    )
+}
+
+const AddNewPostForm = reduxForm<FormType>({form: "ProfileAddNewPost"})(AddNewPost)
