@@ -1,19 +1,23 @@
 import {authAPI} from "../Api/Api";
 import {Dispatch} from "redux";
+import {ThunkAction} from "redux-thunk";
+import {StateReduxType} from "./redux-store";
+import {FormAction} from "redux-form";
 
 export type  AuthMainActionType = { /*необходимо для типизации диспатчка*/
     type: "SET-USER-DATA"
     payload: {
-        id: number
+        id: null | number
         email: null | string
         login: null | string
+        isAuth: boolean
     }
 }
 ////
 
 
 export type  AuthMainType = {  /*типизация стейта локального*/
-    id: number
+    id: null | number
     email: null | string
     login: null | string
     isAuth: boolean
@@ -47,8 +51,7 @@ export const authReducer = (state: AuthMainType = initialState, action: ActionTy
         case "SET-USER-DATA": {
             return {
                 ...state,
-                ...action.payload,
-                isAuth: true
+                ...action.payload
             }
         }
 
@@ -58,25 +61,23 @@ export const authReducer = (state: AuthMainType = initialState, action: ActionTy
 }
 
 
-/*Это экшен криэйторы у которых в названии в конце убрали букву AC*/
-
-
-export const setUserData = (id: number, email: null | string, login: null | string): AuthMainActionType => {
+export const setUserData = (id: number | null, email: null | string, login: null | string, isAuth: boolean): AuthMainActionType => {
     return {
         type: "SET-USER-DATA",
         payload: {
             id,
             email,
-            login
+            login,
+            isAuth
         }
     }
 }
 
-export const getAuthUserData = () =>  (dispatch: Dispatch) => {
+export const getAuthUserData = () => (dispatch: Dispatch) => {
     authAPI.me().then(response => {/*запрос на сервак, зен респонс это ответ*/
         if (response.data.resultCode === 0) {
             let {id, email, login} = response.data.data
-            dispatch(setUserData(id, email, login))
+            dispatch(setUserData(id, email, login, true))
         } /*отправляем полученные данные в стейт*/
 
 
@@ -85,6 +86,26 @@ export const getAuthUserData = () =>  (dispatch: Dispatch) => {
 }
 
 
+export const login = (email: string, password: string, rememberMe: boolean): ThunkAction<void, StateReduxType, unknown, ActionType | FormAction> => (dispatch) => {
+
+    authAPI.login(email, password, rememberMe)
+        .then((response) => {
+            if (response.data.resultCode === 0) {
+                dispatch(getAuthUserData())
+            }
+        })
+
+}
 
 
+export const loginOut = () => (dispatch: Dispatch) => {
+
+    authAPI.loginOut()
+        .then((response) => {
+            if (response.data.resultCode === 0) {
+                dispatch(setUserData(null, null, null, false))
+            }
+        })
+
+}
 

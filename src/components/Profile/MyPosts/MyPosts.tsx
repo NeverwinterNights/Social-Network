@@ -3,19 +3,19 @@ import styles from "./MyPosts.module.css"
 import {Post} from "./Post/Post";
 import {PostsType} from "../../../redux/profile-reducer";
 import {Field, InjectedFormProps, reduxForm} from "redux-form";
+import {maxLengthCreator, required} from "../../../utils/validators/validators";
+import {Textarea} from "../../FormsControls/Textarea";
 
 type  MyPostsPropsType = {
     posts: Array<PostsType>
     addPost: (newPostText: string) => void
-    // newPostText: string
-    // updateNewPostText: (text: string) => void
 }
 
 type  FormType = {
     newPostText: string
 }
 
-
+let maxLength = maxLengthCreator(15)
 
 
 export const MyPosts = (props: MyPostsPropsType) => {
@@ -35,11 +35,11 @@ export const MyPosts = (props: MyPostsPropsType) => {
     );
 };
 
-const AddNewPost = (props:InjectedFormProps<FormType> ) => {
+const AddNewPost = (props: InjectedFormProps<FormType>) => {
     return (
         <form onSubmit={props.handleSubmit}>
             <div>
-                <Field name={"newPostText"} component={"textarea"}/>
+                <Field name={"newPostText"} component={Textarea} validate={[required, maxLength]} placeholder={"Post message"}/>
             </div>
             <button>Add post</button>
         </form>
