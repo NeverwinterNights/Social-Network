@@ -14,6 +14,13 @@ type FormDataType = {
     rememberMe: boolean
 
 }
+type MSTP ={
+    isAuth: boolean
+}
+type MDTP = {
+    login: (email: string, password: string, rememberMe: boolean)=> void
+}
+type LoginPropsType= MSTP & MDTP
 
 const LoginForm = (props: InjectedFormProps<FormDataType>) => {
 
@@ -35,7 +42,7 @@ const LoginFormRedux = reduxForm<FormDataType>({
     form: 'login'
 })(LoginForm)
 
-const Login = (props: any) => {
+const Login = (props: LoginPropsType) => {        /*какие пропсы типизация*/
 
     const onSubmit = (formData: FormDataType) => {
         props.login(formData.email, formData.password, formData.rememberMe)
@@ -56,7 +63,7 @@ const Login = (props: any) => {
     );
 };
 
-const mapStateToProps = (state:StateReduxType) => ({
+const mapStateToProps = (state: StateReduxType):MSTP => ({
     isAuth: state.auth.isAuth
 })
-export default connect(mapStateToProps, {login})(Login)
+export default connect<MSTP, MDTP, {}, StateReduxType>(mapStateToProps, {login})(Login)

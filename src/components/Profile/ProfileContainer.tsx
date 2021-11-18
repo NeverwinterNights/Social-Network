@@ -21,10 +21,13 @@ type  PathType = {
 }
 
 class ProfileContainer extends React.Component <PropsType, RootStateType> {
-    componentDidMount() {   /*метод жизненного цикла, тут все зхапосы на сервер*/
+    componentDidMount() {   /*метод жизненного цикла, тут все запросы на сервер*/
         let userID = this.props.match.params.userId
         if (!userID) {
             userID = "19115"
+            if (!userID) {
+                this.props.history.push("/login")
+            }
         }
         this.props.getUserProfile(userID)
         this.props.getStatus(userID)

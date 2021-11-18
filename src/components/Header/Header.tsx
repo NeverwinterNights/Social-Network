@@ -7,7 +7,7 @@ type  HeaderPropsType = {
     // setUserData: (id: number, email: null | string, login: null | string) => void
     isAuth: boolean
     login: null | string
-    loginOut: any
+    loginOut: () => void
 }
 
 

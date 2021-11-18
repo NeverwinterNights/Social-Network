@@ -2,31 +2,30 @@ import React from 'react';
 import {Header} from "./Header";
 import {connect} from "react-redux";
 import {RootStateType} from "../../redux/store";
-import {getAuthUserData, loginOut} from "../../redux/auth-reduсer";
+import {loginOut} from "../../redux/auth-reduсer";
 
 type  HeaderContainerPropsType = {
     // setUserData: (id: number, email: null | string, login: null | string) => void
     isAuth: boolean
     login: null | string
-    getAuthUserData: () => void
+
     loginOut: any
 }
 
 
 class HeaderContainer extends React.Component <HeaderContainerPropsType, RootStateType> {
-    componentDidMount() {   /*метод жизненного цикла, тут все зхапосы на сервер*/
-        this.props.getAuthUserData()
-    }
+
     render() {
         return (
             <Header {...this.props}/>
         );
     }
 }
+
 let mapStateToProps = (state: RootStateType) => {
     return {
         isAuth: state.auth.isAuth,
         login: state.auth.login
     }
 }
-export default connect(mapStateToProps, {getAuthUserData, loginOut})(HeaderContainer)
+export default connect(mapStateToProps, {loginOut})(HeaderContainer)
