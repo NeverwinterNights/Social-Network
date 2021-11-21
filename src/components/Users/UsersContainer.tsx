@@ -1,19 +1,27 @@
 import React from 'react';
 import {connect} from "react-redux";
-import {RootStateType} from "../../redux/store";
 import {
     followSuccess,
     getUsersThunkCreator,
     setCurrentPage,
     setFollowingInProgress,
     setUsers,
-    unFollowSuccess,
+    unFollowSuccess, UsersMainType,
     UsersType
 } from "../../redux/users-reduсer";
 import {Users} from "./Users";
 import {Preloader} from "../preloader/Preloader";
 import {WithAuthRedirect} from "../../HOC/withAuthRedirect";
 import {compose} from "redux";
+import {StateReduxType} from "../../redux/redux-store";
+import {
+    getCurrentPage,
+    getFollowingProgress,
+    getIsFetching,
+    getPageSize,
+    getTotalUsersCount,
+    getUsers
+} from "../../redux/users-selectors";
 
 
 type UsersPropsType = {
@@ -33,7 +41,7 @@ type UsersPropsType = {
     getUsers: (currentPage: number, pageSize: number) => void
 }
 
-class UsersContainer extends React.Component <UsersPropsType, RootStateType> {
+class UsersContainer extends React.Component <UsersPropsType, StateReduxType> {
     componentDidMount() {
         this.props.getUsers(this.props.currentPage, this.props.pageSize)
     }
@@ -65,14 +73,15 @@ class UsersContainer extends React.Component <UsersPropsType, RootStateType> {
 }
 
 
-export const mapStateToProps = (state: RootStateType) => {
+export const mapStateToProps = (state: StateReduxType) => {
+
     return {
-        users: state.usersPage.users,  /*отправляет стейт в компоненту*/
-        pageSize: state.usersPage.pageSize,
-        totalUsersCount: state.usersPage.totalUsersCount,
-        currentPage: state.usersPage.currentPage,
-        isFetching: state.usersPage.isFetching,
-        followingInProgress: state.usersPage.followingProgress
+        users: getUsers(state),  /*отправляет стейт в компоненту*/
+        pageSize: getPageSize(state),
+        totalUsersCount: getTotalUsersCount(state),
+        currentPage: getCurrentPage(state),
+        isFetching: getIsFetching(state),
+        followingInProgress: getFollowingProgress(state)
     }
 }
 
@@ -113,7 +122,7 @@ export default compose<React.ComponentType>(
         setFollowingInProgress,
         getUsers: getUsersThunkCreator
     }),
-    // WithAuthRedirect
+    WithAuthRedirect
 )(UsersContainer)
 
 

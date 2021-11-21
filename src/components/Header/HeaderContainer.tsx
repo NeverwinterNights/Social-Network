@@ -1,8 +1,8 @@
 import React from 'react';
 import {Header} from "./Header";
 import {connect} from "react-redux";
-import {RootStateType} from "../../redux/store";
 import {loginOut} from "../../redux/auth-reduсer";
+import {StateReduxType} from "../../redux/redux-store";
 
 type  HeaderContainerPropsType = {
     // setUserData: (id: number, email: null | string, login: null | string) => void
@@ -13,7 +13,7 @@ type  HeaderContainerPropsType = {
 }
 
 
-class HeaderContainer extends React.Component <HeaderContainerPropsType, RootStateType> {
+class HeaderContainer extends React.Component <HeaderContainerPropsType, StateReduxType> {
 
     render() {
         return (
@@ -22,7 +22,7 @@ class HeaderContainer extends React.Component <HeaderContainerPropsType, RootSta
     }
 }
 
-let mapStateToProps = (state: RootStateType) => {
+let mapStateToProps = (state: StateReduxType) => {
     return {
         isAuth: state.auth.isAuth,
         login: state.auth.login

@@ -46,7 +46,7 @@ export type  UsersMainType = {  /*типизация стейта локальн
     totalUsersCount: number
     currentPage: number
     isFetching: boolean
-    followingProgress: []
+    followingProgress: number[]
 }
 
 export type  UsersType = {
@@ -90,7 +90,7 @@ let initialState: UsersMainType = {
 }
 
 
-export const usersReducer = (state: UsersMainType = initialState, action: ActionType) => {
+export const usersReducer = (state: UsersMainType = initialState, action: ActionType):UsersMainType => {
     switch (action.type) {
         case "FOLLOW": {
             return {
@@ -196,6 +196,7 @@ export const getUsersThunkCreator = (currentPage: number, pageSize: number) => {
     return (dispatch: Dispatch) => {   /*это санка*/
 
         dispatch(setPreloader(true))
+        dispatch(setCurrentPage(currentPage))
 
         userAPI.getUsers(currentPage, pageSize).then(data => {/*запрос на сервак, зен респонс это ответ*/
             dispatch(setPreloader(false))

@@ -1,11 +1,11 @@
 import React from 'react';
 import styles from "./Profile.module.css"
-import {RootStateType} from "../../redux/store";
 import {Profile} from "./Profile";
 import {connect} from 'react-redux';
 import {getStatus, getUserProfile, ProfileType, updateStatus} from "../../redux/profile-reducer";
 import {RouteComponentProps, withRouter} from "react-router-dom";
 import {compose} from "redux";
+import {StateReduxType} from "../../redux/redux-store";
 
 type  ProfileContainerPropsType = {
     // setUserProfile: (profile: ProfileType) => void
@@ -20,7 +20,7 @@ type  PathType = {
     userId: string
 }
 
-class ProfileContainer extends React.Component <PropsType, RootStateType> {
+class ProfileContainer extends React.Component <PropsType, StateReduxType> {
     componentDidMount() {   /*метод жизненного цикла, тут все запросы на сервер*/
         let userID = this.props.match.params.userId
         if (!userID) {
@@ -36,7 +36,8 @@ class ProfileContainer extends React.Component <PropsType, RootStateType> {
     render() {
         return (
             <div className={styles.profile}>
-                <Profile {...this.props} profile={this.props.profile} status={this.props.status} updateStatus={this.props.updateStatus}/> {/*все пришедшие пропсы прокидываю дальше*/}
+                <Profile {...this.props} profile={this.props.profile} status={this.props.status}
+                         updateStatus={this.props.updateStatus}/> {/*все пришедшие пропсы прокидываю дальше*/}
             </div>
         );
     }
@@ -46,7 +47,7 @@ class ProfileContainer extends React.Component <PropsType, RootStateType> {
 // let AuthRedirectComponent = WithAuthRedirect(ProfileContainer)
 
 
-let mapStateToProps = (state: RootStateType) => {
+let mapStateToProps = (state: StateReduxType) => {
     return {
         profile: state.profilePage.profile,
         status: state.profilePage.status
