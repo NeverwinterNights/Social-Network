@@ -18,7 +18,8 @@ type  FormType = {
 let maxLength = maxLengthCreator(15)
 
 
-export const MyPosts = (props: MyPostsPropsType) => {
+export const MyPosts = React.memo((props: MyPostsPropsType) => {
+
     const onAddPost = (values: FormType) => {
         if (values) {
             props.addPost(values.newPostText)
@@ -33,7 +34,7 @@ export const MyPosts = (props: MyPostsPropsType) => {
             {props.posts.map((t, index) => <Post key={index} message={t.message} likes={t.likesCount}/>)}
         </div>
     );
-};
+});
 
 const AddNewPost = (props: InjectedFormProps<FormType>) => {
     return (

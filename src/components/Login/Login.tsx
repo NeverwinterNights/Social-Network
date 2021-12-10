@@ -14,13 +14,13 @@ type FormDataType = {
     rememberMe: boolean
 
 }
-type MSTP ={
+type MSTP = {
     isAuth: boolean
 }
 type MDTP = {
-    login: (email: string, password: string, rememberMe: boolean)=> void
+    login: (email: string, password: string, rememberMe: boolean) => void
 }
-type LoginPropsType= MSTP & MDTP
+type LoginPropsType = MSTP & MDTP
 
 const LoginForm = (props: InjectedFormProps<FormDataType>) => {
 
@@ -63,7 +63,7 @@ const Login = (props: LoginPropsType) => {        /*какие пропсы ти
     );
 };
 
-const mapStateToProps = (state: StateReduxType):MSTP => ({
+const mapStateToProps = (state: StateReduxType): MSTP => ({
     isAuth: state.auth.isAuth
 })
 export default connect<MSTP, MDTP, {}, StateReduxType>(mapStateToProps, {login})(Login)

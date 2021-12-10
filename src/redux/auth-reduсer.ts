@@ -94,7 +94,6 @@ export const login = (email: string, password: string, rememberMe: boolean): Thu
                 dispatch(getAuthUserData())
             }
         })
-
 }
 
 

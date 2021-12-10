@@ -6,7 +6,7 @@ import {
     setCurrentPage,
     setFollowingInProgress,
     setUsers,
-    unFollowSuccess, UsersMainType,
+    unFollowSuccess,
     UsersType
 } from "../../redux/users-reduсer";
 import {Users} from "./Users";
@@ -19,8 +19,8 @@ import {
     getFollowingProgress,
     getIsFetching,
     getPageSize,
-    getTotalUsersCount,
-    getUsers
+    getTotalUsersCount, getUsers,
+    getUsersSuper
 } from "../../redux/users-selectors";
 
 
@@ -76,7 +76,7 @@ class UsersContainer extends React.Component <UsersPropsType, StateReduxType> {
 export const mapStateToProps = (state: StateReduxType) => {
 
     return {
-        users: getUsers(state),  /*отправляет стейт в компоненту*/
+        users: getUsersSuper(state),  /*отправляет стейт в компоненту*/
         pageSize: getPageSize(state),
         totalUsersCount: getTotalUsersCount(state),
         currentPage: getCurrentPage(state),

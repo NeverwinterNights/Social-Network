@@ -24,6 +24,7 @@ export const Users = (props: UsersNewPropsType) => {
     for (let i = 1; i <= pagesCount; i++) {
         pages.push(i)
     }
+
     return (
         <div className={styles.main}>
             <div className={styles.pagination_wrapper}>
