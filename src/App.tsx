@@ -59,7 +59,6 @@ class App extends React.Component<AppPropsType> {
         );
     }
 }
-
 const mapStateToProps = (state: StateReduxType): MapStateToPropsType => {
     return {
         initialized: state.appReducer.initialized
