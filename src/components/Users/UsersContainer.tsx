@@ -1,12 +1,12 @@
 import React from 'react';
 import {connect} from "react-redux";
 import {
-    followSuccess,
+    follow,
     getUsersThunkCreator,
     setCurrentPage,
     setFollowingInProgress,
     setUsers,
-    unFollowSuccess,
+    unfollow,
     UsersType
 } from "../../redux/users-reduсer";
 import {Users} from "./Users";
@@ -19,7 +19,7 @@ import {
     getFollowingProgress,
     getIsFetching,
     getPageSize,
-    getTotalUsersCount, getUsers,
+    getTotalUsersCount,
     getUsersSuper
 } from "../../redux/users-selectors";
 
@@ -34,7 +34,7 @@ type UsersPropsType = {
 
     setUsers: (users: Array<UsersType>) => void
     follow: (userID: number) => void
-    unFollow: (userID: number) => void
+    unfollow: (userID: number) => void
     setCurrentPage: (currentPage: number) => void
     // setPreloader: (isFetching: boolean) => void
     setFollowingInProgress: (userID: number, isFetching: boolean) => void
@@ -62,7 +62,7 @@ class UsersContainer extends React.Component <UsersPropsType, StateReduxType> {
                     currentPage={this.props.currentPage}
                     users={this.props.users}
                     follow={this.props.follow}
-                    unfollow={this.props.unFollow}
+                    unfollow={this.props.unfollow}
                     OnClickPageHandler={this.OnClickPageHandler}
                     setFollowingInProgress={this.props.setFollowingInProgress}
                     followingInProgress={this.props.followingInProgress}
@@ -85,38 +85,11 @@ export const mapStateToProps = (state: StateReduxType) => {
     }
 }
 
-// export const mapDispatchToProps = (dispatch: Dispatch) => {
-//     return {
-//         follow: (userID: number) => {
-//             dispatch(follow(userID))
-//         },
-//         unfollow: (userID: number) => {
-//             dispatch(unFollow(userID))
-//         },
-//         setUsers: (users: Array<UsersType>) => {
-//             dispatch(setUsers(users))
-//         },
-//         setCurrentPage: (currentPage: number) => {
-//             dispatch(setCurrentPage(currentPage))
-//         },
-//         setTotalUsersCount: (totalCount: number) => {
-//             dispatch(setUsersTotalCount(totalCount))
-//         },
-//         setPreloader: (isFetching: boolean) => {
-//             dispatch(setPreloader(isFetching))
-//         },
-//
-//     }
-// } /*описана прямо внутри коннекта новым способом*/
-
-
-// let withRedirect = WithAuthRedirect(UsersContainer)
-
 
 export default compose<React.ComponentType>(
     connect(mapStateToProps, {
-        follow: followSuccess,
-        unFollow: unFollowSuccess,
+        follow,
+        unfollow,
         setCurrentPage,
         setUsers,
         setFollowingInProgress,
@@ -125,13 +98,4 @@ export default compose<React.ComponentType>(
     WithAuthRedirect
 )(UsersContainer)
 
-
-// export default connect(mapStateToProps, {
-//     follow: followSuccess,
-//     unFollow: unFollowSuccess,
-//     setCurrentPage,
-//     setUsers,
-//     setFollowingInProgress,
-//     getUsers: getUsersThunkCreator
-// })(withRedirect) /*получаем новую контейнерную компоненту*/
 

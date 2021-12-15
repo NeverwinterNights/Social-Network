@@ -39,9 +39,11 @@ export type  ProfilePageType = {
 }
 
 export type  AddPostActionType = { /*необходимо для типизации диспатчка*/
-    type: "ADD-POST"
+    type: "PROFILE/ADD-POST"
     newPostText: string
 }
+
+export type DeletePostActionType = ReturnType<typeof deletePostActionCreator>
 
 
 // export type  UpdateNewPostActionType = { /*необходимо для типизации диспатчка*/
@@ -51,13 +53,13 @@ export type  AddPostActionType = { /*необходимо для типизац�
 
 
 export type  SetUserProfileActionType = { /*необходимо для типизации диспатчка*/
-    type: "SET-USER-PROFILE"
+    type: "PROFILE/SET-USER-PROFILE"
     profile: null | ProfileType
 
 }
 
 export type  setStatusActionType = { /*необходимо для типизации диспатчка*/
-    type: "SET-STATUS"
+    type: "PROFILE/SET-STATUS"
     status: string
 
 }
@@ -67,6 +69,7 @@ export type  ActionsType =
     AddPostActionType
     | SetUserProfileActionType
     | setStatusActionType
+    | DeletePostActionType
 
 
 /*Создаем инициализационный стейт для profileReducer*/
@@ -86,13 +89,13 @@ let initialState = {
 
 export const profileReducer = (state: ProfilePageType = initialState, action: ActionsType): ProfilePageType => { /*указываем стейту инициализационное значение*/
     switch (action.type) {
-        case "SET-STATUS": {
+        case "PROFILE/SET-STATUS": {
             return {
                 ...state,
                 status: action.status
             }
         }
-        case "ADD-POST": {
+        case "PROFILE/ADD-POST": {
             // let newPost: PostsType = {
             //     id: 5,
             //     message: state.newPostText,
@@ -100,7 +103,11 @@ export const profileReducer = (state: ProfilePageType = initialState, action: Ac
             // }
             return {
                 ...state,
-                posts: [{id: 5, message: action.newPostText, likesCount: 0}, ...state.posts],
+                posts: [{
+                    id: 5,
+                    message: action.newPostText,
+                    likesCount: 0
+                }, ...state.posts],
             } /*делается копия для правильного изменения стейта*/
 
             // stateCopy.posts.unshift(newPost) /*стейт тут приходит в пропсах это this._state.profilePage*/
@@ -108,8 +115,11 @@ export const profileReducer = (state: ProfilePageType = initialState, action: Ac
             // return stateCopy
             // break; /*брейк можно заменить ретурн стейт в каждом кейсе*/
         }
-        case "SET-USER-PROFILE": {
+        case "PROFILE/SET-USER-PROFILE": {
             return {...state, profile: action.profile}
+        }
+        case "PROFILE/DELETE-POST": {
+            return {...state, posts: state.posts.filter((post) => post.id != action.id)}
         }
         default:
             return state
@@ -117,50 +127,52 @@ export const profileReducer = (state: ProfilePageType = initialState, action: Ac
 }
 
 
-export const addPostActionCreator = (newPostText:string): AddPostActionType => {
+export const addPostActionCreator = (newPostText: string): AddPostActionType => {
     return {
-        type: "ADD-POST",
+        type: "PROFILE/ADD-POST",
         newPostText
     }
 }
+
+export const deletePostActionCreator = (id: number) => {
+    return {
+        type: "PROFILE/DELETE-POST",
+        id
+    } as const
+}
+
+
 /*ф. возвращающая экшен, ее вызывают в компоненте в диспатче
 и прокидывают в параметрах данные сюда. АК экспорт. его не надо прокидывать пропсами props.dispatch (updateNewPostActionCreator(text)) */
 
 export const setUserProfile = (profile: null | ProfileType): SetUserProfileActionType => {
     return {
-        type: "SET-USER-PROFILE",
+        type: "PROFILE/SET-USER-PROFILE",
         profile
     }
 }
 
 export const setStatus = (status: string): setStatusActionType => {
     return {
-        type: "SET-STATUS",
+        type: "PROFILE/SET-STATUS",
         status
     }
 }
 
-export const getUserProfile = (userID: string) => (dispatch: Dispatch) => {
-    userAPI.getProfile(userID).then(response => {/*запрос на сервак, зен респонс это ответ*/
-        dispatch(setUserProfile(response.data))/*отправляем полученные данные в стейт*/
-
-    })
+export const getUserProfile = (userID: string) => async (dispatch: Dispatch) => {
+    const response = await userAPI.getProfile(userID)
+    dispatch(setUserProfile(response.data))/*отправляем полученные данные в стейт*/
 }
 
 
-export const getStatus = (userID: string) => (dispatch: Dispatch) => {
-    profileAPI.getStatus(userID).then(response => {/*запрос на сервак, зен респонс это ответ*/
-        dispatch(setStatus(response.data))/*отправляем полученные данные в стейт*/
-
-    })
+export const getStatus = (userID: string) => async (dispatch: Dispatch) => {
+    const response = await profileAPI.getStatus(userID)
+    dispatch(setStatus(response.data))/*отправляем полученные данные в стейт*/
 }
 
-export const updateStatus = (status: string) => (dispatch: Dispatch) => {
-    profileAPI.updateStatus(status).then(response => {/*запрос на сервак, зен респонс это ответ*/
-        if (response.data.resultCode===0) {
-            dispatch(setStatus(status))/*отправляем полученные данные в стейт*/
-
-        }
-
-    })
+export const updateStatus = (status: string) => async (dispatch: Dispatch) => {
+    const response = await profileAPI.updateStatus(status)
+    if (response.data.resultCode === 0) {
+        dispatch(setStatus(status))/*отправляем полученные данные в стейт*/
+    }
 }

@@ -1,6 +1,6 @@
 import React from 'react';
 import {UsersType} from "../../redux/users-reduсer";
-import styles from "./User.module.css"
+import styles from "./Users.module.css"
 import axios from "axios";
 import image from "../../img/neand.png";
 

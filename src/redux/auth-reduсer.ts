@@ -5,7 +5,7 @@ import {StateReduxType} from "./redux-store";
 import {FormAction} from "redux-form";
 
 export type  AuthMainActionType = { /*необходимо для типизации диспатчка*/
-    type: "SET-USER-DATA"
+    type: "AUTH/SET-USER-DATA"
     payload: {
         id: null | number
         email: null | string
@@ -48,7 +48,7 @@ let initialState: AuthMainType = {
 export const authReducer = (state: AuthMainType = initialState, action: ActionType) => {
     switch (action.type) {
 
-        case "SET-USER-DATA": {
+        case "AUTH/SET-USER-DATA": {
             return {
                 ...state,
                 ...action.payload
@@ -63,7 +63,7 @@ export const authReducer = (state: AuthMainType = initialState, action: ActionTy
 
 export const setUserData = (id: number | null, email: null | string, login: null | string, isAuth: boolean): AuthMainActionType => {
     return {
-        type: "SET-USER-DATA",
+        type: "AUTH/SET-USER-DATA",
         payload: {
             id,
             email,
@@ -73,33 +73,29 @@ export const setUserData = (id: number | null, email: null | string, login: null
     }
 }
 
-export const getAuthUserData = () => (dispatch: Dispatch) => {
-    return authAPI.me().then(response => {/*запрос на сервак, зен респонс это ответ*/
-        if (response.data.resultCode === 0) {
-            let {id, email, login} = response.data.data
-            dispatch(setUserData(id, email, login, true))
-        } /*отправляем полученные данные в стейт*/
+export const getAuthUserData = () => async (dispatch: Dispatch) => {
+    let response = await authAPI.me()
 
-
-    })
+    if (response.data.resultCode === 0) {
+        let {id, email, login} = response.data.data
+        dispatch(setUserData(id, email, login, true))
+    } /*отправляем полученные данные в стейт*/
 
 }
 
 
-export const login = (email: string, password: string, rememberMe: boolean): ThunkAction<void, StateReduxType, unknown, ActionType | FormAction> => (dispatch) => {
+export const login = (email: string, password: string, rememberMe: boolean): ThunkAction<void, StateReduxType, unknown, ActionType | FormAction> => async (dispatch) => {
 
-    authAPI.login(email, password, rememberMe)
-        .then((response) => {
-            if (response.data.resultCode === 0) {
-                dispatch(getAuthUserData())
-            }
-        })
+    let response = await authAPI.login(email, password, rememberMe)
+    if (response.data.resultCode === 0) {
+        dispatch(getAuthUserData())
+    }
 }
 
 
 export const loginOut = () => (dispatch: Dispatch) => {
 
-    authAPI.loginOut()
+    authAPI.loginOut()  /*чтобы прееделать в асинк пишем после стрелки async тут делаем переменную и await убираем зен*/
         .then((response) => {
             if (response.data.resultCode === 0) {
                 dispatch(setUserData(null, null, null, false))

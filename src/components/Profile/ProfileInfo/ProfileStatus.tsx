@@ -53,7 +53,8 @@ export const ProfileStatus = (props: StatusPropsType) => {
                 </div>
                 :
                 <div>
-                    <input onKeyPress={onStatusKeyPress} onChange={onStatusChange} autoFocus={true} onBlur={ofEditMode}
+                    <input onKeyPress={onStatusKeyPress} onChange={onStatusChange}
+                           autoFocus={true} onBlur={ofEditMode}
                            value={status}/>
                 </div>
             }

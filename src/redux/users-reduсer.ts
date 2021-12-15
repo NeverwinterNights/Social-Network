@@ -2,36 +2,36 @@ import {Dispatch} from "redux";
 import {userAPI} from "../Api/Api";
 
 export type  FollowActionType = { /*необходимо для типизации диспатчка*/
-    type: "FOLLOW"
+    type: "USERS/FOLLOW"
     userID: number
 }
 
 export type  UnFollowActionType = { /*необходимо для типизации диспатчка*/
-    type: "UNFOLLOW"
+    type: "USERS/UNFOLLOW"
     userID: number
 }
 
 export type  SetUsersActionType = { /*необходимо для типизации диспатчка*/
-    type: "SET-USERS"
+    type: "USERS/SET-USERS"
     users: Array<UsersType>
 }
 
 export type  SetCurrentPageActionType = { /*необходимо для типизации диспатчка*/
-    type: "SET-CURRENT-PAGE"
+    type: "USERS/SET-CURRENT-PAGE"
     currentPage: number
 }
 
 export type  SetUsersTotalCountActionType = { /*необходимо для типизации диспатчка*/
-    type: "SET-CURRENT-TOTAL-COUNT"
+    type: "USERS/SET-CURRENT-TOTAL-COUNT"
     totalCount: number
 }
 
 export type  SetPreloaderActionType = { /*необходимо для типизации диспатчка*/
-    type: "SET-PRELOADER"
+    type: "USERS/SET-PRELOADER"
     isFetching: boolean
 }
 export type  FollowingInProgressActionType = { /*необходимо для типизации диспатчка*/
-    type: "FOLLOWING-IN-PROGRESS"
+    type: "USERS/FOLLOWING-IN-PROGRESS"
     userID: number
     isFetching: boolean
 }
@@ -90,9 +90,9 @@ let initialState: UsersMainType = {
 }
 
 
-export const usersReducer = (state: UsersMainType = initialState, action: ActionType):UsersMainType => {
+export const usersReducer = (state: UsersMainType = initialState, action: ActionType): UsersMainType => {
     switch (action.type) {
-        case "FOLLOW": {
+        case "USERS/FOLLOW": {
             return {
                 ...state,
                 users: state.users.map((u) => {
@@ -104,7 +104,7 @@ export const usersReducer = (state: UsersMainType = initialState, action: Action
             }
         }
 
-        case "UNFOLLOW": {
+        case "USERS/UNFOLLOW": {
             return {
                 ...state,
                 users: state.users.map((u) => {
@@ -115,19 +115,19 @@ export const usersReducer = (state: UsersMainType = initialState, action: Action
                 })
             }
         }
-        case "SET-USERS": {
+        case "USERS/SET-USERS": {
             return {...state, users: action.users}
         }
-        case "SET-CURRENT-PAGE": {
+        case "USERS/SET-CURRENT-PAGE": {
             return {...state, currentPage: action.currentPage}
         }
-        case "SET-CURRENT-TOTAL-COUNT": {
+        case "USERS/SET-CURRENT-TOTAL-COUNT": {
             return {...state, totalUsersCount: action.totalCount}
         }
-        case "SET-PRELOADER": {
+        case "USERS/SET-PRELOADER": {
             return {...state, isFetching: action.isFetching}
         }
-        case "FOLLOWING-IN-PROGRESS": {
+        case "USERS/FOLLOWING-IN-PROGRESS": {
             return {
                 ...state,
                 followingProgress: action.isFetching
@@ -147,43 +147,43 @@ export const usersReducer = (state: UsersMainType = initialState, action: Action
 
 export const followSuccess = (userID: number): FollowActionType => {
     return {
-        type: "FOLLOW",
+        type: "USERS/FOLLOW",
         userID: userID
     }
 }
 export const unFollowSuccess = (userID: number): UnFollowActionType => {
     return {
-        type: "UNFOLLOW",
+        type: "USERS/UNFOLLOW",
         userID: userID
     }
 }
 export const setUsers = (users: Array<UsersType>): SetUsersActionType => {
     return {
-        type: "SET-USERS",
+        type: "USERS/SET-USERS",
         users: users
     }
 }
 export const setCurrentPage = (currentPage: number): SetCurrentPageActionType => {
     return {
-        type: "SET-CURRENT-PAGE",
+        type: "USERS/SET-CURRENT-PAGE",
         currentPage: currentPage
     }
 }
 export const setTotalUsersCount = (totalCount: number): SetUsersTotalCountActionType => {
     return {
-        type: "SET-CURRENT-TOTAL-COUNT",
+        type: "USERS/SET-CURRENT-TOTAL-COUNT",
         totalCount: totalCount
     }
 }
 export const setPreloader = (isFetching: boolean): SetPreloaderActionType => {
     return {
-        type: "SET-PRELOADER",
+        type: "USERS/SET-PRELOADER",
         isFetching: isFetching
     }
 }
 export const setFollowingInProgress = (userID: number, isFetching: boolean): FollowingInProgressActionType => {
     return {
-        type: "FOLLOWING-IN-PROGRESS",
+        type: "USERS/FOLLOWING-IN-PROGRESS",
         userID: userID,
         isFetching: isFetching
     }
@@ -192,46 +192,36 @@ export const setFollowingInProgress = (userID: number, isFetching: boolean): Fol
 
 /*санки*/
 
-export const getUsersThunkCreator = (currentPage: number, pageSize: number) => { /*это криэйтор санки*/
-    return (dispatch: Dispatch) => {   /*это санка*/
+export const getUsersThunkCreator = (currentPage: number, pageSize: number) => async (dispatch: Dispatch) => {  /*это санка*/
 
-        dispatch(setPreloader(true))
-        dispatch(setCurrentPage(currentPage))
-
-        userAPI.getUsers(currentPage, pageSize).then(data => {/*запрос на сервак, зен респонс это ответ*/
-            dispatch(setPreloader(false))
-            dispatch(setUsers(data.items))
-            dispatch(setTotalUsersCount(data.totalCount))
-        })
-    }
+    dispatch(setPreloader(true))
+    dispatch(setCurrentPage(currentPage))
+    const data = await userAPI.getUsers(currentPage, pageSize)
+    dispatch(setPreloader(false))
+    dispatch(setUsers(data.items))
+    dispatch(setTotalUsersCount(data.totalCount))
 }
 
+
 export const follow = (userID: number) => { /*это криэйтор санки*/
-    return (dispatch: Dispatch) => {   /*это санка*/
-        dispatch(setFollowingInProgress(userID,true))
-        userAPI.follow(userID)
-
-            .then(response => {/*запрос на сервак, зен респонс это ответ*/
-                if (response.data.resultCode === 0) {
-                    dispatch(followSuccess(userID))
-                }
-                dispatch(setFollowingInProgress(userID,false))
-            })
-
+    return async (dispatch: Dispatch) => {   /*это санка*/
+        dispatch(setFollowingInProgress(userID, true))
+        const response = await userAPI.follow(userID)
+        if (response.data.resultCode === 0) {
+            dispatch(followSuccess(userID))
+        }
+        dispatch(setFollowingInProgress(userID, false))
     }
 }
 
 export const unfollow = (userID: number) => { /*это криэйтор санки*/
-    return (dispatch: Dispatch) => {   /*это санка*/
-        dispatch(setFollowingInProgress(userID,true))
-        userAPI.unfollow(userID)
-            .then(response => {/*запрос на сервак, зен респонс это ответ*/
-                if (response.data.resultCode === 0) {
-                    dispatch(unFollowSuccess(userID))
-                }
-                dispatch(setFollowingInProgress(userID,false))
-            })
-
+    return async (dispatch: Dispatch) => {   /*это санка*/
+        dispatch(setFollowingInProgress(userID, true))
+        const response = await userAPI.unfollow(userID)
+        if (response.data.resultCode === 0) {
+            dispatch(unFollowSuccess(userID))
+        }
+        dispatch(setFollowingInProgress(userID, false))
     }
 }
 

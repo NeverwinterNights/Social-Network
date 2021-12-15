@@ -22,14 +22,18 @@ type MDTP = {
 }
 type LoginPropsType = MSTP & MDTP
 
-const LoginForm = (props: InjectedFormProps<FormDataType>) => {
+const LoginForm = ({handleSubmit}: InjectedFormProps<FormDataType>) => {
 
     return (
-        <form onSubmit={props.handleSubmit}>
-            <div><Field placeholder={"Login"} name={"email"} validate={[required]} component={Input}/></div>
-            <div><Field placeholder={"Password"} validate={[required]} type={"password"} name={"password"}
+        <form onSubmit={handleSubmit}>
+            <div><Field placeholder={"Login"} name={"email"} validate={[required]}
                         component={Input}/></div>
-            <div><Field component={Input} name={"rememberMe"} type={"checkbox"}/>Remember Me</div>
+            <div><Field placeholder={"Password"} validate={[required]} type={"password"}
+                        name={"password"}
+                        component={Input}/></div>
+            <div><Field component={Input} name={"rememberMe"} type={"checkbox"}/>Remember
+                Me
+            </div>
             <div>
                 <button>Login</button>
             </div>
@@ -42,16 +46,13 @@ const LoginFormRedux = reduxForm<FormDataType>({
     form: 'login'
 })(LoginForm)
 
-const Login = (props: LoginPropsType) => {        /*какие пропсы типизация*/
+const Login = ({login, isAuth}: LoginPropsType) => {       /*какие пропсы типизация*/
 
     const onSubmit = (formData: FormDataType) => {
-        props.login(formData.email, formData.password, formData.rememberMe)
-
-
+        login(formData.email, formData.password, formData.rememberMe)
     }
 
-
-    if (props.isAuth) {
+    if (isAuth) {
         return <Redirect to={"/profile"}/>
     }
 

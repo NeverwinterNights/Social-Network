@@ -1,8 +1,6 @@
-import {Dispatch} from "redux";
 import {getAuthUserData} from "./auth-reduсer";
 import {ThunkAction} from "redux-thunk";
-import {FormAction} from "redux-form";
-import { StateReduxType } from "./redux-store";
+import {StateReduxType} from "./redux-store";
 
 export type  initializedActionType = {
     type: "INITIALIZED-SUCCESSES"
@@ -47,10 +45,10 @@ export const initializedSuccess = (): initializedActionType => {
     }
 }
 
-export const initializeApp = ():ThunkTyoe => (dispatch) => {
-   let prom = dispatch(getAuthUserData())
+export const initializeApp = (): ThunkTyoe => (dispatch) => {
+    let prom = dispatch(getAuthUserData())
 
-    prom.then(()=> {
+    prom.then(() => {
         dispatch(initializedSuccess())
 
     })

@@ -26,14 +26,10 @@ class App extends React.Component<AppPropsType> {
         this.props.initializeApp()
     }
 
-
     render() {
-
         if (!this.props.initialized) {
-
             return <Preloader/>
         }
-
 
         return (
             <div className="App">
@@ -48,9 +44,12 @@ class App extends React.Component<AppPropsType> {
                         <Route path="/dialogs" render={() => <DialogsContainer/>}/>
                         {/*<Route path="/dialogs" render={() => <Dialogs  dispatch={props.dispatch} state={props.store.dialogsPage}*/}
                         <Route path="/profile/:userId?"
-                               render={() => <ProfileContainer/>} /*пробрасываем диспатч вмеесто функцый*//>
-                        <Route path="/users" render={() => <UsersContainer/>} /*пробрасываем диспатч вмеесто функцый*//>
-                        <Route path="/login" render={() => <Login/>} /*пробрасываем диспатч вмеесто функцый*//>
+                               render={() =>
+                                   <ProfileContainer/>} /*пробрасываем диспатч вмеесто функцый*//>
+                        <Route path="/users" render={() =>
+                            <UsersContainer/>} /*пробрасываем диспатч вмеесто функцый*//>
+                        <Route path="/login" render={() =>
+                            <Login/>} /*пробрасываем диспатч вмеесто функцый*//>
                     </Switch>
                     {/*<Dialogs/>*/}
                     {/*<Profile/>*/}
@@ -59,6 +58,7 @@ class App extends React.Component<AppPropsType> {
         );
     }
 }
+
 const mapStateToProps = (state: StateReduxType): MapStateToPropsType => {
     return {
         initialized: state.appReducer.initialized
