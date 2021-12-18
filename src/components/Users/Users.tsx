@@ -30,6 +30,7 @@ export const Users = (props: UsersNewPropsType) => {
             <Paginator currentPage={props.currentPage}
                        OnPageHandler={props.OnClickPageHandler}
                        totalUsersCount={props.totalUsersCount} pageSize={props.pageSize}
+                       portionSize={10}
             />
 
             {props.users.map((u) => {
