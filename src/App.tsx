@@ -7,12 +7,16 @@ import UsersContainer from './components/Users/UsersContainer';
 import ProfileContainer from "./components/Profile/ProfileContainer";
 import HeaderContainer from "./components/Header/HeaderContainer";
 import Login from "./components/Login/Login";
-import DialogsContainer from "./components/Dialogs/DialogsContainer";
 import {connect} from "react-redux";
 import {compose} from "redux";
 import {initializeApp} from "./redux/app-reduсer";
 import {StateReduxType} from "./redux/redux-store";
 import {Preloader} from "./components/preloader/Preloader";
+import { Suspense } from 'react';
+
+
+// import DialogsContainer from "./components/Dialogs/DialogsContainer";
+const DialogsContainer = React.lazy(() => import('./components/Dialogs/DialogsContainer'));/*ленивая загрузка компоненты*/
 
 
 type AppPropsType = {
@@ -41,7 +45,7 @@ class App extends React.Component<AppPropsType> {
                         <Route exact path="/" render={() => <Redirect to="/profile"/>}/>
 
                         {/*<Route path="/dialogs" render={() => <Dialogs  dispatch={props.dispatch} state={props.store.getState().dialogsPage}/>}/>*/}
-                        <Route path="/dialogs" render={() => <DialogsContainer/>}/>
+                        <Route path="/dialogs" render={() => <Suspense fallback={<div>Loading...</div>}> <DialogsContainer/></Suspense>}/>
                         {/*<Route path="/dialogs" render={() => <Dialogs  dispatch={props.dispatch} state={props.store.dialogsPage}*/}
                         <Route path="/profile/:userId?"
                                render={() =>
