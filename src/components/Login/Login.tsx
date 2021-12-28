@@ -12,18 +12,24 @@ type FormDataType = {
     email: string
     password: string
     rememberMe: boolean
+    captchaURL: string | null
+    captcha: string
 
 }
 type MSTP = {
     isAuth: boolean
+    captchaURL: string | null
 }
 type MDTP = {
-    login: (email: string, password: string, rememberMe: boolean) => void
+    login: (email: string, password: string, rememberMe: boolean, captcha: string) => void
 }
 type LoginPropsType = MSTP & MDTP
 
-const LoginForm = ({handleSubmit}: InjectedFormProps<FormDataType>) => {
+interface LoginFormProps extends InjectedFormProps<FormDataType> {
+    captchaURL: string | null
+}
 
+const LoginForm = ({handleSubmit, initialValues}: InjectedFormProps<FormDataType>) => {
     return (
         <form onSubmit={handleSubmit}>
             <div><Field placeholder={"Login"} name={"email"} validate={[required]}
@@ -34,6 +40,11 @@ const LoginForm = ({handleSubmit}: InjectedFormProps<FormDataType>) => {
             <div><Field component={Input} name={"rememberMe"} type={"checkbox"}/>Remember
                 Me
             </div>
+            {initialValues.captchaURL && <img alt={"capture"} src={initialValues.captchaURL}/>}
+            {initialValues.captchaURL && <Field placeholder={"Type text from captcha"}  component={Input} validate={[required]} name={"captcha"} type={"input"}/>}
+
+
+
             <div>
                 <button>Login</button>
             </div>
@@ -46,10 +57,11 @@ const LoginFormRedux = reduxForm<FormDataType>({
     form: 'login'
 })(LoginForm)
 
-const Login = ({login, isAuth}: LoginPropsType) => {       /*какие пропсы типизация*/
+const Login = ({login, isAuth, captchaURL}: LoginPropsType) => {       /*какие пропсы
+ типизация*/
 
     const onSubmit = (formData: FormDataType) => {
-        login(formData.email, formData.password, formData.rememberMe)
+        login(formData.email, formData.password, formData.rememberMe, formData.captcha)
     }
 
     if (isAuth) {
@@ -59,12 +71,13 @@ const Login = ({login, isAuth}: LoginPropsType) => {       /*какие проп
     return (
         <div>
             <h1>Login</h1>
-            <LoginFormRedux onSubmit={onSubmit}/>
+            <LoginFormRedux onSubmit={onSubmit} initialValues={{captchaURL}}/>
         </div>
     );
 };
 
 const mapStateToProps = (state: StateReduxType): MSTP => ({
+    captchaURL: state.auth.captchaURL,
     isAuth: state.auth.isAuth
 })
 export default connect<MSTP, MDTP, {}, StateReduxType>(mapStateToProps, {login})(Login)

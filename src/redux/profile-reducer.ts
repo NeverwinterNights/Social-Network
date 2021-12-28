@@ -1,6 +1,7 @@
 import {Dispatch} from "redux";
 import {profileAPI, userAPI} from "../Api/Api";
 
+
 export  type  PostsType = {
     id: number
     message: string
@@ -64,12 +65,15 @@ export type  setStatusActionType = { /*необходимо для типиза�
 
 }
 
+export type SetPhotoSuccessActionType = ReturnType<typeof savePhotoSuccess>
+
 
 export type  ActionsType =
     AddPostActionType
     | SetUserProfileActionType
     | setStatusActionType
     | DeletePostActionType
+    | SetPhotoSuccessActionType
 
 
 /*Создаем инициализационный стейт для profileReducer*/
@@ -121,6 +125,9 @@ export const profileReducer = (state: ProfilePageType = initialState, action: Ac
         case "PROFILE/DELETE-POST": {
             return {...state, posts: state.posts.filter((post) => post.id != action.id)}
         }
+        case "PROFILE/SET-PHOTO": {
+            return {...state, profile: state.profile ? {...state.profile} : null}
+        }
         default:
             return state
     }
@@ -159,6 +166,14 @@ export const setStatus = (status: string): setStatusActionType => {
     }
 }
 
+export const savePhotoSuccess = (photos: PhotosType) => {
+    return {
+        type: "PROFILE/SET-PHOTO",
+        photos
+    } as const
+}
+
+
 export const getUserProfile = (userID: string) => async (dispatch: Dispatch) => {
     const response = await userAPI.getProfile(userID)
     dispatch(setUserProfile(response.data))/*отправляем полученные данные в стейт*/
@@ -176,3 +191,21 @@ export const updateStatus = (status: string) => async (dispatch: Dispatch) => {
         dispatch(setStatus(status))/*отправляем полученные данные в стейт*/
     }
 }
+
+export const savePhoto = (file: File) => async (dispatch: Dispatch) => {
+    const response = await profileAPI.savePhoto(file)
+
+    if (response.data.resultCode === 0) {
+        dispatch(savePhotoSuccess(response.data.photos))
+    }
+
+
+}
+
+
+
+
+
+
+
+

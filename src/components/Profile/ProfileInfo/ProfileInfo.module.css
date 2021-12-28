@@ -3,3 +3,12 @@
     height: 350px;
 
 }
+.image {
+    border-radius: 50%;
+    width: 300px;
+    height: 300px;
+}
+
+.profile__wrapper {
+    padding-left: 30px;
+}

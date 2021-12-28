@@ -13,6 +13,8 @@ type  ProfilePropsType = {
     profile: null | ProfileType
     status: string
     updateStatus: (status: string) => void
+    isOwner: boolean
+    savePhoto: (file: any) => void
 }
 
 
@@ -21,9 +23,9 @@ type  ProfilePropsType = {
 export const Profile = (props: ProfilePropsType) => {
 
 
-    return ( /*как оказался стор*/
+    return (
         <div className={styles.profile}>
-            <ProfileInfo profile={props.profile} status={props.status} updateStatus={props.updateStatus}/>
+            <ProfileInfo savePhoto={props.savePhoto} isOwner={props.isOwner} profile={props.profile} status={props.status} updateStatus={props.updateStatus}/>
             <MyPostsContainer/>
         </div>
     );
