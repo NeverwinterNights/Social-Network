@@ -16,9 +16,9 @@ export const Navbar = (props: NavbarPropsType) => {
             <div className={styles.menu}>
                 <div><NavLink activeClassName={styles.active} to="/profile">Profile</NavLink></div>
                 <div><NavLink activeClassName={styles.active} to="/dialogs">Dialogs</NavLink></div>
-                <div><a href="/#">News</a></div>
-                <div><a href="/#">Music</a></div>
-                <div><a href="/#">News</a></div>
+                <div><NavLink activeClassName={styles.active} to="/news">News</NavLink></div>
+                <div><NavLink activeClassName={styles.active} to="/music">Music</NavLink></div>
+
             </div>
             <div className={styles.friends}>
                 <Friends names={store.getState().sidebar.friends}/>

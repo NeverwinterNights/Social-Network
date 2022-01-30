@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {Suspense} from 'react';
 import './App.css';
 
 import {Redirect, Route, Switch, withRouter} from 'react-router-dom';
@@ -12,7 +12,9 @@ import {compose} from "redux";
 import {initializeApp} from "./redux/app-reduсer";
 import {StateReduxType} from "./redux/redux-store";
 import {Preloader} from "./components/preloader/Preloader";
-import { Suspense } from 'react';
+import { News } from './components/News/News';
+import { Music } from './components/Music/Music';
+
 
 
 // import DialogsContainer from "./components/Dialogs/DialogsContainer";
@@ -45,7 +47,9 @@ class App extends React.Component<AppPropsType> {
                         <Route exact path="/" render={() => <Redirect to="/profile"/>}/>
 
                         {/*<Route path="/dialogs" render={() => <Dialogs  dispatch={props.dispatch} state={props.store.getState().dialogsPage}/>}/>*/}
-                        <Route path="/dialogs" render={() => <Suspense fallback={<div>Loading...</div>}> <DialogsContainer/></Suspense>}/>
+                        <Route path="/dialogs"
+                               render={() => <Suspense fallback={<div>Loading...</div>}>
+                                   <DialogsContainer/></Suspense>}/>
                         {/*<Route path="/dialogs" render={() => <Dialogs  dispatch={props.dispatch} state={props.store.dialogsPage}*/}
                         <Route path="/profile/:userId?"
                                render={() =>
@@ -54,6 +58,10 @@ class App extends React.Component<AppPropsType> {
                             <UsersContainer/>} /*пробрасываем диспатч вмеесто функцый*//>
                         <Route path="/login" render={() =>
                             <Login/>} /*пробрасываем диспатч вмеесто функцый*//>
+                        <Route path="/news" render={() =>
+                            <News/>}/>
+                        <Route path="/music" render={() =>
+                            <Music/>}/>
                     </Switch>
                     {/*<Dialogs/>*/}
                     {/*<Profile/>*/}
