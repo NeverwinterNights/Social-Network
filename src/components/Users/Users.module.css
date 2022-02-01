@@ -10,6 +10,7 @@
     width: 100px;
     height: 100px;
     border-radius: 50%;
+    margin-bottom: 25px;
 }
 
 .pagination_wrapper {
@@ -34,4 +35,26 @@
     /*font-weight: bold;*/
     text-shadow: 1px 0px 0px black;
     transition: all 0.4s ease 0s;
+}
+
+.desc {
+    font-weight: bold;
+    margin-right: 15px;
+}
+
+.name {
+    display: inline-flex;
+}
+
+.wrap {
+    display: inline-flex;
+}
+
+.follow {
+    display: inline-flex;
+    margin-right: 15px;
+}
+
+.item {
+    margin-bottom: 25px;
 }

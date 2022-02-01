@@ -83,8 +83,6 @@ let initialState = {
         {id: 1, message: "Hello", likesCount: 8},
         {id: 2, message: "How are you?", likesCount: 15},
         {id: 3, message: "Where are you?", likesCount: 50},
-        {id: 4, message: "Fuck You", likesCount: 5},
-
     ],
     profile: null,
     status: ""

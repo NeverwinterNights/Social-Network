@@ -36,6 +36,14 @@ export type  FollowingInProgressActionType = { /*необходимо для т�
     isFetching: boolean
 }
 
+export type  SetFiltersActionType = { /*необходимо для типизации диспатчка*/
+    type: "USERS/SET-FILTER"
+    payload: {
+        term: string,
+        friend: null | boolean
+    }
+}
+
 
 ////
 
@@ -46,7 +54,11 @@ export type  UsersMainType = {  /*типизация стейта локальн
     totalUsersCount: number
     currentPage: number
     isFetching: boolean
-    followingProgress: number[]
+    followingProgress: number[],
+    filter: {
+        term: string,
+        friend: null | boolean
+    }
 }
 
 export type  UsersType = {
@@ -78,6 +90,7 @@ export type  ActionType =
     | SetUsersTotalCountActionType
     | SetPreloaderActionType
     | FollowingInProgressActionType
+    | SetFiltersActionType
 
 
 let initialState: UsersMainType = {
@@ -86,8 +99,15 @@ let initialState: UsersMainType = {
     totalUsersCount: 0,
     currentPage: 1,
     isFetching: false,
-    followingProgress: []
+    followingProgress: [],
+    filter: {
+        term: "",
+        friend: null
+    }
 }
+
+
+export type FilterType = typeof initialState.filter
 
 
 export const usersReducer = (state: UsersMainType = initialState, action: ActionType): UsersMainType => {
@@ -136,6 +156,9 @@ export const usersReducer = (state: UsersMainType = initialState, action: Action
 
             }
         }
+        case "USERS/SET-FILTER": {
+            return {...state, filter: action.payload}
+        }
         default:
             return state
     }
@@ -163,12 +186,21 @@ export const setUsers = (users: Array<UsersType>): SetUsersActionType => {
         users: users
     }
 }
+export const setFilter = (filter: FilterType): SetFiltersActionType => {
+    return {
+        type: "USERS/SET-FILTER",
+        payload: filter
+    }
+}
+
 export const setCurrentPage = (currentPage: number): SetCurrentPageActionType => {
     return {
         type: "USERS/SET-CURRENT-PAGE",
         currentPage: currentPage
     }
 }
+
+
 export const setTotalUsersCount = (totalCount: number): SetUsersTotalCountActionType => {
     return {
         type: "USERS/SET-CURRENT-TOTAL-COUNT",
@@ -192,11 +224,12 @@ export const setFollowingInProgress = (userID: number, isFetching: boolean): Fol
 
 /*санки*/
 
-export const getUsersThunkCreator = (currentPage: number, pageSize: number) => async (dispatch: Dispatch) => {  /*это санка*/
+export const getUsersThunkCreator = (currentPage: number, pageSize: number, filter: FilterType) => async (dispatch: Dispatch) => {  /*это санка*/
 
     dispatch(setPreloader(true))
     dispatch(setCurrentPage(currentPage))
-    const data = await userAPI.getUsers(currentPage, pageSize)
+    dispatch(setFilter(filter))
+    const data = await userAPI.getUsers(currentPage, pageSize, filter.term, filter.friend)
     dispatch(setPreloader(false))
     dispatch(setUsers(data.items))
     dispatch(setTotalUsersCount(data.totalCount))

@@ -11,8 +11,8 @@ const instance = axios.create({
 
 
 export const userAPI = {
-    getUsers(currentPage: number, pageSize: number) {
-        return instance.get(`users?page=${currentPage}&count=${pageSize}`)  /*приклеиваем сюда baseURL и продолжение адерса*/
+    getUsers(currentPage: number, pageSize: number, term: string = "", friend: null | boolean = null) {
+        return instance.get(`users?page=${currentPage}&count=${pageSize}&term=${term}` + (friend === null ? "" : `&friend=${friend}`))  /*приклеиваем сюда baseURL и продолжение адерса*/
             .then(response => response.data) /*уменьшаем получаемый респонс*/
     },
     follow(userID: number) {
@@ -39,7 +39,7 @@ export const profileAPI = {
         return instance.put(`profile/status/`, {status})
     },
     savePhoto(photoFile: File) {
-        const formData = new  FormData()
+        const formData = new FormData()
         formData.append("image", photoFile)
         return instance.put(`profile/photo/`, formData, {
             headers: {
@@ -48,8 +48,6 @@ export const profileAPI = {
         })
     }
 }
-
-
 
 
 export const authAPI = {

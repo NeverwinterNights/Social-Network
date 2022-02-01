@@ -1,10 +1,12 @@
 import React from 'react';
 import styles from "./Users.module.css";
 import image from "../../img/neand.png";
-import {UsersType} from "../../redux/users-reduсer";
+import {FilterType, UsersType} from "../../redux/users-reduсer";
 import {NavLink} from 'react-router-dom';
 import {Paginator} from "./Paginator";
 import {useDispatch} from "react-redux";
+import {UsersSearchForm} from "./UsersSearchForm";
+
 
 type  UsersNewPropsType = {
     totalUsersCount: number
@@ -18,6 +20,7 @@ type  UsersNewPropsType = {
     OnClickPageHandler: (pageNumber: number) => void
     setFollowingInProgress: (userID: number, isFetching: boolean) => void
     followingInProgress: Array<number>
+    OnFilterHandler: (filter: FilterType) => void
 }
 
 export const Users = (props: UsersNewPropsType) => {
@@ -27,6 +30,8 @@ export const Users = (props: UsersNewPropsType) => {
     return (
         <div className={styles.main}>
 
+            <UsersSearchForm OnFilterHandler={props.OnFilterHandler}/>
+
             <Paginator currentPage={props.currentPage}
                        OnPageHandler={props.OnClickPageHandler}
                        totalUsersCount={props.totalUsersCount} pageSize={props.pageSize}
@@ -34,12 +39,7 @@ export const Users = (props: UsersNewPropsType) => {
             />
 
             {props.users.map((u) => {
-                // const followHandler = () => {
-                //     dispatch(props.follow(u.id))
-                // }
-
-
-                return <div key={u.id}>
+                    return <div className={styles.item} key={u.id}>
                 <span>
                     <div>
                         <NavLink to={"/profile/" + u.id}>
@@ -48,7 +48,7 @@ export const Users = (props: UsersNewPropsType) => {
                              alt=""/>
                         </NavLink>
                     </div>
-                    <div> {u.followed
+                    <div className={styles.follow}> {u.followed
                         ?
                         <button
                             disabled={props.followingInProgress.some((t) => t === u.id)}
@@ -63,22 +63,22 @@ export const Users = (props: UsersNewPropsType) => {
                             }}
                         >Follow</button>}
                     </div>
+                      <span>
+                            <div className={styles.wrap}>
+                    <span className={styles.desc}>Name</span> <div
+                                className={styles.name}>{u.name}</div>
+
+                    </div>
+
                 </span>
-                    <span>
-                    <span>
-                    <div>{u.name}</div>
-                        <div>{u.status}</div>
-                    </span>
-                    <span>
-                        <div>{"u.location.country"}</div>
-                        <div>{"u.location.city"}</div>
-                    </span>
                 </span>
-                </div>
-            }
+
+                    </div>
+                }
             )
             }
         </div>
     );
 };
+
 
