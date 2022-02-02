@@ -92,7 +92,6 @@ export const getAuthUserData = (): AppThunk => async (dispatch) => {
 export const login = (email: string, password: string, rememberMe: boolean, captcha: string): ThunkAction<void, StateReduxType, unknown, ActionType | FormAction> => async (dispatch) => {
 
     let response = await authAPI.login(email, password, rememberMe, captcha)
-    console.log("ee" + response.data.resultCode);
     if (response.data.resultCode === 0) {
         dispatch(getAuthUserData())
     }
@@ -106,7 +105,6 @@ export const getCaptcha = (): AppThunk => async (dispatch) => {
     try {
         const res = await securityAPI.getCaptcha()
         const captchaURL = res.data.url
-        console.log(res.data.url);
         dispatch(setCaptchaURL(captchaURL))
     } catch (e) {
         console.log(e)

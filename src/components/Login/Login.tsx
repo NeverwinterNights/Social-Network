@@ -3,7 +3,7 @@ import {Field, InjectedFormProps, reduxForm} from "redux-form";
 import {Input} from "../FormsControls/Input";
 import {required} from "../../utils/validators/validators";
 import {login} from "../../redux/auth-reduсer";
-import {connect} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {Redirect} from "react-router-dom";
 import {StateReduxType} from "../../redux/redux-store";
 
@@ -16,18 +16,19 @@ type FormDataType = {
     captcha: string
 
 }
-type MSTP = {
-    isAuth: boolean
-    captchaURL: string | null
-}
-type MDTP = {
-    login: (email: string, password: string, rememberMe: boolean, captcha: string) => void
-}
-type LoginPropsType = MSTP & MDTP
+// type MSTP = {
+//     isAuth: boolean
+//     captchaURL: string | null
+// }
+// type MDTP = {
+//     login: (email: string, password: string, rememberMe: boolean, captcha: string) => void
+// }
+// type LoginPropsType = MSTP & MDTP
+// type LoginPropsType = MDTP
 
-interface LoginFormProps extends InjectedFormProps<FormDataType> {
-    captchaURL: string | null
-}
+// interface LoginFormProps extends InjectedFormProps<FormDataType> {
+//     captchaURL: string | null
+// }
 
 const LoginForm = ({handleSubmit, initialValues}: InjectedFormProps<FormDataType>) => {
     return (
@@ -40,9 +41,11 @@ const LoginForm = ({handleSubmit, initialValues}: InjectedFormProps<FormDataType
             <div><Field component={Input} name={"rememberMe"} type={"checkbox"}/>Remember
                 Me
             </div>
-            {initialValues.captchaURL && <img alt={"capture"} src={initialValues.captchaURL}/>}
-            {initialValues.captchaURL && <Field placeholder={"Type text from captcha"}  component={Input} validate={[required]} name={"captcha"} type={"input"}/>}
-
+            {initialValues.captchaURL &&
+            <img alt={"capture"} src={initialValues.captchaURL}/>}
+            {initialValues.captchaURL &&
+            <Field placeholder={"Type text from captcha"} component={Input}
+                   validate={[required]} name={"captcha"} type={"input"}/>}
 
 
             <div>
@@ -57,11 +60,18 @@ const LoginFormRedux = reduxForm<FormDataType>({
     form: 'login'
 })(LoginForm)
 
-const Login = ({login, isAuth, captchaURL}: LoginPropsType) => {       /*какие пропсы
+export const Login = () => {       /*какие пропсы
  типизация*/
 
+
+    const captchaURL = useSelector<StateReduxType, string | null>(state => state.auth.captchaURL)
+    const isAuth = useSelector<StateReduxType, boolean>(state => state.auth.isAuth)
+    const dispatch = useDispatch()
+
+
     const onSubmit = (formData: FormDataType) => {
-        login(formData.email, formData.password, formData.rememberMe, formData.captcha)
+        dispatch(login(formData.email, formData.password, formData.rememberMe, formData.captcha))
+        // login(formData.email, formData.password, formData.rememberMe, formData.captcha)
     }
 
     if (isAuth) {
@@ -76,8 +86,8 @@ const Login = ({login, isAuth, captchaURL}: LoginPropsType) => {       /*как�
     );
 };
 
-const mapStateToProps = (state: StateReduxType): MSTP => ({
-    captchaURL: state.auth.captchaURL,
-    isAuth: state.auth.isAuth
-})
-export default connect<MSTP, MDTP, {}, StateReduxType>(mapStateToProps, {login})(Login)
+// const mapStateToProps = (state: StateReduxType): MSTP => ({
+//     captchaURL: state.auth.captchaURL,
+//     isAuth: state.auth.isAuth
+// })
+// export default connect<MDTP, {}, StateReduxType>(null, {login})(Login)

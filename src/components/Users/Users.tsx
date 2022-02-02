@@ -1,44 +1,66 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import styles from "./Users.module.css";
 import image from "../../img/neand.png";
-import {FilterType, UsersType} from "../../redux/users-reduсer";
+import {
+    FilterType,
+    follow,
+    getUsersThunkCreator,
+    unfollow,
+    UsersType
+} from "../../redux/users-reduсer";
 import {NavLink} from 'react-router-dom';
 import {Paginator} from "./Paginator";
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {UsersSearchForm} from "./UsersSearchForm";
+import {StateReduxType} from "../../redux/redux-store";
+import {getCurrentPage, getPageSize} from "../../redux/users-selectors";
 
 
-type  UsersNewPropsType = {
-    totalUsersCount: number
-    pageSize: number
-    setCurrentPage: (currentPage: number) => void
-    setUsers: (users: Array<UsersType>) => void
-    currentPage: number
-    users: Array<UsersType>
-    follow: (userID: number) => void
-    unfollow: (userID: number) => void
-    OnClickPageHandler: (pageNumber: number) => void
-    setFollowingInProgress: (userID: number, isFetching: boolean) => void
-    followingInProgress: Array<number>
-    OnFilterHandler: (filter: FilterType) => void
-}
-
-export const Users = (props: UsersNewPropsType) => {
+export const Users = () => {
     const dispatch = useDispatch()
+
+    const totalUsersCount = useSelector<StateReduxType, number>(state => state.usersPage.totalUsersCount)
+    const currentPage = useSelector<StateReduxType, number>(getCurrentPage)
+    const pageSize = useSelector<StateReduxType, number>(getPageSize)
+    const filter = useSelector<StateReduxType, FilterType>(state => state.usersPage.filter)
+    const users = useSelector<StateReduxType, Array<UsersType>>(state => state.usersPage.users)
+    const followingInProgress = useSelector<StateReduxType, Array<number>>(state => state.usersPage.followingProgress)
+
+    useEffect(() => {
+        dispatch(getUsersThunkCreator(currentPage, pageSize, filter))
+    }, [])
+
+
+    const OnClickPageHandler = (pageNumber: number) => {
+        dispatch(getUsersThunkCreator(pageNumber, pageSize, filter))
+    }
+
+    const OnFilterHandler = (filter: FilterType) => {
+        dispatch(getUsersThunkCreator(1, pageSize, filter))
+    }
+
+    const followUser = (userID: number) => {
+        dispatch(follow(userID))
+    }
+
+
+    const unfollowUser = (userID: number) => {
+        dispatch(unfollow(userID))
+    }
 
 
     return (
         <div className={styles.main}>
 
-            <UsersSearchForm OnFilterHandler={props.OnFilterHandler}/>
+            <UsersSearchForm OnFilterHandler={OnFilterHandler}/>
 
-            <Paginator currentPage={props.currentPage}
-                       OnPageHandler={props.OnClickPageHandler}
-                       totalUsersCount={props.totalUsersCount} pageSize={props.pageSize}
+            <Paginator currentPage={currentPage}
+                       OnPageHandler={OnClickPageHandler}
+                       totalUsersCount={totalUsersCount} pageSize={pageSize}
                        portionSize={10}
             />
 
-            {props.users.map((u) => {
+            {users.map((u) => {
                     return <div className={styles.item} key={u.id}>
                 <span>
                     <div>
@@ -51,15 +73,15 @@ export const Users = (props: UsersNewPropsType) => {
                     <div className={styles.follow}> {u.followed
                         ?
                         <button
-                            disabled={props.followingInProgress.some((t) => t === u.id)}
+                            disabled={followingInProgress.some((t) => t === u.id)}
                             onClick={() => {
-                                props.unfollow(u.id)
+                                unfollowUser(u.id)
                             }}>Unfollow</button>
                         :
                         <button
-                            disabled={props.followingInProgress.some((t) => t === u.id)}
+                            disabled={followingInProgress.some((t) => t === u.id)}
                             onClick={() => {
-                                props.follow(u.id)
+                                followUser(u.id)
                             }}
                         >Follow</button>}
                     </div>

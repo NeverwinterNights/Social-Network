@@ -3,10 +3,9 @@ import './App.css';
 
 import {Redirect, Route, Switch, withRouter} from 'react-router-dom';
 import {Navbar} from './components/Navbar/Navbar';
-import UsersContainer from './components/Users/UsersContainer';
 import ProfileContainer from "./components/Profile/ProfileContainer";
 import HeaderContainer from "./components/Header/HeaderContainer";
-import Login from "./components/Login/Login";
+import {Login} from "./components/Login/Login";
 import {connect} from "react-redux";
 import {compose} from "redux";
 import {initializeApp} from "./redux/app-reduсer";
@@ -14,6 +13,7 @@ import {StateReduxType} from "./redux/redux-store";
 import {Preloader} from "./components/preloader/Preloader";
 import { News } from './components/News/News';
 import { Music } from './components/Music/Music';
+import {UsersContainer} from "./components/Users/UsersContainer";
 
 
 
