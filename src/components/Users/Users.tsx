@@ -8,16 +8,24 @@ import {
     unfollow,
     UsersType
 } from "../../redux/users-reduсer";
-import {NavLink} from 'react-router-dom';
+import {NavLink, useHistory} from 'react-router-dom';
 import {Paginator} from "./Paginator";
 import {useDispatch, useSelector} from "react-redux";
 import {UsersSearchForm} from "./UsersSearchForm";
 import {StateReduxType} from "../../redux/redux-store";
 import {getCurrentPage, getPageSize} from "../../redux/users-selectors";
+import * as queryString from "querystring";
+
+type  parsedType = {
+    term: string
+    page: string
+    friend: string
+}
 
 
 export const Users = () => {
     const dispatch = useDispatch()
+    const history = useHistory()
 
     const totalUsersCount = useSelector<StateReduxType, number>(state => state.usersPage.totalUsersCount)
     const currentPage = useSelector<StateReduxType, number>(getCurrentPage)
@@ -27,8 +35,32 @@ export const Users = () => {
     const followingInProgress = useSelector<StateReduxType, Array<number>>(state => state.usersPage.followingProgress)
 
     useEffect(() => {
-        dispatch(getUsersThunkCreator(currentPage, pageSize, filter))
+
+        const {search} = history.location
+        const parsed = queryString.parse(search.substr(1)) as parsedType
+
+        let actualPage = currentPage
+        let actualFilter = filter
+
+        if (!!parsed.page) actualPage = +parsed.page
+        if (!!parsed.term) actualFilter = {...actualFilter, term: parsed.term as string}
+        // if (!!parsed.friend) actualFilter = {...actualFilter, friend: parsed.friend ==="null" ? null : parsed.friend==="true" ? true : false }
+        if (!!parsed.friend) actualFilter = {
+            ...actualFilter,
+            friend: parsed.friend === "null" ? null : parsed.friend === "true"
+        }
+
+
+        dispatch(getUsersThunkCreator(actualPage, pageSize, actualFilter))
     }, [])
+
+
+    useEffect(() => {
+        history.push({
+            pathname: "/users",
+            search: `?term=${filter.term}&friend=${filter.friend}&page=${currentPage}`
+        })
+    }, [filter, currentPage])
 
 
     const OnClickPageHandler = (pageNumber: number) => {
