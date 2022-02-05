@@ -10,13 +10,11 @@ import reportWebVitals from "./reportWebVitals";
 
 
 ReactDOM.render(
-    <React.StrictMode>
         <HashRouter>
             <Provider store={store}>{/*позволяет стор  засунуть в контектс*/}
                 <App/>
             </Provider>
-        </HashRouter>
-    </React.StrictMode>,
+        </HashRouter>,
     document.getElementById('root')
 );
 

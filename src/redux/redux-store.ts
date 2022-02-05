@@ -14,6 +14,7 @@ import {authReducer} from "./auth-reduсer";
 import thunkMiddleware, {ThunkAction} from "redux-thunk";
 import {reducer as formReducer} from 'redux-form'
 import {appReducer} from "./app-reduсer";
+import {chatReducer} from "./chat-reduсer";
 
 
 let reducers = combineReducers({ /*создается общий редьюсер с помощью спец команды, внутрь котор вставляют редюсеры имеющиеся*/
@@ -23,7 +24,8 @@ let reducers = combineReducers({ /*создается общий редьюсе�
     usersPage: usersReducer,
     auth: authReducer,
     form: formReducer,
-    appReducer: appReducer
+    appReducer: appReducer,
+    chatReducer:chatReducer
 })
 
 // const composeEnhancers = window['__REDUX_DEVTOOLS_EXTENSION_COMPOSE__'] as typeof compose || compose;

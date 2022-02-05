@@ -1,6 +1,5 @@
 import React, {useState} from 'react';
 import styles from "./Users.module.css";
-import {returntypeof} from "react-redux-typescript";
 
 type  UsersNewPropsType = {
     totalUsersCount: number
@@ -38,11 +37,12 @@ export const Paginator = ({
                 }}>PREV</button>}
                 {pages.filter(p => p >= leftPortionPageNumber && p <= rightPortionPageNumber).map((t) => {
                     return <span key={t}
-                          className={currentPage === t ? styles.selectedPage : ""}
-                          onClick={() => {
-                              OnPageHandler(t)
-                          }}>{t}</span>})}
-                {portionCount>portionNumber &&
+                                 className={currentPage === t ? styles.selectedPage : ""}
+                                 onClick={() => {
+                                     OnPageHandler(t)
+                                 }}>{t}</span>
+                })}
+                {portionCount > portionNumber &&
                 <button onClick={() => {
                     setPortionNumber(portionNumber + 1)
                 }}>NEXT</button>}

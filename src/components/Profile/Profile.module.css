@@ -1,8 +1,8 @@
 .profile {
     flex: 1 1 50%;
-    background-color: chartreuse;
+    background-color: #7d7979;
     max-width: 1000px;
-
+    padding-bottom: 25px;
 }
 
 
