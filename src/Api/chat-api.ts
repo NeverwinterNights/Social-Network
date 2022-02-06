@@ -6,7 +6,7 @@ export type  WebSocketResponseType = {
 }
 
 
-let wsChanel: WebSocket
+let wsChanel: WebSocket | null = null
 
 const wsHandler = () => {
     setTimeout(createChanel, 3000)
@@ -14,12 +14,10 @@ const wsHandler = () => {
 
 
 const createChanel = () => {
-    if (wsChanel) {
-        wsChanel.removeEventListener("close", wsHandler)
-        wsChanel.close()
-    }
-
+    wsChanel?.removeEventListener("close", wsHandler)
+    wsChanel?.close()
     wsChanel = new WebSocket("wss://social-network.samuraijs.com/handlers/ChatHandler.ashx")
+    wsChanel.addEventListener("message", onMessageHandler)
     wsChanel.addEventListener("close", wsHandler)
 }
 
@@ -33,10 +31,25 @@ const onMessageHandler = (e: MessageEvent) => {
 let subscribers = [] as Array<(messages: WebSocketResponseType[]) => void>
 
 export const chatAPI = {
+    start() {
+        createChanel()
+    },
+    stop() {
+        wsChanel?.removeEventListener("close", wsHandler)
+        wsChanel?.close()
+        wsChanel?.removeEventListener("message", onMessageHandler)
+        subscribers = []
+    },
     subscribe(callback: (messages: WebSocketResponseType[]) => void) {
         subscribers.push(callback)
         return () => {
             subscribers = subscribers.filter(s => s !== callback)
         }
+    },
+    unsubscribe(callback: (messages: WebSocketResponseType[]) => void) {
+        subscribers = subscribers.filter(s => s !== callback)
+    },
+    sendMessage(message: string) {
+        wsChanel?.send(message)
     }
 }

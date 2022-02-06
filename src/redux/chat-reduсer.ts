@@ -1,4 +1,3 @@
-import {AppThunk} from "./redux-store";
 import {chatAPI, WebSocketResponseType} from "../Api/chat-api";
 import {Dispatch} from "redux";
 
@@ -27,7 +26,7 @@ type MessagesReceivedActionType = ReturnType<typeof messagesReceived>
 export const chatReducer = (state: AuthMainType = initialState, action: ActionType) => {
     switch (action.type) {
         case "MESSAGES-RECEIVED": {
-            return {...state, messages: [...state.messages, ...action.payload.messages] }
+            return {...state, messages: [...state.messages, ...action.payload.messages]}
         }
         default:
             return state
@@ -35,7 +34,7 @@ export const chatReducer = (state: AuthMainType = initialState, action: ActionTy
 }
 
 
-export const messagesReceived = (messages:WebSocketResponseType[]) => {
+export const messagesReceived = (messages: WebSocketResponseType[]) => {
     return {
         type: "MESSAGES-RECEIVED",
         payload: {messages}
@@ -43,26 +42,22 @@ export const messagesReceived = (messages:WebSocketResponseType[]) => {
 }
 
 
+const newMessageHandler = (dispatch: Dispatch) => (message: WebSocketResponseType[]) => {
+    dispatch(messagesReceived(message))
+}
 
 
-//
-// export const login = (email: string, password: string, rememberMe: boolean): ThunkAction<void, StateReduxType, unknown, ActionType | FormAction> => (dispatch) => {
-//
-//     authAPI.login(email, password, rememberMe)
-//         .then((response) => {
-//             if (response.data.resultCode === 0) {
-//                 dispatch(getAuthUserData())
-//             }
-//         })
-//
-// }
-
-//
 export const startMessageListening = () => (dispatch: Dispatch) => {
-
-    chatAPI.subscribe((message)=> {
-        dispatch(messagesReceived(message))
-    })
+    chatAPI.start()
+    chatAPI.subscribe(newMessageHandler(dispatch))
 
 }
 
+export const stopMessageListening = () => (dispatch: Dispatch) => {
+    chatAPI.unsubscribe(newMessageHandler(dispatch))
+    chatAPI.stop()
+}
+
+export const sendMessage = (message: string) => (dispatch: Dispatch) => {
+    chatAPI.sendMessage(message)
+}

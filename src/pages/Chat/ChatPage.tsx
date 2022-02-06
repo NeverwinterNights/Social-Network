@@ -1,5 +1,8 @@
 import React, {useEffect, useState} from 'react';
 import {Message} from "./Message";
+import {useDispatch, useSelector} from "react-redux";
+import {sendMessage, startMessageListening, stopMessageListening} from "../../redux/chat-reduсer";
+import {StateReduxType} from "../../redux/redux-store";
 
 
 export type  WebSocketResponseType = {
@@ -21,41 +24,51 @@ export const ChatPage = React.memo(() => {
 
 export const Chat = React.memo(() => {
 
-    const [ws, setWs] = useState<WebSocket | null>(null);
+    // const [ws, setWs] = useState<WebSocket | null>(null);
+
+    // useEffect(() => {
+    //     let wsChanel: WebSocket
+    //
+    //     const wsHandler = () => {
+    //         setTimeout(createChanel, 3000)
+    //     }
+    //
+    //
+    //     const createChanel = () => {
+    //         if (wsChanel) {
+    //             wsChanel.removeEventListener("close", wsHandler)
+    //             wsChanel.close()
+    //         }
+    //
+    //         wsChanel = new WebSocket("wss://social-network.samuraijs.com/handlers/ChatHandler.ashx")
+    //         wsChanel.addEventListener("close", wsHandler)
+    //
+    //         setWs(wsChanel)
+    //     }
+    //
+    //     createChanel();
+    //
+    //     return () => {
+    //         wsChanel.removeEventListener("close", wsHandler)
+    //         wsChanel.close()
+    //     }
+    // }, []);
+
+
+    const dispatch = useDispatch()
 
     useEffect(() => {
-        let wsChanel: WebSocket
-
-        const wsHandler = () => {
-            setTimeout(createChanel, 3000)
-        }
-
-
-        const createChanel = () => {
-            if (wsChanel) {
-                wsChanel.removeEventListener("close", wsHandler)
-                wsChanel.close()
-            }
-
-            wsChanel = new WebSocket("wss://social-network.samuraijs.com/handlers/ChatHandler.ashx")
-            wsChanel.addEventListener("close", wsHandler)
-
-            setWs(wsChanel)
-        }
-
-        createChanel();
-
+        dispatch(startMessageListening())
         return () => {
-            wsChanel.removeEventListener("close", wsHandler)
-            wsChanel.close()
+            dispatch(stopMessageListening())
         }
     }, []);
 
 
     return (
         <>
-            <Messages ws={ws}/>
-            <MessagesForm ws={ws}/>
+            <Messages/>
+            <MessagesForm/>
         </>
     );
 });
@@ -65,20 +78,20 @@ type  MessagesAndMessagesFormPropsType = {
     ws: WebSocket | null
 }
 
-export const Messages = React.memo(({ws}: MessagesAndMessagesFormPropsType) => {
-    const [messages, setMessages] = useState<WebSocketResponseType[]>([]);
+export const Messages = React.memo(() => {
+    const messages = useSelector<StateReduxType, WebSocketResponseType[]>(state => state.chatReducer.messages)
 
 
-    useEffect(() => {
-        const onMessageHandler = (e: MessageEvent) => {
-            setMessages((prev) => [...prev, ...JSON.parse(e.data)]);
-        }
-
-        ws && ws.addEventListener("message", onMessageHandler)
-        return () => {
-            ws?.removeEventListener("message", onMessageHandler)
-        }
-    }, [ws])
+    // useEffect(() => {
+    //     const onMessageHandler = (e: MessageEvent) => {
+    //         setMessages((prev) => [...prev, ...JSON.parse(e.data)]);
+    //     }
+    //
+    //     ws && ws.addEventListener("message", onMessageHandler)
+    //     return () => {
+    //         ws?.removeEventListener("message", onMessageHandler)
+    //     }
+    // }, [ws])
 
 
     return (
@@ -89,28 +102,29 @@ export const Messages = React.memo(({ws}: MessagesAndMessagesFormPropsType) => {
 });
 
 
-export const MessagesForm = React.memo(({ws}: MessagesAndMessagesFormPropsType) => {
+export const MessagesForm = React.memo(() => {
     const [message, setMessage] = useState<string>("");
     const [isReady, setIsReady] = useState<"pending" | "ready">("pending");
+    const dispatch = useDispatch()
 
 
-    useEffect(() => {
+    // useEffect(() => {
+    //
+    //     const openHandler = () => {
+    //         setIsReady("ready")
+    //     }
+    //     ws && ws.addEventListener("open", openHandler)
+    //     return () => {
+    //         ws?.removeEventListener("open", openHandler)
+    //     }
+    // }, [ws])
 
-        const openHandler = () => {
-            setIsReady("ready")
-        }
-        ws && ws.addEventListener("open", openHandler)
-        return () => {
-            ws?.removeEventListener("open", openHandler)
-        }
-    }, [ws])
 
-
-    const sendMessage = () => {
+    const sendMessageHandler = () => {
         if (!message) {
             return
         }
-        ws && ws.send(message)
+        dispatch(sendMessage(message))
         setMessage("")
     }
 
@@ -118,7 +132,7 @@ export const MessagesForm = React.memo(({ws}: MessagesAndMessagesFormPropsType) 
     return (
         <>
             <div><textarea onChange={(e) => setMessage(e.currentTarget.value)} value={message}/></div>
-            <button disabled={ws === null || isReady !== "ready"} onClick={sendMessage}>Send</button>
+            <button  onClick={sendMessageHandler}>Send</button>
         </>
     );
 });
