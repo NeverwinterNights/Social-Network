@@ -7,7 +7,7 @@ import {Dispatch} from "redux";
 //
 
 
-export type  AuthMainType = {  /*типизация стейта локального*/
+export type  AuthMainType = {
     messages: WebSocketResponseType[],
 }
 

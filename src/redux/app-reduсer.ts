@@ -7,7 +7,7 @@ export type  initializedActionType = {
 //
 
 
-export type  AuthMainType = {  /*типизация стейта локального*/
+export type  AuthMainType = {
     initialized: boolean,
 }
 

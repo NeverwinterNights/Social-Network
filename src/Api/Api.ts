@@ -13,7 +13,7 @@ const instance = axios.create({
 export const userAPI = {
     getUsers(currentPage: number, pageSize: number, term: string = "", friend: null | boolean = null) {
         return instance.get(`users?page=${currentPage}&count=${pageSize}&term=${term}` + (friend === null ? "" : `&friend=${friend}`))  /*приклеиваем сюда baseURL и продолжение адерса*/
-            .then(response => response.data) /*уменьшаем получаемый респонс*/
+            .then(response => response.data)
     },
     follow(userID: number) {
         return instance.post(`follow/${userID}`)

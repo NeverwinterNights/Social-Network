@@ -17,7 +17,7 @@ export const Paginator = ({
                               portionSize = 10
                           }: UsersNewPropsType) => {
 
-    let pagesCount = Math.ceil(totalUsersCount / pageSize)/* Math.ceil округляет число в большую сторону*/
+    let pagesCount = Math.ceil(totalUsersCount / pageSize)
     let pages: Array<number> = []
     for (let i = 1; i <= pagesCount; i++) {
         pages.push(i)

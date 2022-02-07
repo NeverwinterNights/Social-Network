@@ -27,4 +27,3 @@ export const mapDispatchToProps = (dispatch: Dispatch) => {
 
 export default compose<React.ComponentType>(connect(mapStateToProps, mapDispatchToProps), WithAuthRedirect)(Dialogs)
 
-// export const DialogsContainer = connect(mapStateToProps, mapDispatchToProps)(AuthRedirectComponent) /*получаем новую контейнерную компоненту*/

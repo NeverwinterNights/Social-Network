@@ -60,8 +60,8 @@ const LoginFormRedux = reduxForm<FormDataType>({
     form: 'login'
 })(LoginForm)
 
-export const Login = () => {       /*какие пропсы
- типизация*/
+export const Login = () => {
+
 
 
     const captchaURL = useSelector<StateReduxType, string | null>(state => state.auth.captchaURL)

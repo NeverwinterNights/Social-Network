@@ -15,7 +15,7 @@ type  ProfileInfoPropsType = {
 }
 
 export const ProfileInfo = (props: ProfileInfoPropsType) => {
-    if (!props.profile) {   /*как это влияет на отрисовку профиля?????*/
+    if (!props.profile) {
         return <Preloader/>
     }
 

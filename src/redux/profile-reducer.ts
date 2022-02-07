@@ -39,7 +39,7 @@ export type  ProfilePageType = {
     profile: null | ProfileType
 }
 
-export type  AddPostActionType = { /*необходимо для типизации диспатчка*/
+export type  AddPostActionType = {
     type: "PROFILE/ADD-POST"
     newPostText: string
 }
@@ -47,19 +47,15 @@ export type  AddPostActionType = { /*необходимо для типизац�
 export type DeletePostActionType = ReturnType<typeof deletePostActionCreator>
 
 
-// export type  UpdateNewPostActionType = { /*необходимо для типизации диспатчка*/
-//     type: "UPDATE-NEW-POST-TEXT"
-//     newText: string
-// }
 
 
-export type  SetUserProfileActionType = { /*необходимо для типизации диспатчка*/
+export type  SetUserProfileActionType = {
     type: "PROFILE/SET-USER-PROFILE"
     profile: null | ProfileType
 
 }
 
-export type  setStatusActionType = { /*необходимо для типизации диспатчка*/
+export type  setStatusActionType = {
     type: "PROFILE/SET-STATUS"
     status: string
 
@@ -76,7 +72,7 @@ export type  ActionsType =
     | SetPhotoSuccessActionType
 
 
-/*Создаем инициализационный стейт для profileReducer*/
+
 
 let initialState = {
     posts: [
@@ -110,7 +106,7 @@ export const profileReducer = (state: ProfilePageType = initialState, action: Ac
                     message: action.newPostText,
                     likesCount: 0
                 }, ...state.posts],
-            } /*делается копия для правильного изменения стейта*/
+            }
 
             // stateCopy.posts.unshift(newPost) /*стейт тут приходит в пропсах это this._state.profilePage*/
             // stateCopy.newPostText = ""
@@ -147,8 +143,7 @@ export const deletePostActionCreator = (id: number) => {
 }
 
 
-/*ф. возвращающая экшен, ее вызывают в компоненте в диспатче
-и прокидывают в параметрах данные сюда. АК экспорт. его не надо прокидывать пропсами props.dispatch (updateNewPostActionCreator(text)) */
+
 
 export const setUserProfile = (profile: null | ProfileType): SetUserProfileActionType => {
     return {
@@ -174,19 +169,19 @@ export const savePhotoSuccess = (photos: PhotosType) => {
 
 export const getUserProfile = (userID: string) => async (dispatch: Dispatch) => {
     const response = await userAPI.getProfile(userID)
-    dispatch(setUserProfile(response.data))/*отправляем полученные данные в стейт*/
+    dispatch(setUserProfile(response.data))
 }
 
 
 export const getStatus = (userID: string) => async (dispatch: Dispatch) => {
     const response = await profileAPI.getStatus(userID)
-    dispatch(setStatus(response.data))/*отправляем полученные данные в стейт*/
+    dispatch(setStatus(response.data))
 }
 
 export const updateStatus = (status: string) => async (dispatch: Dispatch) => {
     const response = await profileAPI.updateStatus(status)
     if (response.data.resultCode === 0) {
-        dispatch(setStatus(status))/*отправляем полученные данные в стейт*/
+        dispatch(setStatus(status))
     }
 }
 

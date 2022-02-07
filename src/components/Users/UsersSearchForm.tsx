@@ -53,8 +53,7 @@ export const UsersSearchForm = React.memo((props: UsersSearchFormPropsType) => {
             >
                 {({isSubmitting}) => (
                     <Form>
-                        <Field type="text" name="term"/> {/*имя согласовывается с
-                         initialValues*/}
+                        <Field type="text" name="term"/>
                         <Field name="friend" as="select">
                             <option value="null">All</option>
                             <option value="true">Only Followed</option>

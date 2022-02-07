@@ -165,7 +165,6 @@ export const usersReducer = (state: UsersMainType = initialState, action: Action
 }
 
 
-/*Это экшен криэйторы у которых в названии в конце убрали букву AC*/
 
 
 export const followSuccess = (userID: number): FollowActionType => {
@@ -222,7 +221,7 @@ export const setFollowingInProgress = (userID: number, isFetching: boolean): Fol
 }
 
 
-/*санки*/
+
 
 export const getUsersThunkCreator = (currentPage: number, pageSize: number, filter: FilterType) => async (dispatch: Dispatch) => {  /*это санка*/
 

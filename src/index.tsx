@@ -4,17 +4,17 @@ import {store} from "./redux/redux-store";
 import ReactDOM from 'react-dom';
 import App from './App';
 
-import {BrowserRouter, HashRouter} from "react-router-dom";
+import {HashRouter} from "react-router-dom";
 import {Provider} from 'react-redux';
 import reportWebVitals from "./reportWebVitals";
 
 
 ReactDOM.render(
-        <HashRouter>
-            <Provider store={store}>{/*позволяет стор  засунуть в контектс*/}
-                <App/>
-            </Provider>
-        </HashRouter>,
+    <HashRouter>
+        <Provider store={store}>
+            <App/>
+        </Provider>
+    </HashRouter>,
     document.getElementById('root')
 );
 

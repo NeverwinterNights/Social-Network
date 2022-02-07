@@ -27,7 +27,7 @@ const {Content, Footer, Sider} = Layout;
 
 
 // import DialogsContainer from "./components/Dialogs/DialogsContainer";
-const DialogsContainer = React.lazy(() => import('./components/Dialogs/DialogsContainer'));/*ленивая загрузка компоненты*/
+const DialogsContainer = React.lazy(() => import('./components/Dialogs/DialogsContainer'));
 
 
 type AppPropsType = {
@@ -38,7 +38,7 @@ type AppPropsType = {
 class App extends React.Component<AppPropsType> {
 
 
-    componentDidMount() {   /*метод жизненного цикла, тут все зхапосы на сервер*/
+    componentDidMount() {
         this.props.initializeApp()
     }
 
@@ -119,40 +119,6 @@ class App extends React.Component<AppPropsType> {
                 </Content>
                 <Footer style={{textAlign: 'center'}}>Pacavaca Design</Footer>
             </Layout>
-
-
-
-
-
-            // <div className="App">
-            //     <HeaderContainer/>
-            //     {/*<Navbar state={props.store.sidebar}/>*/}
-            //     <Navbar/>
-            //     <div className={"profile"}>
-            //         <Switch>
-            //             <Route exact path="/" render={() => <Redirect to="/profile"/>}/>
-            //
-            //             {/*<Route path="/dialogs" render={() => <Dialogs  dispatch={props.dispatch} state={props.store.getState().dialogsPage}/>}/>*/}
-            //             <Route path="/dialogs"
-            //                    render={() => <Suspense fallback={<div>Loading...</div>}>
-            //                        <DialogsContainer/></Suspense>}/>
-            //             {/*<Route path="/dialogs" render={() => <Dialogs  dispatch={props.dispatch} state={props.store.dialogsPage}*/}
-            //             <Route path="/profile/:userId?"
-            //                    render={() =>
-            //                        <ProfileContainer/>} /*пробрасываем диспатч вмеесто функцый*//>
-            //             <Route path="/users" render={() =>
-            //                 <UsersContainer/>} /*пробрасываем диспатч вмеесто функцый*//>
-            //             <Route path="/login" render={() =>
-            //                 <Login/>} /*пробрасываем диспатч вмеесто функцый*//>
-            //             <Route path="/news" render={() =>
-            //                 <News/>}/>
-            //             <Route path="/music" render={() =>
-            //                 <Music/>}/>
-            //         </Switch>
-            //         {/*<Dialogs/>*/}
-            //         {/*<Profile/>*/}
-            //     </div>
-            // </div>
         );
     }
 }

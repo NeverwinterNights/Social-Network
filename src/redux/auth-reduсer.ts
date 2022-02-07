@@ -5,7 +5,7 @@ import {AppThunk, StateReduxType} from "./redux-store";
 import {FormAction} from "redux-form";
 
 
-export type  AuthMainType = {  /*типизация стейта локального*/
+export type  AuthMainType = {
     id: null | number
     email: null | string
     login: null | string
@@ -40,7 +40,7 @@ export const authReducer = (state = initialState, action: ActionType) => {
     }
 }
 
-export type  AuthMainActionType = { /*необходимо для типизации диспатчка*/
+export type  AuthMainActionType = {
     type: "AUTH/SET-USER-DATA"
     payload: {
         id: null | number
@@ -84,7 +84,7 @@ export const getAuthUserData = (): AppThunk => async (dispatch) => {
     if (response.data.resultCode === 0) {
         let {id, email, login} = response.data.data
         dispatch(setUserData(id, email, login, true))
-    } /*отправляем полученные данные в стейт*/
+    }
 
 }
 
@@ -116,7 +116,7 @@ export const getCaptcha = (): AppThunk => async (dispatch) => {
 
 export const loginOut = () => (dispatch: Dispatch) => {
 
-    authAPI.loginOut()  /*чтобы прееделать в асинк пишем после стрелки async тут делаем переменную и await убираем зен*/
+    authAPI.loginOut()
         .then((response) => {
             if (response.data.resultCode === 0) {
                 dispatch(setUserData(null, null, null, false))

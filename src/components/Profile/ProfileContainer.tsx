@@ -41,7 +41,7 @@ class ProfileContainer extends React.Component <PropsType, StateReduxType> {
     }
 
 
-    componentDidMount() {   /*метод жизненного цикла, тут все запросы на сервер*/
+    componentDidMount() {
         this.refreshProfile()
     }
 
@@ -60,8 +60,7 @@ class ProfileContainer extends React.Component <PropsType, StateReduxType> {
                          status={this.props.status}
                          updateStatus={this.props.updateStatus}
                          savePhoto={this.props.savePhoto}
-                /> {/*все пришедшие пропсы прокидываю дальше*/}
-
+                />
             </div>
         );
     }
